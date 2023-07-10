@@ -187,7 +187,8 @@ class DMVFN(nn.Module):
 
 
 if __name__ == '__main__':
-    net = DMVFN(num_feature=250).cuda() #250 used to be 64
-    x = torch.randn((2, 6, 250, 250)).cuda() #250 used to be 64
+    net = DMVFN().cuda() #250 used to be 64
+    x = torch.randn((2, 6, 48, 48)).cuda() #250 used to be 64
     y = net(x, scale=[4,4,4,2,2,2,1,1,1])
-    print(y.shape)
+    print("y.length: ", len(y))
+    print("y[0].shape: ", y[0].shape)
