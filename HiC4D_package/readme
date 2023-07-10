@@ -1,0 +1,39 @@
+
+
+
+HiC4D: Forecasting spatiotemporal Hi-C data with residual ConvLSTM
+
+
+Author: Tong Liu
+05/16/2023
+
+
+################
+# requirements #
+################
+Required python packages followed by the versions we used in this study:
+
+  1. Cooler (0.8.11) only if your spatiotemporal Hi-C data are stored in .cool
+	2. Numpy (1.21.5)
+	3. PyTorch (1.11.0)
+
+The CUDA version we used is 11.4. The GPU we used for blindly testing is NVIDIA A100 equipped with 40GB memory. 
+
+
+################
+# running time #
+################
+Predicting one chromosome using ResConvLSTM with batch size set to one is about five minutes.
+
+
+
+For details about the whole pipeline for predicting spatiotemporal Hi-C data,
+please check the following Jupyter Notebook files:
+
+  HiC4D_predict.ipynb
+
+
+
+
+
+
