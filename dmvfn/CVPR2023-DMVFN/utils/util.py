@@ -8,11 +8,18 @@ def get_timestamp():
     current_time = datetime.datetime.now(desired_timezone)
     formatted_time = current_time.strftime('%Y%m%d-%H%M%S')
     return formatted_time
+def get_formatted_timestamp():
+    desired_timezone = datetime.timezone(datetime.timedelta(hours=-6))
+    current_time = datetime.datetime.now(desired_timezone)
+    formatted_time = current_time.strftime('%Y-%m-%d %H:%M:%S')
+    return formatted_time
 
 def setup_logger(logger_name, save_dir, phase, level=logging.INFO, screen=False, to_file=False):
     lg = logging.getLogger(logger_name)
-    formatter = logging.Formatter('%(asctime)s.%(msecs)03d - %(levelname)s: %(message)s',
-                                  datefmt='%y-%m-%d %H:%M:%S')
+    #formatter = logging.Formatter('%(asctime)s.%(msecs)03d - %(levelname)s: %(message)s',
+    #                              datefmt='%y-%m-%d %H:%M:%S')
+
+    formatter = logging.Formatter('{} - %(levelname)s: %(message)s'.format(get_timestamp()))
     lg.setLevel(level)
     if to_file:
         log_file = os.path.join(save_dir, phase + '_{}.log'.format(get_timestamp()))

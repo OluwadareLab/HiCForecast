@@ -34,6 +34,7 @@ def base_build_dataset(name):
 parser = argparse.ArgumentParser()
 parser.add_argument('--epoch', default=1, type=int)
 parser.add_argument('--num_gpu', default=1, type=int) # or 8
+parser.add_argument('--num_workers', default=0, type=int)
 parser.add_argument('--batch_size', default=8, type=int, help='minibatch size')
 parser.add_argument('--local_rank', default=0, type=int, help='local rank')
 parser.add_argument('--train_dataset', required=True, type=str, help='CityTrainDataset, KittiTrainDataset, VimeoTrainDataset')
@@ -46,6 +47,7 @@ print("args parsed.")
 torch.distributed.init_process_group(backend="nccl", world_size=args.num_gpu)
 print("distributed.")
 local_rank = torch.distributed.get_rank()
+print("rank: ", local_rank)
 print("got rank")
 torch.cuda.set_device(local_rank)
 device = torch.device("cuda", local_rank)
@@ -112,9 +114,10 @@ def train(model, args):
         for chr_file in train_list:
             dataset = np.load(train_path + chr_file)
             sampler = DistributedSampler(dataset)
-            train_data = DataLoader(dataset, batch_size=args.batch_size, pin_memory=True, drop_last=True, sampler=sampler)
+            train_data = DataLoader(dataset, batch_size=args.batch_size, num_workers=args.num_workers, pin_memory=True, drop_last=True, sampler=sampler)
             sampler.set_epoch(epoch)
             set_number = set_number + 1
+            step_per_dataset = train_data.__len__()
             for i, data in enumerate(train_data):
                 data_time_interval = time.time() - time_stamp
                 time_stamp = time.time()
@@ -134,13 +137,14 @@ def train(model, args):
                     writer.add_scalar('loss/loss_l1', loss_avg, step)
                     writer.flush()
                 if local_rank == 0:
-                    logger.info('epoch:{} {}/{} time:{:.2f}+{:.2f} loss_avg:{:.4e}'.format( \
-                        epoch, i, args.step_per_epoch, data_time_interval, train_time_interval, loss_avg))
+                    logger.info('epoch:{} dataset: {}/{} step: {}/{} time:{:.2f}+{:.2f} loss_avg:{:.4e}'.format( \
+                        epoch, set_number, 17, i, step_per_dataset, data_time_interval, train_time_interval, loss_avg))
                 step += 1
                 if i == 1:
                     break
             if set_number == 2:
                 break
+            logger.info(f'Training on {chr_file} complete.')
         nr_eval += 1
         '''
         if nr_eval % 1 == 0:
@@ -152,6 +156,7 @@ def train(model, args):
         if local_rank <= 0:    
             model.save_model(save_model_path, epoch, local_rank)   
         dist.barrier()
+        logger.info('Training module completed.')
 
 def evaluate(model, val_data, name, nr_eval, step):
     if name == "CityValDataset" or name == "KittiValDataset" or name == "DavisValDataset":
@@ -186,7 +191,6 @@ def evaluate(model, val_data, name, nr_eval, step):
                             imgs = np.concatenate((gt_1[0], pred_1[0]), 1)[:, :, ::-1]
                             writer_val.add_image(name+str(j) + '/img', imgs.copy(), step, dataformats='HWC')
             eval_time_interval = time.time() - time_stamp
-
             if local_rank != 0:
                 return
             psnr_score_mine, ssim_score_mine, msssim_score_mine, lpips_score_mine = psnr_score_mine/num, ssim_score_mine/num, msssim_score_mine/num, lpips_score_mine/num
@@ -243,6 +247,7 @@ def evaluate(model, val_data, name, nr_eval, step):
                 writer_val.add_scalar(name+' lpips_%d'%(i),  lpips_score_mine[i], step)
     
 if __name__ == "__main__":    
-    model = Model(local_rank=args.local_rank, resume_path=args.resume_path, resume_epoch=args.resume_epoch)
+    model = Model(local_rank=local_rank, resume_path=args.resume_path, resume_epoch=args.resume_epoch)
+    #model = nn.parallel.DistributedDataParallel
     train(model, args)
         

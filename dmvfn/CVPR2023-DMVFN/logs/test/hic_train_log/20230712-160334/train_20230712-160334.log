@@ -1,0 +1,12 @@
+23-07-12 22:03:34.898 - INFO: Argument batch_size: 8
+23-07-12 22:03:34.898 - INFO: Argument epoch: 2
+23-07-12 22:03:34.898 - INFO: Argument local_rank: 0
+23-07-12 22:03:34.898 - INFO: Argument num_gpu: 2
+23-07-12 22:03:34.898 - INFO: Argument resume_epoch: 1
+23-07-12 22:03:34.899 - INFO: Argument resume_path: './../pretrained_models/dmvfn_city.pkl'
+23-07-12 22:03:34.899 - INFO: Argument train_dataset: 'hic'
+23-07-12 22:03:34.899 - INFO: Argument val_datasets: ['hic']
+23-07-12 22:04:06.970 - INFO: epoch:1 0/2182 time:3.19+18.48 loss_avg:2.1056e-01
+23-07-12 22:04:10.598 - INFO: epoch:1 1/2182 time:0.02+3.61 loss_avg:2.3798e-01
+23-07-12 22:04:16.765 - INFO: epoch:1 0/2182 time:2.70+3.46 loss_avg:2.8505e-01
+23-07-12 22:04:20.183 - INFO: epoch:1 1/2182 time:0.01+3.39 loss_avg:2.8642e-01
