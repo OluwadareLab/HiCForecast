@@ -16,6 +16,8 @@ from torch.utils.data import DataLoader, Dataset
 from torch.utils.tensorboard import SummaryWriter
 from torch.utils.data.distributed import DistributedSampler
 
+from numpy.lib import format as npy_format
+
 
 root_path = os.path.abspath(__file__)
 root_path = '/'.join(root_path.split('/')[:-2])
@@ -30,18 +32,21 @@ def base_build_dataset(name):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--epoch', default=300, type=int)
-parser.add_argument('--num_gpu', default=4, type=int) # or 8
+parser.add_argument('--epoch', default=1, type=int)
+parser.add_argument('--num_gpu', default=1, type=int) # or 8
 parser.add_argument('--batch_size', default=8, type=int, help='minibatch size')
 parser.add_argument('--local_rank', default=0, type=int, help='local rank')
 parser.add_argument('--train_dataset', required=True, type=str, help='CityTrainDataset, KittiTrainDataset, VimeoTrainDataset')
-parser.add_argument('--val_datasets', type=str, nargs='+', default=['CityValDataset'], help='[CityValDataset,KittiValDataset,VimeoValDataset,DavisValDataset]')
+parser.add_argument('--val_datasets', type=str, nargs='+', default=['hic'], help='[CityValDataset,KittiValDataset,VimeoValDataset,DavisValDataset]')
 parser.add_argument('--resume_path', default=None, type=str, help='continue to train, model path')
 parser.add_argument('--resume_epoch', default=0, type=int, help='continue to train, epoch')
 args = parser.parse_args()
+print("args parsed.")
 
 torch.distributed.init_process_group(backend="nccl", world_size=args.num_gpu)
+print("distributed.")
 local_rank = torch.distributed.get_rank()
+print("got rank")
 torch.cuda.set_device(local_rank)
 device = torch.device("cuda", local_rank)
 seed = 1234
@@ -51,10 +56,12 @@ torch.manual_seed(seed)
 torch.cuda.manual_seed_all(seed)
 torch.backends.cudnn.benchmark = True
 
-exp = os.path.abspath('.').split('/')[-1]
+#exp = os.path.abspath('.').split('/')[-1]
 loss_fn_alex = lpips.LPIPS(net='alex').to(device)
-log_path = './logs/train_log_{}/{}'.format(args.train_dataset, exp)
-save_model_path = './models/train_log_{}/{}'.format(args.train_dataset, exp)
+
+current_time = get_timestamp()
+log_path = './../logs/test/{}_train_log/{}'.format(args.train_dataset, current_time)
+save_model_path = './../models/test/{}_train_log/{}'.format(args.train_dataset, current_time)
 
 
 if local_rank == 0:
@@ -68,6 +75,7 @@ if local_rank == 0:
     writer = SummaryWriter(log_path + '/train')
     writer_val = SummaryWriter(log_path + '/validate')
 
+
 def get_learning_rate(step):
     if step < 2000:
         mul = step / 2000.
@@ -76,48 +84,71 @@ def get_learning_rate(step):
     return (1e-4 - 1e-5) * mul + 1e-5
 
 logger = logging.getLogger('base')
+for arg, value in sorted(vars(args).items()):
+    logger.info("Argument %s: %r", arg, value)
 
 def train(model, args):
     step = 0
     nr_eval = args.resume_epoch
-    dataset = base_build_dataset(args.train_dataset)
-    sampler = DistributedSampler(dataset)
-    train_data = DataLoader(dataset, batch_size=args.batch_size, num_workers=4, pin_memory=True, drop_last=True, sampler=sampler)
-    args.step_per_epoch = train_data.__len__()
+    
+    train_path = "./../data/data_224/train/"
+    train_list = os.listdir(train_path)
+    dataset_length = 0
+    for file_name in train_list:
+       with open(train_path + file_name, 'rb') as f:
+            version = npy_format.read_magic(f)
+            shape, _, _ = npy_format._read_array_header(f, version)
+            dataset_length = dataset_length + shape[0]
+
+
+    args.step_per_epoch = dataset_length // args.batch_size
 
     step = 0 + args.step_per_epoch * args.resume_epoch
-    
+    set_number = 0 
     if local_rank == 0:
         print('training...')
     time_stamp = time.time()
     for epoch in range(args.resume_epoch, args.epoch):
-        sampler.set_epoch(epoch)
-        for i, data in enumerate(train_data):
-            data_time_interval = time.time() - time_stamp
-            time_stamp = time.time()
-            data_gpu = data
-            data_gpu = data_gpu.to(device, non_blocking=True) / 255. #B,3,C,H,W
-            
-            learning_rate = get_learning_rate(step)
+        for chr_file in train_list:
+            dataset = np.load(train_path + chr_file)
+            sampler = DistributedSampler(dataset)
+            train_data = DataLoader(dataset, batch_size=args.batch_size, pin_memory=True, drop_last=True, sampler=sampler)
+            sampler.set_epoch(epoch)
+            set_number = set_number + 1
+            for i, data in enumerate(train_data):
+                data_time_interval = time.time() - time_stamp
+                time_stamp = time.time()
+                data = np.stack((data, data, data), axis=0)
+                data = np.transpose(data, (1,2,0,3,4))
+                data_gpu = torch.from_numpy(data)
+                data_gpu = data_gpu.to(device, non_blocking=True) / 255. #B,3,C,H,W
+                
+                learning_rate = get_learning_rate(step)
 
-            loss_avg = model.train(data_gpu, learning_rate)
-            
-            train_time_interval = time.time() - time_stamp
-            time_stamp = time.time()
-            if step % 200 == 1 and local_rank == 0:
-                writer.add_scalar('learning_rate', learning_rate, step)
-                writer.add_scalar('loss/loss_l1', loss_avg, step)
-                writer.flush()
-            if local_rank == 0:
-                logger.info('epoch:{} {}/{} time:{:.2f}+{:.2f} loss_avg:{:.4e}'.format( \
-                    epoch, i, args.step_per_epoch, data_time_interval, train_time_interval, loss_avg))
-            step += 1
+                loss_avg = model.train(data_gpu, learning_rate)
+                
+                train_time_interval = time.time() - time_stamp
+                time_stamp = time.time()
+                if step % 200 == 1 and local_rank == 0:
+                    writer.add_scalar('learning_rate', learning_rate, step)
+                    writer.add_scalar('loss/loss_l1', loss_avg, step)
+                    writer.flush()
+                if local_rank == 0:
+                    logger.info('epoch:{} {}/{} time:{:.2f}+{:.2f} loss_avg:{:.4e}'.format( \
+                        epoch, i, args.step_per_epoch, data_time_interval, train_time_interval, loss_avg))
+                step += 1
+                if i == 1:
+                    break
+            if set_number == 2:
+                break
         nr_eval += 1
+        '''
         if nr_eval % 1 == 0:
             for dataset_name in args.val_datasets:
                 val_dataset = base_build_dataset(dataset_name)
                 val_data = DataLoader(val_dataset, batch_size=1, pin_memory=True, num_workers=1)
                 evaluate(model, val_data, dataset_name, nr_eval, step)
+        '''
         if local_rank <= 0:    
             model.save_model(save_model_path, epoch, local_rank)   
         dist.barrier()

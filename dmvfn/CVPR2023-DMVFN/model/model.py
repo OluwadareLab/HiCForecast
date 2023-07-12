@@ -29,8 +29,8 @@ class Model:
                 self.dmvfn = DDP(self.dmvfn, device_ids=[local_rank], output_device=local_rank, find_unused_parameters=True)
             if resume_path is not None:
                 assert resume_epoch>=1
-                print(local_rank,": loading...... ", '{}/dmvfn_{}.pkl'.format(resume_path, str(resume_epoch-1)))
-                self.dmvfn.load_state_dict(torch.load('{}/dmvfn_{}.pkl'.format(resume_path, str(resume_epoch-1))), strict=True)
+                print(local_rank,": loading...... ", '{}'.format(resume_path))
+                self.dmvfn.load_state_dict(torch.load('{}'.format(resume_path)), strict=True)
             else:
                 if load_path is not None:
                     self.dmvfn.load_state_dict(torch.load(load_path), strict=True)

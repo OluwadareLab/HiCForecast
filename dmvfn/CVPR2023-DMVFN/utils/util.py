@@ -1,10 +1,13 @@
 import logging
 import numpy as np
 import os
-from datetime import datetime
+import datetime
 
 def get_timestamp():
-    return datetime.now().strftime('%y%m%d-%H%M%S')
+    desired_timezone = datetime.timezone(datetime.timedelta(hours=-6))
+    current_time = datetime.datetime.now(desired_timezone)
+    formatted_time = current_time.strftime('%Y%m%d-%H%M%S')
+    return formatted_time
 
 def setup_logger(logger_name, save_dir, phase, level=logging.INFO, screen=False, to_file=False):
     lg = logging.getLogger(logger_name)
