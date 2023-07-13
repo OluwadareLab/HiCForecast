@@ -21,8 +21,6 @@ class Model:
     def __init__(self, local_rank=-1, resume_path=None, resume_epoch=0, load_path=None, training=True, rgb=False):
         self.dmvfn = DMVFN()
         self.optimG = AdamW(self.dmvfn.parameters(), lr=1e-6, weight_decay=1e-3)
-        self.lap = LapLoss()
-        self.vggloss = VGGPerceptualLoss()
         self.device()
         self.rgb = rgb
         if rgb == True:
@@ -30,6 +28,8 @@ class Model:
         else:
             input_chan = 1
         self.input_chan = input_chan
+        self.lap = LapLoss(channels=input_chan)
+        self.vggloss = VGGPerceptualLoss()
 
         if training:
             if local_rank != -1:
