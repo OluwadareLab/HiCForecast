@@ -41,6 +41,10 @@ parser.add_argument('--train_dataset', required=True, type=str, help='CityTrainD
 parser.add_argument('--val_datasets', type=str, nargs='+', default=['hic'], help='[CityValDataset,KittiValDataset,VimeoValDataset,DavisValDataset]')
 parser.add_argument('--resume_path', default=None, type=str, help='continue to train, model path')
 parser.add_argument('--resume_epoch', default=0, type=int, help='continue to train, epoch')
+#parser.add_argument('--code_test_mode', action="store_false", help='code_test_mode=True for testing training module')
+parser.add_argument('--code_test', action='store_true')
+parser.add_argument('--no_code_test', dest='code_test', action='store_false')
+parser.set_defaults(code_test=False)
 args = parser.parse_args()
 print("args parsed.")
 
@@ -62,8 +66,15 @@ torch.backends.cudnn.benchmark = True
 loss_fn_alex = lpips.LPIPS(net='alex').to(device)
 
 current_time = get_timestamp()
-log_path = './../logs/test/{}_train_log/{}'.format(args.train_dataset, current_time)
-save_model_path = './../models/test/{}_train_log/{}'.format(args.train_dataset, current_time)
+code_test = args.code_test
+if code_test == True:
+    print("True")
+if code_test == True:
+    log_path = './../logs/test/{}_train_log/{}'.format(args.train_dataset, current_time)
+    save_model_path = './../models/test/{}_train_log/{}'.format(args.train_dataset, current_time)
+else:
+    log_path = './../logs/{}_train_log/{}'.format(args.train_dataset, current_time)
+    save_model_path = './../models/{}_train_log/{}'.format(args.train_dataset, current_time)
 
 
 if local_rank == 0:
@@ -87,7 +98,7 @@ def get_learning_rate(step):
 
 logger = logging.getLogger('base')
 for arg, value in sorted(vars(args).items()):
-    logger.info("Argument %s: %r", arg, value)
+    logger.info("{} Argument {}: {}".format(get_formatted_timestamp(), arg, value))
 
 def train(model, args):
     step = 0
@@ -137,12 +148,12 @@ def train(model, args):
                     writer.add_scalar('loss/loss_l1', loss_avg, step)
                     writer.flush()
                 if local_rank == 0:
-                    logger.info('epoch:{} dataset: {}/{} step: {}/{} time:{:.2f}+{:.2f} loss_avg:{:.4e}'.format( \
-                        epoch, set_number, 17, i, step_per_dataset, data_time_interval, train_time_interval, loss_avg))
+                    logger.info('{} epoch:{} dataset: {}/{} step: {}/{} time:{:.2f}+{:.2f} loss_avg:{:.4e}'.format( \
+                        get_formatted_timestamp(), epoch, set_number, 17, i, step_per_dataset, data_time_interval, train_time_interval, loss_avg))
                 step += 1
-                if i == 1:
+                if code_test == True and i == 1:
                     break
-            if set_number == 2:
+            if code_test == True and set_number == 2:
                 break
             logger.info(f'Training on {chr_file} complete.')
         nr_eval += 1
@@ -156,7 +167,7 @@ def train(model, args):
         if local_rank <= 0:    
             model.save_model(save_model_path, epoch, local_rank)   
         dist.barrier()
-        logger.info('Training module completed.')
+        logger.info('{} Training module completed.'.format(get_formatted_timestamp()))
 
 def evaluate(model, val_data, name, nr_eval, step):
     if name == "CityValDataset" or name == "KittiValDataset" or name == "DavisValDataset":
