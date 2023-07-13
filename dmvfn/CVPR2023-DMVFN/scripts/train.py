@@ -19,6 +19,10 @@ from torch.utils.data.distributed import DistributedSampler
 from numpy.lib import format as npy_format
 
 
+
+#This comment was made while in the single_channel branch
+#Second comment in single_channel branch
+
 root_path = os.path.abspath(__file__)
 root_path = '/'.join(root_path.split('/')[:-2])
 sys.path.append(root_path)
@@ -149,7 +153,7 @@ def train(model, args):
                     writer.flush()
                 if local_rank == 0:
                     logger.info('{} epoch:{} dataset: {}/{} step: {}/{} time:{:.2f}+{:.2f} loss_avg:{:.4e}'.format( \
-                        get_formatted_timestamp(), epoch, set_number, 17, i, step_per_dataset, data_time_interval, train_time_interval, loss_avg))
+                        get_formatted_timestamp(), epoch, set_number % 17, 17, i, step_per_dataset, data_time_interval, train_time_interval, loss_avg))
                 step += 1
                 if code_test == True and i == 1:
                     break
