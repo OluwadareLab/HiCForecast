@@ -48,6 +48,9 @@ parser.add_argument('--resume_epoch', default=0, type=int, help='continue to tra
 #parser.add_argument('--code_test_mode', action="store_false", help='code_test_mode=True for testing training module')
 parser.add_argument('--code_test', action='store_true')
 parser.add_argument('--no_code_test', dest='code_test', action='store_false')
+parser.add_argument('--rgb', action='store_true')
+parser.add_argument('--no_rgb', dest='rgb', action='store_false')
+parser.add_argument('--data_train_path', required=True, type=str)
 parser.set_defaults(code_test=False)
 args = parser.parse_args()
 print("args parsed.")
@@ -69,7 +72,7 @@ torch.backends.cudnn.benchmark = True
 #exp = os.path.abspath('.').split('/')[-1]
 loss_fn_alex = lpips.LPIPS(net='alex').to(device)
 
-rgb = True
+rgb = args.rgb
 
 current_time = get_timestamp()
 code_test = args.code_test
@@ -103,7 +106,7 @@ def get_learning_rate(step):
     return (1e-4 - 1e-5) * mul + 1e-5
 
 logger = logging.getLogger('base')
-logger.info("Argument rgb: {}".format(rgb))
+#logger.info("Argument rgb: {}".format(rgb))
 
 for arg, value in sorted(vars(args).items()):
     logger.info("{} Argument {}: {}".format(get_formatted_timestamp(), arg, value))
@@ -111,8 +114,9 @@ for arg, value in sorted(vars(args).items()):
 def train(model, args):
     step = 0
     nr_eval = args.resume_epoch
-    
-    train_path = "./../data/data_64/train/"
+   
+    train_path = args.data_train_path
+    #train_path = "./../data/data_64/train/"
     train_list = os.listdir(train_path)
     dataset_length = 0
     for file_name in train_list:
