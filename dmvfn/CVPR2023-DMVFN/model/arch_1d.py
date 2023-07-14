@@ -91,20 +91,30 @@ class MVFB(nn.Module):
 
 
 class DMVFN(nn.Module):
-    def __init__(self):
+    def __init__(self, rgb=False):
         super(DMVFN, self).__init__()
-        self.block0 = MVFB(13+4, num_feature=160)
-        self.block1 = MVFB(13+4, num_feature=160)
-        self.block2 = MVFB(13+4, num_feature=160)
-        self.block3 = MVFB(13+4, num_feature=80)
-        self.block4 = MVFB(13+4, num_feature=80)
-        self.block5 = MVFB(13+4, num_feature=80)
-        self.block6 = MVFB(13+4, num_feature=44)
-        self.block7 = MVFB(13+4, num_feature=44)
-        self.block8 = MVFB(13+4, num_feature=44)
+
+        self.rgb = rgb
+        if rgb == False:
+            input_dim = 9
+            input_chan = 1
+        else:
+            input_dim = 13+4
+            input_chan = 3
+        self.input_chan = input_chan
+
+        self.block0 = MVFB(input_dim, num_feature=160)
+        self.block1 = MVFB(input_dim, num_feature=160)
+        self.block2 = MVFB(input_dim, num_feature=160)
+        self.block3 = MVFB(input_dim, num_feature=80)
+        self.block4 = MVFB(input_dim, num_feature=80)
+        self.block5 = MVFB(input_dim, num_feature=80)
+        self.block6 = MVFB(input_dim, num_feature=44)
+        self.block7 = MVFB(input_dim, num_feature=44)
+        self.block8 = MVFB(input_dim, num_feature=44)
 
         self.routing = nn.Sequential(
-            nn.Conv2d(6, 32, 3, 1, 1),#THE 2 USED TO BE A 6. I CHANGED IT
+            nn.Conv2d(2 * input_chan, 32, 3, 1, 1),
             nn.ReLU(),
             nn.Conv2d(32, 32, 3, 1, 1),
             nn.AdaptiveAvgPool2d((1, 1)),
@@ -112,17 +122,18 @@ class DMVFN(nn.Module):
         self.l1 = nn.Linear(32, 9)
 
     def forward(self, x, scale, training=True):
+        input_chan = self.input_chan
+
         batch_size, _, height, width = x.shape
-        routing_vector = self.routing(x[:, :6]).reshape(batch_size, -1)
+        routing_vector = self.routing(x[:, :2*input_chan]).reshape(batch_size, -1)
         routing_vector = torch.sigmoid(self.l1(routing_vector))
         routing_vector = routing_vector / (routing_vector.sum(1, True) + 1e-6) * 4.5
         routing_vector = torch.clamp(routing_vector, 0, 1)
         ref = RoundSTE.apply(routing_vector)
 
-        img0 = x[:, :3]
-        img1 = x[:, 3:6]
-        #print("arch img0.shape: ", img0.shape)
-        #print("arch img1.shape; ", img1.shape)
+        img0 = x[:, :input_chan]
+        img1 = x[:, input_chan:2*input_chan]
+
         flow_list = []
         merged_final = []
         mask_final = []
@@ -187,8 +198,8 @@ class DMVFN(nn.Module):
 
 
 if __name__ == '__main__':
-    net = DMVFN().cuda() #250 used to be 64
-    x = torch.randn((2, 6, 224, 224)).cuda() #250 used to be 64
+    net = DMVFN(rgb=True).cuda() #250 used to be 64
+    x = torch.randn((2, 6, 64, 64)).cuda() #250 used to be 64
     y = net(x, scale=[4,4,4,2,2,2,1,1,1])
     print("y.length: ", len(y))
     print("y[0].shape: ", y[0].shape)

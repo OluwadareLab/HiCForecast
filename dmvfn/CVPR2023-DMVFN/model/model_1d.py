@@ -12,24 +12,24 @@ root_path = os.path.abspath(__file__)
 root_path = '/'.join(root_path.split('/')[:-2])
 sys.path.append(root_path)
 
-from model.arch import *
+from model.arch_1d import *
 from loss.loss import *
 
 device = torch.device("cuda")
     
 class Model:
     def __init__(self, local_rank=-1, resume_path=None, resume_epoch=0, load_path=None, training=True, rgb=False):
-        self.dmvfn = DMVFN()
+        self.dmvfn = DMVFN(rgb=rgb)
         self.optimG = AdamW(self.dmvfn.parameters(), lr=1e-6, weight_decay=1e-3)
-        self.lap = LapLoss()
-        self.vggloss = VGGPerceptualLoss()
-        self.device()
         self.rgb = rgb
         if rgb == True:
             input_chan = 3
         else:
             input_chan = 1
         self.input_chan = input_chan
+        self.lap = LapLoss(channels=input_chan)
+        self.device()
+        #self.vggloss = VGGPerceptualLoss()
 
         if training:
             if local_rank != -1:
@@ -63,10 +63,10 @@ class Model:
             loss_l1, loss_vgg = 0, 0
             for i in range(9):
                 loss_l1 +=  (self.lap(merged[i], gt)).mean()*(0.8**(8-i))
-            loss_vgg = (self.vggloss(merged[-1], gt)).mean()
+            #loss_vgg = (self.vggloss(merged[-1], gt)).mean()
 
             self.optimG.zero_grad()
-            loss_G =  loss_l1 + loss_vgg * 0.5
+            loss_G =  loss_l1 #+ loss_vgg * 0.5
             loss_avg += loss_G
             loss_G.backward()
             self.optimG.step()
@@ -141,7 +141,7 @@ class Model:
     def device(self):
         self.dmvfn.to(device)
         self.lap.to(device)
-        self.vggloss.to(device)
+        #self.vggloss.to(device)
 
     def save_model(self, path, epoch, rank=0):
         if rank == 0:

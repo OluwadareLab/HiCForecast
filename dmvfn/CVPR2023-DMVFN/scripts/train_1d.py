@@ -28,7 +28,7 @@ root_path = '/'.join(root_path.split('/')[:-2])
 sys.path.append(root_path)
 
 from utils.util import *
-from model.model import Model
+from model.model_1d import Model
 
 
 def base_build_dataset(name):
@@ -69,6 +69,8 @@ torch.backends.cudnn.benchmark = True
 #exp = os.path.abspath('.').split('/')[-1]
 loss_fn_alex = lpips.LPIPS(net='alex').to(device)
 
+rgb = False
+
 current_time = get_timestamp()
 code_test = args.code_test
 if code_test == True:
@@ -101,6 +103,8 @@ def get_learning_rate(step):
     return (1e-4 - 1e-5) * mul + 1e-5
 
 logger = logging.getLogger('base')
+logger.info("Argument rgb: {}".format(rgb))
+
 for arg, value in sorted(vars(args).items()):
     logger.info("{} Argument {}: {}".format(get_formatted_timestamp(), arg, value))
 
@@ -116,7 +120,7 @@ def train(model, args):
             version = npy_format.read_magic(f)
             shape, _, _ = npy_format._read_array_header(f, version)
             dataset_length = dataset_length + shape[0]
-
+    print("dataset_length: ", dataset_length)
 
     args.step_per_epoch = dataset_length // args.batch_size
 
@@ -126,7 +130,9 @@ def train(model, args):
         print('training...')
     time_stamp = time.time()
     for epoch in range(args.resume_epoch, args.epoch):
+        print("Epoch: ", epoch)
         for chr_file in train_list:
+            print("chr_file: ", chr_file)
             dataset = np.load(train_path + chr_file)
             sampler = DistributedSampler(dataset)
             train_data = DataLoader(dataset, batch_size=args.batch_size, num_workers=args.num_workers, pin_memory=True, drop_last=True, sampler=sampler)
@@ -136,10 +142,16 @@ def train(model, args):
             for i, data in enumerate(train_data):
                 data_time_interval = time.time() - time_stamp
                 time_stamp = time.time()
-                data = np.stack((data, data, data), axis=0)
-                data = np.transpose(data, (1,2,0,3,4))
-                data_gpu = torch.from_numpy(data)
-                data_gpu = data_gpu.to(device, non_blocking=True) / 255. #B,3,C,H,W
+                if rgb == True:
+                    data = np.stack((data, data, data), axis=0)
+                    data = np.transpose(data, (1,2,0,3,4))
+                else:
+                    print("data.shape: ", data.shape)
+                    data = torch.unsqueeze(data, 2)
+                    print("data.shape: ", data.shape)
+
+                #data_gpu = torch.from_numpy(data)
+                data_gpu = data.to(device, non_blocking=True) / 255. #B,3,C,H,W
                 
                 learning_rate = get_learning_rate(step)
 

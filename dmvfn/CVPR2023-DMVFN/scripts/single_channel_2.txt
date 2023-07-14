@@ -1,0 +1,1 @@
+#Test message. Content of file accessed successfully.
