@@ -112,7 +112,7 @@ def train(model, args):
     step = 0
     nr_eval = args.resume_epoch
     
-    train_path = "./../data/data_224/train/"
+    train_path = "./../data/data_64/train/"
     train_list = os.listdir(train_path)
     dataset_length = 0
     for file_name in train_list:
@@ -132,7 +132,6 @@ def train(model, args):
     for epoch in range(args.resume_epoch, args.epoch):
         print("Epoch: ", epoch)
         for chr_file in train_list:
-            print("chr_file: ", chr_file)
             dataset = np.load(train_path + chr_file)
             sampler = DistributedSampler(dataset)
             train_data = DataLoader(dataset, batch_size=args.batch_size, num_workers=args.num_workers, pin_memory=True, drop_last=True, sampler=sampler)
@@ -146,9 +145,7 @@ def train(model, args):
                     data = np.stack((data, data, data), axis=0)
                     data = np.transpose(data, (1,2,0,3,4))
                 else:
-                    print("data.shape: ", data.shape)
                     data = torch.unsqueeze(data, 2)
-                    print("data.shape: ", data.shape)
 
                 #data_gpu = torch.from_numpy(data)
                 data_gpu = data.to(device, non_blocking=True) / 255. #B,3,C,H,W
