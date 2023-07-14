@@ -121,7 +121,7 @@ class DMVFN(nn.Module):
         )
         self.l1 = nn.Linear(32, 9)
 
-    def forward(self, x, scale, training=False):
+    def forward(self, x, scale, training=True):
         input_chan = self.input_chan
 
         batch_size, _, height, width = x.shape

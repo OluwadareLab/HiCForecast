@@ -120,7 +120,7 @@ def train(model, args):
             version = npy_format.read_magic(f)
             shape, _, _ = npy_format._read_array_header(f, version)
             dataset_length = dataset_length + shape[0]
-
+    print("dataset_length: ", dataset_length)
 
     args.step_per_epoch = dataset_length // args.batch_size
 
@@ -130,7 +130,9 @@ def train(model, args):
         print('training...')
     time_stamp = time.time()
     for epoch in range(args.resume_epoch, args.epoch):
+        print("Epoch: ", epoch)
         for chr_file in train_list:
+            print("chr_file: ", chr_file)
             dataset = np.load(train_path + chr_file)
             sampler = DistributedSampler(dataset)
             train_data = DataLoader(dataset, batch_size=args.batch_size, num_workers=args.num_workers, pin_memory=True, drop_last=True, sampler=sampler)
@@ -145,10 +147,11 @@ def train(model, args):
                     data = np.transpose(data, (1,2,0,3,4))
                 else:
                     print("data.shape: ", data.shape)
-                    quit()
+                    data = torch.unsqueeze(data, 2)
+                    print("data.shape: ", data.shape)
 
-                data_gpu = torch.from_numpy(data)
-                data_gpu = data_gpu.to(device, non_blocking=True) / 255. #B,3,C,H,W
+                #data_gpu = torch.from_numpy(data)
+                data_gpu = data.to(device, non_blocking=True) / 255. #B,3,C,H,W
                 
                 learning_rate = get_learning_rate(step)
 
