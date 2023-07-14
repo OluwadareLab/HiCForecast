@@ -11,7 +11,7 @@ chrs_test = ['chr2','chr6']
 chrs_val = ['chr19']
 resolution = 8928 #31250 for 64  #8928 for 224? #used to be 40000
 sub_mat_n = int(2_000_000 // resolution)
-dir_data = "./data/data_224/val"
+dir_data = "./data/data_224/test/"
 num_bins_all = []
 
 #chr2: num_bins_all[0] = 4544 with 224
@@ -38,7 +38,7 @@ def make_test_data():
             chr_len = clr.chromsizes[chrid]
             mat_chr = clr.matrix(balance=False).fetch(chrid)
             mat_chr2 = np.nan_to_num(mat_chr)
-            print("mat_chr2.shape: ", mat_chr2.shape)
+            #print("mat_chr2.shape: ", mat_chr2.shape)
 
             bins = mat_chr2.shape[0]
             if idx == 0:
@@ -69,6 +69,7 @@ def make_test_data():
         print(chrid, dat_timePoints.shape, dat_timePoints2.shape, dat_index.shape, dat_index2.shape)
         np.save(dir_data+"data_test_"+chrid+"_224", dat_timePoints2)
         np.save(dir_data+"data_test_index_"+chrid+"_224", dat_index2)
+        print("Chromosome saved.")
 
 
 def make_train_data():
@@ -214,4 +215,6 @@ def make_ground_truth():
 
 if __name__ == "__main__":
     make_val_data()
+    make_train_data()
+
       
