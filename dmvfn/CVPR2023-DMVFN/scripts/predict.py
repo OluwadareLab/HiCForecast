@@ -12,7 +12,7 @@ root_path = '/'.join(root_path.split('/')[:-2])
 sys.path.append(root_path)
 
 from utils.util import *
-from model.model import Model
+from model.model_1d import Model
 
 #from torchsummary import summary
 
@@ -29,9 +29,12 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--data_path', required=True, type=str, help='data path')
 #parser.add_argument('--image_1_path', required=True, type=str, help='image 1 path')
 parser.add_argument('--load_path', required=True, type=str, help='model path')
-parser.add_argument('--output_dir', default="pred.pny", type=str, help='output path')
-
+parser.add_argument('--output_dir', type=str, help='output path')
+parser.add_argument('--rgb', action="store_true")
+parser.add_argument('--single_channel', dest='rgb', action='store_false')
 args = parser.parse_args()
+
+rgb = args.rgb
 
 def evaluate(model, args):
 
@@ -40,7 +43,8 @@ def evaluate(model, args):
         #dat_test = dat_test / 225.
         #print("dat_test.shape: ", dat_test.shape)
         #print("dat_test[:10,1:3].shape: ", dat_test[:10, 1:3].shape)
-        test_loader = torch.utils.data.DataLoader(torch.from_numpy(dat_test[:,1:3]), batch_size=1, shuffle=False)
+
+        test_loader = torch.utils.data.DataLoader(dat_test[:,1:3], batch_size=1, shuffle=False)
         print("dat_test.shape: ", dat_test.shape)
         
         '''
@@ -66,20 +70,26 @@ def evaluate(model, args):
         predictions = []
         for i, X in enumerate(tqdm(test_loader)):
             # X = X.unsqueeze(0).to(device, non_blocking=True)
-            X = np.stack((X, X, X), axis=0)
-            X = np.transpose(X, (1, 2, 0, 3, 4))
+            if rgb == True:
+                #untested
+                X = torch.stack((X, X, X), dim=0)
+                X = torch.permute(X, (1, 2, 0, 3, 4))
+            else:
             #print("X.shape: ", X.shape)
-            X = torch.from_numpy(X).to(device, non_blocking=True)
+                X = torch.unsqueeze(X, 2)
+
+            X = X.to(device, non_blocking=True)
             X = X / 255.
 
             pred = model.eval(X, 'hic') # BNCHW
             #print("pred.shape: ", pred.shape)
-            pred = np.array(pred.cpu() * 255)
-            #print("pred.shape: ", pred.shape)
             #pred = torch.cat(pred)
             #print("pred.shape after concat: ", pred.shape)
-            pred = pred[:,:,0,:,:]
+            if rgb == True:
+                pred = pred[:,:,0,:,:]
             #print("pred.shape: ", pred.shape)
+            pred = torch.squeeze(pred, dim=2)
+            pred = np.array(pred.cpu() * 255)
             predictions.append(pred)
 
         predictions = np.concatenate(predictions, axis=0)
@@ -87,5 +97,5 @@ def evaluate(model, args):
         np.save(args.output_dir, predictions)
             
 if __name__ == "__main__":    
-    model = Model(load_path=args.load_path, training=False)
+    model = Model(load_path=args.load_path, training=False, rgb=rgb)
     evaluate(model, args)
