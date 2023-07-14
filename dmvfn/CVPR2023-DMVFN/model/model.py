@@ -18,12 +18,19 @@ from loss.loss import *
 device = torch.device("cuda")
     
 class Model:
-    def __init__(self, local_rank=-1, resume_path=None, resume_epoch=0, load_path=None, training=True):
+    def __init__(self, local_rank=-1, resume_path=None, resume_epoch=0, load_path=None, training=True, rgb=False):
         self.dmvfn = DMVFN()
         self.optimG = AdamW(self.dmvfn.parameters(), lr=1e-6, weight_decay=1e-3)
         self.lap = LapLoss()
         self.vggloss = VGGPerceptualLoss()
         self.device()
+        self.rgb = rgb
+        if rgb == True:
+            input_chan = 3
+        else:
+            input_chan = 1
+        self.input_chan = input_chan
+
         if training:
             if local_rank != -1:
                 self.dmvfn = DDP(self.dmvfn, device_ids=[local_rank], output_device=local_rank, find_unused_parameters=True)
