@@ -48,7 +48,6 @@ parser.add_argument('--resume_epoch', default=0, type=int, help='continue to tra
 #parser.add_argument('--code_test_mode', action="store_false", help='code_test_mode=True for testing training module')
 parser.add_argument('--code_test', action='store_true')
 parser.add_argument('--no_code_test', dest='code_test', action='store_false')
-parser.set_defaults(code_test=False)
 args = parser.parse_args()
 print("args parsed.")
 

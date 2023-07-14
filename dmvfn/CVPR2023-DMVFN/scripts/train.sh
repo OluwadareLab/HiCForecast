@@ -9,4 +9,3 @@ torchrun --nproc_per_node=1 \
 --data_train_path ./../data/data_64/train/ \
 --no_rgb \
 --code_test
-
