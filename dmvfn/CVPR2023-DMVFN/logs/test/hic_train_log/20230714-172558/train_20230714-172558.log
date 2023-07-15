@@ -1,0 +1,55 @@
+INFO: 2023-07-14 17:25:58 Argument batch_size: 8
+INFO: 2023-07-14 17:25:58 Argument code_test: True
+INFO: 2023-07-14 17:25:58 Argument epoch: 5
+INFO: 2023-07-14 17:25:58 Argument local_rank: 0
+INFO: 2023-07-14 17:25:58 Argument num_gpu: 2
+INFO: 2023-07-14 17:25:58 Argument num_workers: 1
+INFO: 2023-07-14 17:25:58 Argument resume_epoch: 1
+INFO: 2023-07-14 17:25:58 Argument resume_path: /home/dmitryp/dpinchuk/dmvfn/CVPR2023-DMVFN/models/hic_train_log/20230712-225137/dmvfn_14.pkl
+INFO: 2023-07-14 17:25:58 Argument train_dataset: hic
+INFO: 2023-07-14 17:25:58 Argument val_datasets: ['hic']
+INFO: 2023-07-14 17:26:32 epoch:1 dataset: 1/17 step: 0/74 time:3.71+19.49 loss_avg:1.3090e-01
+INFO: 2023-07-14 17:26:35 epoch:1 dataset: 1/17 step: 1/74 time:0.00+3.41 loss_avg:1.4588e-01
+INFO: Training on data_train_chr7_224.npy complete.
+INFO: 2023-07-14 17:26:42 epoch:1 dataset: 2/17 step: 0/58 time:3.47+3.72 loss_avg:1.6413e-01
+INFO: 2023-07-14 17:26:46 epoch:1 dataset: 2/17 step: 1/58 time:0.00+3.38 loss_avg:1.5952e-01
+INFO: 2023-07-14 17:26:46 Training module completed.
+INFO: 2023-07-14 17:26:54 epoch:2 dataset: 3/17 step: 0/74 time:4.41+4.13 loss_avg:1.6376e-01
+INFO: 2023-07-14 17:26:58 epoch:2 dataset: 3/17 step: 1/74 time:0.06+3.49 loss_avg:1.4424e-01
+INFO: Training on data_train_chr7_224.npy complete.
+INFO: 2023-07-14 17:27:05 epoch:2 dataset: 4/17 step: 0/58 time:3.32+4.09 loss_avg:1.5825e-01
+INFO: 2023-07-14 17:27:09 epoch:2 dataset: 4/17 step: 1/58 time:0.03+3.78 loss_avg:1.5337e-01
+INFO: Training on data_train_chr13_224.npy complete.
+INFO: 2023-07-14 17:27:20 epoch:2 dataset: 5/17 step: 0/64 time:7.19+3.94 loss_avg:1.7304e-01
+INFO: 2023-07-14 17:27:24 epoch:2 dataset: 5/17 step: 1/64 time:0.07+3.91 loss_avg:1.7917e-01
+INFO: Training on data_train_chr8_224.npy complete.
+INFO: 2023-07-14 17:27:38 epoch:2 dataset: 6/17 step: 0/98 time:10.19+4.10 loss_avg:1.6758e-01
+INFO: 2023-07-14 17:27:42 epoch:2 dataset: 6/17 step: 1/98 time:0.00+3.49 loss_avg:2.0254e-01
+INFO: Training on data_train_chr1_224.npy complete.
+INFO: 2023-07-14 17:27:51 epoch:2 dataset: 7/17 step: 0/45 time:5.50+4.00 loss_avg:1.7120e-01
+INFO: 2023-07-14 17:27:55 epoch:2 dataset: 7/17 step: 1/45 time:0.00+3.39 loss_avg:1.6393e-01
+INFO: Training on data_train_chr17_224.npy complete.
+INFO: 2023-07-14 17:28:05 epoch:2 dataset: 8/17 step: 0/63 time:6.91+3.62 loss_avg:1.5784e-01
+INFO: 2023-07-14 17:28:09 epoch:2 dataset: 8/17 step: 1/63 time:0.17+3.53 loss_avg:1.5736e-01
+INFO: Training on data_train_chr10_224.npy complete.
+INFO: 2023-07-14 17:28:21 epoch:2 dataset: 9/17 step: 0/76 time:8.28+3.91 loss_avg:1.5572e-01
+INFO: 2023-07-14 17:28:24 epoch:2 dataset: 9/17 step: 1/76 time:0.00+3.29 loss_avg:1.5528e-01
+INFO: Training on data_train_chr4_224.npy complete.
+INFO: 2023-07-14 17:28:35 epoch:2 dataset: 10/17 step: 0/58 time:6.60+3.79 loss_avg:1.5656e-01
+INFO: 2023-07-14 17:28:38 epoch:2 dataset: 10/17 step: 1/58 time:0.00+3.30 loss_avg:1.5777e-01
+INFO: Training on data_train_chr12_224.npy complete.
+INFO: 2023-07-14 17:28:50 epoch:2 dataset: 11/17 step: 0/74 time:8.12+4.19 loss_avg:1.6164e-01
+INFO: 2023-07-14 17:28:54 epoch:2 dataset: 11/17 step: 1/74 time:0.00+3.43 loss_avg:1.5128e-01
+INFO: Training on data_train_chr5_224.npy complete.
+INFO: 2023-07-14 17:29:03 epoch:2 dataset: 12/17 step: 0/42 time:5.27+3.79 loss_avg:1.5033e-01
+INFO: 2023-07-14 17:29:06 epoch:2 dataset: 12/17 step: 1/42 time:0.00+3.40 loss_avg:1.5245e-01
+INFO: Training on data_train_chr18_224.npy complete.
+INFO: 2023-07-14 17:29:17 epoch:2 dataset: 13/17 step: 0/58 time:6.49+3.82 loss_avg:1.6821e-01
+INFO: 2023-07-14 17:29:20 epoch:2 dataset: 13/17 step: 1/58 time:0.10+3.61 loss_avg:1.6643e-01
+INFO: Training on data_train_chr11_224.npy complete.
+INFO: 2023-07-14 17:29:30 epoch:2 dataset: 14/17 step: 0/46 time:5.37+3.83 loss_avg:1.5146e-01
+INFO: 2023-07-14 17:29:33 epoch:2 dataset: 14/17 step: 1/46 time:0.07+3.50 loss_avg:1.4707e-01
+INFO: Training on data_train_chr16_224.npy complete.
+INFO: 2023-07-14 17:29:43 epoch:2 dataset: 15/17 step: 0/60 time:6.31+3.92 loss_avg:1.6183e-01
+INFO: 2023-07-14 17:29:47 epoch:2 dataset: 15/17 step: 1/60 time:0.00+3.68 loss_avg:1.7105e-01
+INFO: Training on data_train_chr9_224.npy complete.
