@@ -8,8 +8,6 @@ INFO: 2023-07-12 22:51:37 Argument num_gpu: 2
 INFO: 2023-07-12 22:51:37 Argument num_workers: 1
 INFO: 2023-07-12 22:51:37 Argument resume_epoch: 1
 INFO: 2023-07-12 22:51:37 Argument resume_path: ./../pretrained_models/dmvfn_city.pkl
-INFO: 2023-07-12 22:51:37 Argument train_dataset: hic
-INFO: 2023-07-12 22:51:37 Argument val_datasets: ['hic']
 
 20230713-223916
 data_64
@@ -22,5 +20,14 @@ INFO: 2023-07-13 22:39:16 Argument num_gpu: 1
 INFO: 2023-07-13 22:39:16 Argument num_workers: 0
 INFO: 2023-07-13 22:39:16 Argument resume_epoch: 0
 INFO: 2023-07-13 22:39:16 Argument resume_path: None
-INFO: 2023-07-13 22:39:16 Argument train_dataset: hic
-INFO: 2023-07-13 22:39:16 Argument val_datasets: ['hic'
+
+20230713-231442
+INFO: 2023-07-13 23:14:42 Argument batch_size: 8
+INFO: 2023-07-13 23:14:42 Argument code_test: False
+INFO: 2023-07-13 23:14:42 Argument epoch: 25
+INFO: 2023-07-13 23:14:42 Argument local_rank: 0
+INFO: 2023-07-13 23:14:42 Argument num_gpu: 2
+INFO: 2023-07-13 23:14:42 Argument num_workers: 1
+INFO: 2023-07-13 23:14:42 Argument resume_epoch: 14
+INFO: 2023-07-13 23:14:42 Argument resume_path: /home/dmitryp/dpinchuk/dmvfn/CVPR2023-DMVFN/models/hic_train_log/20230712-225137/dmvfn_14.pkl
+

@@ -81,14 +81,19 @@ if code_test == True:
 if code_test == True:
     log_path = './../logs/test/{}_train_log/{}'.format(args.train_dataset, current_time)
     save_model_path = './../models/test/{}_train_log/{}'.format(args.train_dataset, current_time)
+    save_model_path_cache = './../models/test/{}_train_log_cache/{}'.format(args.train_dataset, current_time)
 else:
     log_path = './../logs/{}_train_log/{}'.format(args.train_dataset, current_time)
     save_model_path = './../models/{}_train_log/{}'.format(args.train_dataset, current_time)
+    save_model_path_cache = './../models/{}_train_log_cache/{}'.format(args.train_dataset, current_time)
 
 
 if local_rank == 0:
     if not os.path.exists(save_model_path):
         os.makedirs(save_model_path)
+
+    if not os.path.exists(save_model_path_cache):
+        os.makedirs(save_model_path_cache)
 
     if not os.path.exists(log_path):
         os.makedirs(log_path)
@@ -182,9 +187,13 @@ def train(model, args):
                 evaluate(model, val_data, dataset_name, nr_eval, step)
         '''
         if local_rank <= 0:    
-            model.save_model(save_model_path, epoch, local_rank)   
+            if (epoch == (args.epoch - 1)) or ((epoch + 1) % 50 == 0):
+                model.save_model(save_model_path, epoch, local_rank)   
+            else:
+                model.save_model(save_model_path_cache, epoch, local_rank)   
+
         dist.barrier()
-        logger.info('{} Training module completed.'.format(get_formatted_timestamp()))
+    logger.info('{} Training module completed.'.format(get_formatted_timestamp()))
 
 def evaluate(model, val_data, name, nr_eval, step):
     if name == "CityValDataset" or name == "KittiValDataset" or name == "DavisValDataset":

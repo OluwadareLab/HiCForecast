@@ -71,18 +71,21 @@ loss_fn_alex = lpips.LPIPS(net='alex').to(device)
 current_time = get_timestamp()
 code_test = args.code_test
 if code_test == True:
-    print("True")
-if code_test == True:
     log_path = './../logs/test/{}_train_log/{}'.format(args.train_dataset, current_time)
     save_model_path = './../models/test/{}_train_log/{}'.format(args.train_dataset, current_time)
+    save_model_path_cache = './../models/test/{}_train_log_cache/{}'.format(args.train_dataset, current_time)
 else:
     log_path = './../logs/{}_train_log/{}'.format(args.train_dataset, current_time)
     save_model_path = './../models/{}_train_log/{}'.format(args.train_dataset, current_time)
+    save_model_path_cache = './../models/{}_train_log_cache/{}'.format(args.train_dataset, current_time)
 
 
 if local_rank == 0:
     if not os.path.exists(save_model_path):
         os.makedirs(save_model_path)
+
+    if not os.path.exists(save_model_path_cache):
+        os.makedirs(save_model_path_cache)
 
     if not os.path.exists(log_path):
         os.makedirs(log_path)
@@ -120,11 +123,11 @@ def train(model, args):
     args.step_per_epoch = dataset_length // args.batch_size
 
     step = 0 + args.step_per_epoch * args.resume_epoch
-    set_number = 0 
     if local_rank == 0:
         print('training...')
     time_stamp = time.time()
     for epoch in range(args.resume_epoch, args.epoch):
+        set_number = 0 
         for chr_file in train_list:
             dataset = np.load(train_path + chr_file)
             sampler = DistributedSampler(dataset)
@@ -154,9 +157,9 @@ def train(model, args):
                     logger.info('{} epoch:{} dataset: {}/{} step: {}/{} time:{:.2f}+{:.2f} loss_avg:{:.4e}'.format( \
                         get_formatted_timestamp(), epoch, set_number % 17, 17, i, step_per_dataset, data_time_interval, train_time_interval, loss_avg))
                 step += 1
-                if code_test == True and i == 1:
+                if code_test == True and i == 0:
                     break
-            if code_test == True and set_number == 2:
+            if code_test == True and set_number == 1:
                 break
             logger.info(f'Training on {chr_file} complete.')
         nr_eval += 1
@@ -168,9 +171,13 @@ def train(model, args):
                 evaluate(model, val_data, dataset_name, nr_eval, step)
         '''
         if local_rank <= 0:    
-            model.save_model(save_model_path, epoch, local_rank)   
+            if (epoch == (args.epoch - 1)) or ((epoch + 1) % 50 == 0):
+                model.save_model(save_model_path, epoch, local_rank)   
+            else:
+                model.save_model(save_model_path_cache, epoch, local_rank)   
+
         dist.barrier()
-        logger.info('{} Training module completed.'.format(get_formatted_timestamp()))
+    logger.info('{} Training module completed.'.format(get_formatted_timestamp()))
 
 def evaluate(model, val_data, name, nr_eval, step):
     if name == "CityValDataset" or name == "KittiValDataset" or name == "DavisValDataset":
