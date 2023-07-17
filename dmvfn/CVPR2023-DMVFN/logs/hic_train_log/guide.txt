@@ -1,3 +1,15 @@
+20230714-183009
+INFO: 2023-07-14 18:30:09 Argument batch_size: 8
+INFO: 2023-07-14 18:30:09 Argument code_test: False
+INFO: 2023-07-14 18:30:09 Argument data_train_path: ./../data/data_64/train/
+INFO: 2023-07-14 18:30:09 Argument epoch: 150
+INFO: 2023-07-14 18:30:09 Argument local_rank: 0
+INFO: 2023-07-14 18:30:09 Argument num_gpu: 1
+INFO: 2023-07-14 18:30:09 Argument num_workers: 0
+INFO: 2023-07-14 18:30:09 Argument resume_epoch: 19
+INFO: 2023-07-14 18:30:09 Argument resume_path: /home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/models/hic_train_log/20230713-223916/dmvfn_19.pkl
+INFO: 2023-07-14 18:30:09 Argument rgb: False
+
 20230712-225137
 data_224
 INFO: 2023-07-12 22:51:37 Argument batch_size: 8

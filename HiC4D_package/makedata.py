@@ -9,9 +9,11 @@ ids = ["PN5","early_2cell","late_2cell","8cell","ICM","mESC_500"]
 
 chrs_test = ['chr2','chr6']
 chrs_val = ['chr19']
-resolution = 62500 #62500 for 32 #20833 for 96 #15625 for 128 #25000 for 80  #41666 for 48  #31250 for 64  #8928 for 224? #used to be 40000
-sub_mat_n = int(2_000_000 // resolution)
-dir_data = "./data/data_32/train/"
+
+#resolution = 31250  #31250 for 64  #8928 for 224? #used to be 40000
+#sub_mat_n = int(2_000_000 // resolution)
+sub_mat_n = 64
+dir_data = "./data/data_64/"
 num_bins_all = []
 
 #chr2: num_bins_all[0] = 4544 with 224
@@ -73,8 +75,8 @@ def make_test_data():
         print("num_bins_all[0]: ", num_bins_all[0])
         print("numb_bins_all ", num_bins_all)
         print(chrid, dat_timePoints.shape, dat_timePoints2.shape, dat_index.shape, dat_index2.shape)
-        np.save(dir_data+"data_test_"+chrid+"_64", dat_timePoints2)
-        np.save(dir_data+"data_test_index_"+chrid+"_64", dat_index2)
+        #np.save(dir_data+"data_test_"+chrid+"_64", dat_timePoints2)
+        #np.save(dir_data+"data_test_index_"+chrid+"_64", dat_index2)
         print("Chromosome saved.")
 
 
@@ -236,7 +238,7 @@ def make_ground_truth():
         
     ground_truth = np.concatenate(ground_truth, axis=0)
     print("ground_truth.shape: ", ground_truth.shape)
-    np.save(dir_data + "data_gt_"+chrid+"_64.npy", ground_truth)
+    np.save(dir_data + "data_gt_"+chrid+"_" + str(sub_mat_n) + ".npy", ground_truth)
     print("Ground truth saved.")
 
 
