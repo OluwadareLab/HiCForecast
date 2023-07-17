@@ -8,10 +8,11 @@ from GenomeDISCO import*
 from ssim import*
 
 
-pred = np.load("/home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/data/data_64/predictions/single_channel_no_vgg_64/epoch_20/data_pred_chr6_final.npy")
-ground_truth = np.load("/home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/data/data_64/data_gt_chr6_64.npy")
-pearson_save_path = "./../results/data_64/single_channel_no_vgg_64/epoch_20/pearson_chr6.npy"
-disco_save_path = "./../results/data_64/single_channel_no_vgg_64/epoch_20/disco_chr6_shift_35.npy"
+pred = np.load("/home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/data/data_64/predictions/single_channel_no_vgg_64/epoch_49/pred_chr19_final.npy")
+ground_truth = np.load("/home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/data/data_64/data_gt_chr19_64.npy")
+pearson_save_path = "./../results/data_64/single_channel_no_vgg_64/epoch_49/pearson_chr19.npy"
+disco_save_path = "./../results/data_64/single_channel_no_vgg_64/epoch_49/disco_chr19_shift_35.npy"
+
 print("pred.shape: ", pred.shape)
 print("ground_truth.shape: ", ground_truth.shape)
 pearson_list = []

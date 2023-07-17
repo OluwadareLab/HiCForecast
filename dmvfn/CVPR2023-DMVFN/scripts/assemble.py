@@ -21,11 +21,11 @@ def get_predictions(file_predict, file_index, num_bins, sub_mat_n=64):
     
     return predictions
 
-file_predict = "/home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/data/data_64/predictions/single_channel_no_vgg_64/epoch_20/data_pred_chr6.npy"
-file_index = "/home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/data/data_64/test/data_test_index_chr6_64.npy"
-file_out = "./../data/data_64/predictions/single_channel_no_vgg_64/epoch_20/data_pred_chr6_final.npy"
+file_predict = "/home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/data/data_64/predictions/single_channel_no_vgg_64/epoch_49/pred_chr19.npy"
+file_index = "/home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/data/data_64/val/data_val_index_chr19_64.npy"
+file_out = "./../data/data_64/predictions/single_channel_no_vgg_64/epoch_49/pred_chr19_final.npy"
 
-predict_mat = get_predictions(file_predict, file_index, 3738)
+predict_mat = get_predictions(file_predict, file_index, 1534)
 
 # for t4, t5, and t6
 print(np.array(predict_mat).shape)
