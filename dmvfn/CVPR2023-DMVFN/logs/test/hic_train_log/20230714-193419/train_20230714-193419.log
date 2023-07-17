@@ -1,0 +1,12 @@
+INFO: 2023-07-14 19:34:19 Argument batch_size: 8
+INFO: 2023-07-14 19:34:19 Argument code_test: True
+INFO: 2023-07-14 19:34:19 Argument data_train_path: ./../data/data_80/train/
+INFO: 2023-07-14 19:34:19 Argument epoch: 1
+INFO: 2023-07-14 19:34:19 Argument local_rank: 0
+INFO: 2023-07-14 19:34:19 Argument num_gpu: 1
+INFO: 2023-07-14 19:34:19 Argument num_workers: 1
+INFO: 2023-07-14 19:34:19 Argument resume_epoch: 0
+INFO: 2023-07-14 19:34:19 Argument resume_path: None
+INFO: 2023-07-14 19:34:19 Argument rgb: False
+INFO: 2023-07-14 19:34:19 Argument train_dataset: hic
+INFO: 2023-07-14 19:34:19 Argument val_datasets: ['hic']

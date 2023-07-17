@@ -31,3 +31,31 @@ INFO: 2023-07-13 23:14:42 Argument num_workers: 1
 INFO: 2023-07-13 23:14:42 Argument resume_epoch: 14
 INFO: 2023-07-13 23:14:42 Argument resume_path: /home/dmitryp/dpinchuk/dmvfn/CVPR2023-DMVFN/models/hic_train_log/20230712-225137/dmvfn_14.pkl
 
+20230714-194514
+Only went to about 36 epochs
+INFO: 2023-07-14 19:45:14 Argument batch_size: 8
+INFO: 2023-07-14 19:45:14 Argument code_test: False
+INFO: 2023-07-14 19:45:14 Argument data_train_path: ./../data/data_96/train/
+INFO: 2023-07-14 19:45:14 Argument epoch: 150
+INFO: 2023-07-14 19:45:14 Argument local_rank: 0
+INFO: 2023-07-14 19:45:14 Argument num_gpu: 1
+INFO: 2023-07-14 19:45:14 Argument num_workers: 1
+INFO: 2023-07-14 19:45:14 Argument resume_epoch: 0
+INFO: 2023-07-14 19:45:14 Argument resume_path: None
+INFO: 2023-07-14 19:45:14 Argument rgb: False
+
+
+20230714-195051
+Only went to about 36 epochs
+INFO: 2023-07-14 19:50:51 Argument batch_size: 8
+INFO: 2023-07-14 19:50:51 Argument code_test: False
+INFO: 2023-07-14 19:50:51 Argument data_train_path: ./../data/data_128/train/
+INFO: 2023-07-14 19:50:51 Argument epoch: 150
+INFO: 2023-07-14 19:50:51 Argument local_rank: 0
+INFO: 2023-07-14 19:50:51 Argument num_gpu: 1
+INFO: 2023-07-14 19:50:51 Argument num_workers: 1
+INFO: 2023-07-14 19:50:51 Argument resume_epoch: 0
+INFO: 2023-07-14 19:50:51 Argument resume_path: None
+INFO: 2023-07-14 19:50:51 Argument rgb: False
+
+

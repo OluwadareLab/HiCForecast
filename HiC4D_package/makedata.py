@@ -9,9 +9,9 @@ ids = ["PN5","early_2cell","late_2cell","8cell","ICM","mESC_500"]
 
 chrs_test = ['chr2','chr6']
 chrs_val = ['chr19']
-resolution = 31250  #31250 for 64  #8928 for 224? #used to be 40000
+resolution = 62500 #62500 for 32 #20833 for 96 #15625 for 128 #25000 for 80  #41666 for 48  #31250 for 64  #8928 for 224? #used to be 40000
 sub_mat_n = int(2_000_000 // resolution)
-dir_data = "./data/data_64/"
+dir_data = "./data/data_32/train/"
 num_bins_all = []
 
 #chr2: num_bins_all[0] = 4544 with 224
@@ -128,7 +128,7 @@ def make_train_data():
         print("num_bins_all[0]: ", num_bins_all[0])
         print("numb_bins_all ", num_bins_all)
         print(chrid, dat_timePoints.shape, dat_timePoints2.shape, dat_index.shape, dat_index2.shape)
-        np.save(dir_data+"data_train_"+chrid+"_64", dat_timePoints2)
+        np.save(dir_data+"data_train_"+chrid+"_32", dat_timePoints2)
         #np.save(dir_data+"data_train_index_"+chrid+"_64", dat_index2)
         print("Chromosome saved.")
 
@@ -241,5 +241,5 @@ def make_ground_truth():
 
 
 if __name__ == "__main__":
-    make_ground_truth()
+    make_train_data()
       

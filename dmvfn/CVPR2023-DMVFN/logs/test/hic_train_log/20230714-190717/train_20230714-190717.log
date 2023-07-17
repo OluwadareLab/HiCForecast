@@ -1,0 +1,33 @@
+INFO: 2023-07-14 19:07:17 Argument batch_size: 8
+INFO: 2023-07-14 19:07:17 Argument code_test: True
+INFO: 2023-07-14 19:07:17 Argument data_train_path: ./../data/data_64/train/
+INFO: 2023-07-14 19:07:17 Argument epoch: 5
+INFO: 2023-07-14 19:07:17 Argument local_rank: 0
+INFO: 2023-07-14 19:07:17 Argument num_gpu: 1
+INFO: 2023-07-14 19:07:17 Argument num_workers: 1
+INFO: 2023-07-14 19:07:17 Argument resume_epoch: 1
+INFO: 2023-07-14 19:07:17 Argument resume_path: None
+INFO: 2023-07-14 19:07:17 Argument rgb: False
+INFO: 2023-07-14 19:07:17 Argument train_dataset: hic
+INFO: 2023-07-14 19:07:17 Argument val_datasets: ['hic']
+INFO: 2023-07-14 19:07:20 epoch:1 dataset: 1/17 step: 0/202 time:0.38+2.75 loss_avg:4.6370e-01
+INFO: 2023-07-14 19:07:22 epoch:1 dataset: 1/17 step: 1/202 time:0.00+1.43 loss_avg:3.5812e-01
+INFO: Training on data_train_chr1_64.npy complete.
+INFO: 2023-07-14 19:07:23 epoch:1 dataset: 2/17 step: 0/156 time:0.25+1.48 loss_avg:3.2152e-01
+INFO: 2023-07-14 19:07:25 epoch:1 dataset: 2/17 step: 1/156 time:0.00+1.33 loss_avg:2.7854e-01
+INFO: 2023-07-14 19:07:27 epoch:2 dataset: 1/17 step: 0/202 time:0.37+1.43 loss_avg:3.7880e-01
+INFO: 2023-07-14 19:07:28 epoch:2 dataset: 1/17 step: 1/202 time:0.00+1.37 loss_avg:3.2594e-01
+INFO: Training on data_train_chr1_64.npy complete.
+INFO: 2023-07-14 19:07:30 epoch:2 dataset: 2/17 step: 0/156 time:0.29+1.34 loss_avg:3.1682e-01
+INFO: 2023-07-14 19:07:31 epoch:2 dataset: 2/17 step: 1/156 time:0.00+1.35 loss_avg:2.7507e-01
+INFO: 2023-07-14 19:07:33 epoch:3 dataset: 1/17 step: 0/202 time:0.35+1.34 loss_avg:3.3870e-01
+INFO: 2023-07-14 19:07:34 epoch:3 dataset: 1/17 step: 1/202 time:0.00+1.24 loss_avg:3.9750e-01
+INFO: Training on data_train_chr1_64.npy complete.
+INFO: 2023-07-14 19:07:36 epoch:3 dataset: 2/17 step: 0/156 time:0.29+1.57 loss_avg:2.8788e-01
+INFO: 2023-07-14 19:07:37 epoch:3 dataset: 2/17 step: 1/156 time:0.00+1.37 loss_avg:3.2770e-01
+INFO: 2023-07-14 19:07:39 epoch:4 dataset: 1/17 step: 0/202 time:0.38+1.46 loss_avg:3.6954e-01
+INFO: 2023-07-14 19:07:40 epoch:4 dataset: 1/17 step: 1/202 time:0.00+1.39 loss_avg:2.7626e-01
+INFO: Training on data_train_chr1_64.npy complete.
+INFO: 2023-07-14 19:07:42 epoch:4 dataset: 2/17 step: 0/156 time:0.29+1.50 loss_avg:3.5267e-01
+INFO: 2023-07-14 19:07:43 epoch:4 dataset: 2/17 step: 1/156 time:0.00+1.40 loss_avg:2.8963e-01
+INFO: 2023-07-14 19:07:44 Training module completed.

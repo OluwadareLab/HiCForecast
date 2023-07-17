@@ -38,6 +38,7 @@ def base_build_dataset(name):
 parser = argparse.ArgumentParser()
 parser.add_argument('--epoch', default=1, type=int)
 parser.add_argument('--num_gpu', default=1, type=int) # or 8
+parser.add_argument('--device_number', type=int)
 parser.add_argument('--num_workers', default=0, type=int)
 parser.add_argument('--batch_size', default=8, type=int, help='minibatch size')
 parser.add_argument('--local_rank', default=0, type=int, help='local rank')
@@ -58,10 +59,12 @@ print("args parsed.")
 torch.distributed.init_process_group(backend="nccl", world_size=args.num_gpu)
 print("distributed.")
 local_rank = torch.distributed.get_rank()
+device_number = args.device_number
+print("device_number: ", device_number)
 print("rank: ", local_rank)
 print("got rank")
-torch.cuda.set_device(local_rank)
-device = torch.device("cuda", local_rank)
+torch.cuda.set_device(device_number)
+device = torch.device("cuda", device_number)
 seed = 1234
 random.seed(seed)
 np.random.seed(seed)
@@ -134,12 +137,12 @@ def train(model, args):
     args.step_per_epoch = dataset_length // args.batch_size
 
     step = 0 + args.step_per_epoch * args.resume_epoch
-    set_number = 0 
     if local_rank == 0:
         print('training...')
     time_stamp = time.time()
     for epoch in range(args.resume_epoch, args.epoch):
         print("Epoch: ", epoch)
+        set_number = 0 
         for chr_file in train_list:
             dataset = np.load(train_path + chr_file)
             sampler = DistributedSampler(dataset)
@@ -284,7 +287,7 @@ def evaluate(model, val_data, name, nr_eval, step):
                 writer_val.add_scalar(name+' lpips_%d'%(i),  lpips_score_mine[i], step)
     
 if __name__ == "__main__":    
-    model = Model(local_rank=local_rank, resume_path=args.resume_path, resume_epoch=args.resume_epoch)
+    model = Model(local_rank=device_number, resume_path=args.resume_path, resume_epoch=args.resume_epoch)
     #model = nn.parallel.DistributedDataParallel
     train(model, args)
         
