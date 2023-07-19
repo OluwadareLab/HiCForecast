@@ -1,0 +1,13 @@
+INFO: 2023-07-18 11:22:20 Argument batch_size: 256
+INFO: 2023-07-18 11:22:20 Argument code_test: True
+INFO: 2023-07-18 11:22:20 Argument data_train_path: ./../data/data_128/train/
+INFO: 2023-07-18 11:22:20 Argument device_number: 0
+INFO: 2023-07-18 11:22:20 Argument epoch: 54
+INFO: 2023-07-18 11:22:20 Argument local_rank: 0
+INFO: 2023-07-18 11:22:20 Argument num_gpu: 1
+INFO: 2023-07-18 11:22:20 Argument num_workers: 0
+INFO: 2023-07-18 11:22:20 Argument resume_epoch: 53
+INFO: 2023-07-18 11:22:20 Argument resume_path: ./../models/hic_train_log_cache/20230717-170331/dmvfn_53.pkl
+INFO: 2023-07-18 11:22:20 Argument rgb: False
+INFO: 2023-07-18 11:22:20 Argument train_dataset: hic
+INFO: 2023-07-18 11:22:20 Argument val_datasets: ['hic']

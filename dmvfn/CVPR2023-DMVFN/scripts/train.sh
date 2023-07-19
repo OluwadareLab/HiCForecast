@@ -9,4 +9,3 @@ torchrun --nproc_per_node=1 \
 --val_datasets hic \
 --data_train_path ./../data/data_96/train/ \
 --code_test
-

@@ -60,8 +60,6 @@ torch.distributed.init_process_group(backend="nccl", world_size=args.num_gpu)
 print("distributed.")
 local_rank = torch.distributed.get_rank()
 device_number = args.device_number
-print("device_number: ", device_number)
-print("rank: ", local_rank)
 print("got rank")
 torch.cuda.set_device(device_number)
 device = torch.device("cuda", device_number)
