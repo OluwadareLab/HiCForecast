@@ -1,6 +1,6 @@
 import numpy as np
 
-def get_predictions(file_predict, file_index, num_bins, sub_mat_n=64):
+def get_predictions(file_predict, file_index, num_bins, sub_mat_n=96):
     
     dat_predict = np.load(file_predict)
     dat_index = np.load(file_index)
@@ -21,9 +21,9 @@ def get_predictions(file_predict, file_index, num_bins, sub_mat_n=64):
     
     return predictions
 
-file_predict = "/home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/data/data_64/predictions/single_channel_no_vgg_64/epoch_49/pred_chr19.npy"
-file_index = "/home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/data/data_64/val/data_val_index_chr19_64.npy"
-file_out = "./../data/data_64/predictions/single_channel_no_vgg_64/epoch_49/pred_chr19_final.npy"
+file_predict = "/home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/data/data_96/predictions/single_channel_no_vgg_96/batch_256/epoch_99/pred_chr19.npy"
+file_index = "/home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/data/data_96/val/data_val_index_chr19_96.npy"
+file_out = "./../data/data_96/predictions/single_channel_no_vgg_96/batch_256/epoch_99/pred_chr19_final.npy"
 
 predict_mat = get_predictions(file_predict, file_index, 1534)
 

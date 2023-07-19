@@ -1,0 +1,19 @@
+INFO: 2023-07-18 10:56:23 Argument batch_size: 128
+INFO: 2023-07-18 10:56:23 Argument code_test: True
+INFO: 2023-07-18 10:56:23 Argument data_train_path: ./../data/data_96/train/
+INFO: 2023-07-18 10:56:23 Argument device_number: 0
+INFO: 2023-07-18 10:56:23 Argument epoch: 55
+INFO: 2023-07-18 10:56:23 Argument local_rank: 0
+INFO: 2023-07-18 10:56:23 Argument num_gpu: 1
+INFO: 2023-07-18 10:56:23 Argument num_workers: 0
+INFO: 2023-07-18 10:56:23 Argument resume_epoch: 54
+INFO: 2023-07-18 10:56:23 Argument resume_path: ./../models/hic_train_log_cache/20230717-170939/dmvfn_54.pkl
+INFO: 2023-07-18 10:56:23 Argument rgb: False
+INFO: 2023-07-18 10:56:23 Argument train_dataset: hic
+INFO: 2023-07-18 10:56:23 Argument val_datasets: ['hic']
+INFO: 2023-07-18 10:56:31 epoch:54 dataset: 1/17 step: 0/6 time:0.12+7.17 loss_avg:1.4630e-01
+INFO: 2023-07-18 10:56:33 epoch:54 dataset: 1/17 step: 1/6 time:0.12+2.25 loss_avg:1.4033e-01
+INFO: Training on data_train_chr15_96.npy complete.
+INFO: 2023-07-18 10:56:36 epoch:54 dataset: 2/17 step: 0/7 time:0.20+2.27 loss_avg:1.4455e-01
+INFO: 2023-07-18 10:56:38 epoch:54 dataset: 2/17 step: 1/7 time:0.10+2.23 loss_avg:1.4552e-01
+INFO: 2023-07-18 10:56:38 Training module completed.
