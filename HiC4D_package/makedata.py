@@ -184,8 +184,8 @@ def make_val_data():
         print("num_bins_all[0]: ", num_bins_all[0])
         print("numb_bins_all ", num_bins_all)
         print(chrid, dat_timePoints.shape, dat_timePoints2.shape, dat_index.shape, dat_index2.shape)
-        np.save(dir_data+"data_val_"+chrid+"_64", dat_timePoints2)
-        np.save(dir_data+"data_val_index_"+chrid+"_64", dat_index2)
+        np.save(dir_data+"val/" + "data_val_"+chrid+"_"+ str(sub_mat_n), dat_timePoints2)
+        np.save(dir_data+"val/" + "data_val_index_"+chrid+"_"+str(sub_mat_n), dat_index2)
         print("Chromosome saved.")
 
 
@@ -243,5 +243,5 @@ def make_ground_truth():
 
 
 if __name__ == "__main__":
-    make_train_data()
+    make_ground_truth()
       

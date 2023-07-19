@@ -38,11 +38,13 @@ def base_build_dataset(name):
 parser = argparse.ArgumentParser()
 parser.add_argument('--epoch', default=1, type=int)
 parser.add_argument('--num_gpu', default=1, type=int) # or 8
+parser.add_argument('--device_number', type=int)
 parser.add_argument('--num_workers', default=0, type=int)
 parser.add_argument('--batch_size', default=8, type=int, help='minibatch size')
 parser.add_argument('--local_rank', default=0, type=int, help='local rank')
 parser.add_argument('--train_dataset', required=True, type=str, help='CityTrainDataset, KittiTrainDataset, VimeoTrainDataset')
 parser.add_argument('--val_datasets', type=str, nargs='+', default=['hic'], help='[CityValDataset,KittiValDataset,VimeoValDataset,DavisValDataset]')
+parser.add_argument('--data_train_path', type=str)
 parser.add_argument('--resume_path', default=None, type=str, help='continue to train, model path')
 parser.add_argument('--resume_epoch', default=0, type=int, help='continue to train, epoch')
 #parser.add_argument('--code_test_mode', action="store_false", help='code_test_mode=True for testing training module')
@@ -54,10 +56,10 @@ print("args parsed.")
 torch.distributed.init_process_group(backend="nccl", world_size=args.num_gpu)
 print("distributed.")
 local_rank = torch.distributed.get_rank()
-print("rank: ", local_rank)
 print("got rank")
-torch.cuda.set_device(local_rank)
-device = torch.device("cuda", local_rank)
+device_number = args.device_number
+torch.cuda.set_device(device_number)
+device = torch.device("cuda", device_number)
 seed = 1234
 random.seed(seed)
 np.random.seed(seed)
@@ -110,7 +112,7 @@ def train(model, args):
     step = 0
     nr_eval = args.resume_epoch
     
-    train_path = "./../data/data_224/train/"
+    train_path = args.data_train_path
     train_list = os.listdir(train_path)
     dataset_length = 0
     for file_name in train_list:
@@ -268,7 +270,7 @@ def evaluate(model, val_data, name, nr_eval, step):
                 writer_val.add_scalar(name+' lpips_%d'%(i),  lpips_score_mine[i], step)
     
 if __name__ == "__main__":    
-    model = Model(local_rank=local_rank, resume_path=args.resume_path, resume_epoch=args.resume_epoch)
+    model = Model(local_rank=device_number, resume_path=args.resume_path, resume_epoch=args.resume_epoch)
     #model = nn.parallel.DistributedDataParallel
     train(model, args)
         

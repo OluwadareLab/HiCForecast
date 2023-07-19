@@ -1,0 +1,19 @@
+INFO: 2023-07-18 10:35:53 Argument batch_size: 16
+INFO: 2023-07-18 10:35:53 Argument code_test: True
+INFO: 2023-07-18 10:35:53 Argument data_train_path: ./../data/data_96/train/
+INFO: 2023-07-18 10:35:53 Argument device_number: 1
+INFO: 2023-07-18 10:35:53 Argument epoch: 1
+INFO: 2023-07-18 10:35:53 Argument local_rank: 0
+INFO: 2023-07-18 10:35:53 Argument num_gpu: 1
+INFO: 2023-07-18 10:35:53 Argument num_workers: 1
+INFO: 2023-07-18 10:35:53 Argument resume_epoch: 0
+INFO: 2023-07-18 10:35:53 Argument resume_path: None
+INFO: 2023-07-18 10:35:53 Argument rgb: False
+INFO: 2023-07-18 10:35:53 Argument train_dataset: hic
+INFO: 2023-07-18 10:35:53 Argument val_datasets: ['hic']
+INFO: 2023-07-18 10:35:59 epoch:0 dataset: 1/17 step: 0/77 time:0.50+4.96 loss_avg:2.0636e-01
+INFO: 2023-07-18 10:36:02 epoch:0 dataset: 1/17 step: 1/77 time:0.00+2.84 loss_avg:2.0028e-01
+INFO: Training on data_train_chr7_96.npy complete.
+INFO: 2023-07-18 10:36:05 epoch:0 dataset: 2/17 step: 0/45 time:0.25+3.18 loss_avg:2.4780e-01
+INFO: 2023-07-18 10:36:08 epoch:0 dataset: 2/17 step: 1/45 time:0.00+3.03 loss_avg:2.5282e-01
+INFO: 2023-07-18 10:36:08 Training module completed.
