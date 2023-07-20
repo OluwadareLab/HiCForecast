@@ -7,7 +7,7 @@ torchrun --nproc_per_node=1 \
 --batch_size 256 \
 --train_dataset hic \
 --val_datasets hic \
---data_train_path ./../data/data_64/train/ \
+--data_train_path ./../data/data_96/train/ \
 --no_rgb \
 --no_code_test
 

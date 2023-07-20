@@ -7,11 +7,11 @@ from corr import*
 from GenomeDISCO import*
 from ssim import*
 
-
-pred = np.load("/home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/data/data_96/predictions/single_channel_no_vgg_96/batch_256/epoch_149/pred_chr19_final.npy")
-ground_truth = np.load("/home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/data/data_96/data_gt_chr19_96.npy")
-pearson_save_path = "./../results/data_96/single_channel_no_vgg_96/batch_256/epoch_149/pearson_chr19.npy"
-disco_save_path = "./../results/data_96/single_channel_no_vgg_96/batch_256/epoch_149/disco_chr19_shift_35.npy"
+dim = 128
+pred = np.load("/home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/data/data_{}/predictions/single_channel_no_vgg_{}/batch_8/epoch_49/pred_chr19_final.npy".format(dim, dim))
+ground_truth = np.load("/home/ubuntu/dpinchuk/dmvfn/CVPR2023-DMVFN/data/data_{}/data_gt_chr19_{}.npy".format(dim, dim))
+pearson_save_path = "./../results/data_{}/single_channel_no_vgg_{}/batch_8/epoch_49/pearson_chr19.npy".format(dim, dim)
+disco_save_path = "./../results/data_{}/single_channel_no_vgg_{}/batch_8/epoch_49/disco_chr19_shift_35.npy".format(dim, dim)
 
 print("pred.shape: ", pred.shape)
 print("ground_truth.shape: ", ground_truth.shape)
