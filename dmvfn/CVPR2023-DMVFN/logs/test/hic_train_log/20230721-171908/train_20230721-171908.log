@@ -1,0 +1,20 @@
+INFO: Default loss without VGG.
+INFO: 2023-07-21 17:19:08 Argument batch_size: 64
+INFO: 2023-07-21 17:19:08 Argument code_test: True
+INFO: 2023-07-21 17:19:08 Argument data_train_path: ./../data/data_96/train/
+INFO: 2023-07-21 17:19:08 Argument device_number: 2
+INFO: 2023-07-21 17:19:08 Argument epoch: 1
+INFO: 2023-07-21 17:19:08 Argument local_rank: 0
+INFO: 2023-07-21 17:19:08 Argument num_gpu: 1
+INFO: 2023-07-21 17:19:08 Argument num_workers: 0
+INFO: 2023-07-21 17:19:08 Argument resume_epoch: 0
+INFO: 2023-07-21 17:19:08 Argument resume_path: None
+INFO: 2023-07-21 17:19:08 Argument rgb: False
+INFO: 2023-07-21 17:19:08 Argument train_dataset: hic
+INFO: 2023-07-21 17:19:08 Argument val_datasets: ['hic']
+INFO: 2023-07-21 17:19:13 epoch:0 dataset: 1/17 step: 0/19 time:0.14+3.16 loss_avg:2.0471e-01
+INFO: 2023-07-21 17:19:14 epoch:0 dataset: 1/17 step: 1/19 time:0.03+0.91 loss_avg:2.2764e-01
+INFO: Training on data_train_chr7_96.npy complete.
+INFO: 2023-07-21 17:19:15 epoch:0 dataset: 2/17 step: 0/11 time:0.12+0.93 loss_avg:2.4901e-01
+INFO: 2023-07-21 17:19:16 epoch:0 dataset: 2/17 step: 1/11 time:0.02+0.90 loss_avg:2.3998e-01
+INFO: 2023-07-21 17:19:16 Training module completed.

@@ -1,0 +1,20 @@
+INFO: Discounted L1 losss
+INFO: 2023-07-21 18:04:26 Argument batch_size: 8
+INFO: 2023-07-21 18:04:26 Argument code_test: True
+INFO: 2023-07-21 18:04:26 Argument data_train_path: ./../data/data_96/train/
+INFO: 2023-07-21 18:04:26 Argument device_number: 3
+INFO: 2023-07-21 18:04:26 Argument epoch: 1
+INFO: 2023-07-21 18:04:26 Argument local_rank: 0
+INFO: 2023-07-21 18:04:26 Argument num_gpu: 1
+INFO: 2023-07-21 18:04:26 Argument num_workers: 2
+INFO: 2023-07-21 18:04:26 Argument resume_epoch: 0
+INFO: 2023-07-21 18:04:26 Argument resume_path: None
+INFO: 2023-07-21 18:04:26 Argument rgb: False
+INFO: 2023-07-21 18:04:26 Argument train_dataset: hic
+INFO: 2023-07-21 18:04:26 Argument val_datasets: ['hic']
+INFO: 2023-07-21 18:04:30 epoch:0 dataset: 1/17 step: 0/155 time:0.30+1.63 loss_avg:1.0950e-01
+INFO: 2023-07-21 18:04:30 epoch:0 dataset: 1/17 step: 1/155 time:0.00+0.35 loss_avg:9.0633e-02
+INFO: Training on data_train_chr7_96.npy complete.
+INFO: 2023-07-21 18:04:31 epoch:0 dataset: 2/17 step: 0/90 time:0.20+0.39 loss_avg:1.2335e-01
+INFO: 2023-07-21 18:04:31 epoch:0 dataset: 2/17 step: 1/90 time:0.00+0.31 loss_avg:1.1919e-01
+INFO: 2023-07-21 18:04:31 Training module completed.

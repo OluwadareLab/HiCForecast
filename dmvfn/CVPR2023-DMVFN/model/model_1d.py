@@ -28,8 +28,10 @@ class Model:
             input_chan = 1
         self.input_chan = input_chan
         self.lap = LapLoss(channels=input_chan)
+        self.vggloss = VGGPerceptualLoss()
+        self.MSELoss = torch.nn.MSELoss()
+        self.l1_loss = torch.nn.L1Loss()
         self.device()
-        #self.vggloss = VGGPerceptualLoss()
 
         if training:
             if local_rank != -1:
@@ -61,12 +63,25 @@ class Model:
             loss_G = 0.0
 
             loss_l1, loss_vgg = 0, 0
+            loss_mse = 0
+            l1_loss = 0
             for i in range(9):
-                loss_l1 +=  (self.lap(merged[i], gt)).mean()*(0.8**(8-i))
-            #loss_vgg = (self.vggloss(merged[-1], gt)).mean()
+                #loss_l1 +=  (self.lap(merged[i], gt)).mean()*(0.8**(8-i))
+                loss_mse += (self.MSELoss(merged[i], gt)).mean()*(0.8**(8-i)) 
+                #l1_loss += (self.l1_loss(merged[i], gt)).mean()*(0.8**(8-i)) 
 
+            merged_sq = torch.squeeze(merged[-1])
+            merged_rgb = torch.stack((merged_sq, merged_sq, merged_sq))
+            merged_rgb = torch.permute(merged_rgb, (1,0,2,3))
+            gt_sq = torch.squeeze(gt)
+            gt_rgb = torch.stack((gt_sq, gt_sq, gt_sq))
+            gt_rgb = torch.permute(gt_rgb, (1,0,2,3))
+            loss_vgg = (self.vggloss(merged_rgb, gt_rgb)).mean()
+            #loss_vgg = (self.vggloss(merged[-1], gt)).mean()
+            
             self.optimG.zero_grad()
-            loss_G =  loss_l1 #+ loss_vgg * 0.5
+            #loss_G =  loss_l1 #+ loss_vgg * 0.5
+            loss_G = loss_mse + loss_vgg * 0.5
             loss_avg += loss_G
             loss_G.backward()
             self.optimG.step()
@@ -141,7 +156,9 @@ class Model:
     def device(self):
         self.dmvfn.to(device)
         self.lap.to(device)
-        #self.vggloss.to(device)
+        self.vggloss.to(device)
+        self.MSELoss.to(device)
+        self.l1_loss.to(device)
 
     def save_model(self, path, epoch, rank=0):
         if rank == 0:
