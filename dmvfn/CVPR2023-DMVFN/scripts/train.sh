@@ -3,8 +3,8 @@ torchrun --nproc_per_node=1 \
 --epoch 150 \
 --num_gpu 1 \
 --device_number 0 \
---num_workers 0 \
---batch_size 256 \
+--num_workers 1 \
+--batch_size 64 \
 --train_dataset hic \
 --val_datasets hic \
 --data_train_path ./../data/data_96/train/ \

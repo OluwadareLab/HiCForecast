@@ -9,6 +9,7 @@ import random
 import logging
 import argparse
 import importlib
+import traceback
 import numpy as np
 import torch.distributed as dist
 from pytorch_msssim import ssim, ms_ssim
@@ -29,7 +30,6 @@ sys.path.append(root_path)
 
 from utils.util import *
 from model.model_1d import Model
-
 
 def base_build_dataset(name):
     return getattr(importlib.import_module('dataset.dataset', package=None), name)()
@@ -113,6 +113,8 @@ def get_learning_rate(step):
 
 logger = logging.getLogger('base')
 #logger.info("Argument rgb: {}".format(rgb))
+logger.info("Default loss without VGG")
+logger.info("Attempt might succeed, but expected to fail. Testing the try catch block to log traceback")
 
 for arg, value in sorted(vars(args).items()):
     logger.info("{} Argument {}: {}".format(get_formatted_timestamp(), arg, value))
@@ -283,9 +285,16 @@ def evaluate(model, val_data, name, nr_eval, step):
                 writer_val.add_scalar(name+' ssim_%d'%(i),  ssim_score_mine[i], step)
                 writer_val.add_scalar(name+' ms_ssim_%d'%(i),  msssim_score_mine[i], step)
                 writer_val.add_scalar(name+' lpips_%d'%(i),  lpips_score_mine[i], step)
-    
-if __name__ == "__main__":    
-    model = Model(local_rank=device_number, resume_path=args.resume_path, resume_epoch=args.resume_epoch)
-    #model = nn.parallel.DistributedDataParallel
-    train(model, args)
         
+if __name__ == "__main__":    
+    try:
+        model = Model(local_rank=device_number, resume_path=args.resume_path, resume_epoch=args.resume_epoch)
+        #model = nn.parallel.DistributedDataParallel
+        train(model, args)
+    except Exception:
+        print("Exception caught.")
+        logger.info("Traceback:")
+        logger.info(traceback.format_exc())
+        logger.info("Sys.exc_info()[2]:")
+        logger.info(sys.exc_info()[2])
+        exit()

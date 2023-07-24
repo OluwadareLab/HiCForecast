@@ -1,0 +1,21 @@
+INFO: Default loss without VGG
+INFO: Attempt might succeed, but expected to fail. Testing the try catch block to log traceback
+INFO: 2023-07-22 19:37:40 Argument batch_size: 64
+INFO: 2023-07-22 19:37:40 Argument code_test: True
+INFO: 2023-07-22 19:37:40 Argument data_train_path: ./../data/data_96/train/
+INFO: 2023-07-22 19:37:40 Argument device_number: 0
+INFO: 2023-07-22 19:37:40 Argument epoch: 1
+INFO: 2023-07-22 19:37:40 Argument local_rank: 0
+INFO: 2023-07-22 19:37:40 Argument num_gpu: 1
+INFO: 2023-07-22 19:37:40 Argument num_workers: 1
+INFO: 2023-07-22 19:37:40 Argument resume_epoch: 0
+INFO: 2023-07-22 19:37:40 Argument resume_path: None
+INFO: 2023-07-22 19:37:40 Argument rgb: False
+INFO: 2023-07-22 19:37:40 Argument train_dataset: hic
+INFO: 2023-07-22 19:37:40 Argument val_datasets: ['hic']
+INFO: 2023-07-22 19:37:47 epoch:0 dataset: 1/17 step: 0/12 time:0.54+6.57 loss_avg:2.3402e-01
+INFO: 2023-07-22 19:37:48 epoch:0 dataset: 1/17 step: 1/12 time:0.04+1.02 loss_avg:2.3470e-01
+INFO: Training on data_train_chr15_96.npy complete.
+INFO: 2023-07-22 19:37:50 epoch:0 dataset: 2/17 step: 0/15 time:0.80+1.05 loss_avg:2.4180e-01
+INFO: 2023-07-22 19:37:51 epoch:0 dataset: 2/17 step: 1/15 time:0.04+1.03 loss_avg:2.4675e-01
+INFO: 2023-07-22 19:37:51 Training module completed.
