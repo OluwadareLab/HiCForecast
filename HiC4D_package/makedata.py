@@ -243,4 +243,4 @@ def make_ground_truth():
 
 
 if __name__ == "__main__":
-    make_val_data()  
+    make_ground_truth()  
