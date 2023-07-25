@@ -1,6 +1,7 @@
 import numpy as np
 
-def get_predictions(file_predict, file_index, num_bins, sub_mat_n=96):
+
+def get_predictions(file_predict, file_index, num_bins, sub_mat_n):
     
     dat_predict = np.load(file_predict)
     dat_index = np.load(file_index)
@@ -21,12 +22,13 @@ def get_predictions(file_predict, file_index, num_bins, sub_mat_n=96):
     
     return predictions
 
+dim = 128
 epoch=49
-file_predict = "./../data/data_96/predictions/single_channel_MSE_VGG_96/batch_8/epoch_{}/pred_chr19.npy".format(epoch)
-file_index = "./../data/data_96/val/data_val_index_chr19_96.npy"
-file_out = "./../data/data_96/predictions/single_channel_MSE_VGG_96/batch_8/epoch_{}/pred_chr19_final.npy".format(epoch)
+file_predict = "./../data/data_{}/predictions/single_channel_MSE_VGG_{}/batch_8/epoch_{}/pred_chr19.npy".format(dim, dim, epoch)
+file_index = "./../data/data_{}/val/data_val_index_chr19_{}.npy".format(dim, dim)
+file_out = "./../data/data_{}/predictions/single_channel_MSE_VGG_{}/batch_8/epoch_{}/pred_chr19_final.npy".format(dim, dim, epoch)
 
-predict_mat = get_predictions(file_predict, file_index, 1534)
+predict_mat = get_predictions(file_predict, file_index, 1534, dim)
 
 # for t4, t5, and t6
 print(np.array(predict_mat).shape)

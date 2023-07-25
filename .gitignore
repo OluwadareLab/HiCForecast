@@ -1,5 +1,6 @@
 /HiC4D_package/ResConvLSTM.pt 
 /dmvfn/CVPR2023-DMVFN/scripts/train.sh
+/dmvfn/CVPR2023-DMVFN/scripts/core*
 /HiC4D_package/data/
 /dmvfn/CVPR2023-DMVFN/data/  
 /dmvfn/CVPR2023-DMVFN/pretrained_models/  

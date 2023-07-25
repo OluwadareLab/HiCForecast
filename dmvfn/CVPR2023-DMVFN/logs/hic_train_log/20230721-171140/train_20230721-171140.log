@@ -1,0 +1,306 @@
+INFO: 2023-07-21 17:11:40 Argument batch_size: 64
+INFO: 2023-07-21 17:11:40 Argument code_test: False
+INFO: 2023-07-21 17:11:40 Argument data_train_path: ./../data/data_96/train/
+INFO: 2023-07-21 17:11:40 Argument device_number: 0
+INFO: 2023-07-21 17:11:40 Argument epoch: 150
+INFO: 2023-07-21 17:11:40 Argument local_rank: 0
+INFO: 2023-07-21 17:11:40 Argument num_gpu: 1
+INFO: 2023-07-21 17:11:40 Argument num_workers: 2
+INFO: 2023-07-21 17:11:40 Argument resume_epoch: 0
+INFO: 2023-07-21 17:11:40 Argument resume_path: None
+INFO: 2023-07-21 17:11:40 Argument rgb: False
+INFO: 2023-07-21 17:11:40 Argument train_dataset: hic
+INFO: 2023-07-21 17:11:40 Argument val_datasets: ['hic']
+INFO: 2023-07-21 17:11:45 epoch:0 dataset: 1/17 step: 0/12 time:0.19+4.03 loss_avg:2.3402e-01
+INFO: 2023-07-21 17:11:46 epoch:0 dataset: 1/17 step: 1/12 time:0.05+1.01 loss_avg:2.3470e-01
+INFO: 2023-07-21 17:11:47 epoch:0 dataset: 1/17 step: 2/12 time:0.04+1.01 loss_avg:2.4479e-01
+INFO: 2023-07-21 17:11:48 epoch:0 dataset: 1/17 step: 3/12 time:0.04+1.02 loss_avg:2.3912e-01
+INFO: 2023-07-21 17:11:49 epoch:0 dataset: 1/17 step: 4/12 time:0.04+1.01 loss_avg:2.4377e-01
+INFO: 2023-07-21 17:11:50 epoch:0 dataset: 1/17 step: 5/12 time:0.04+1.01 loss_avg:2.3903e-01
+INFO: 2023-07-21 17:11:51 epoch:0 dataset: 1/17 step: 6/12 time:0.04+1.01 loss_avg:2.3861e-01
+INFO: 2023-07-21 17:11:52 epoch:0 dataset: 1/17 step: 7/12 time:0.04+1.01 loss_avg:2.3777e-01
+INFO: 2023-07-21 17:11:53 epoch:0 dataset: 1/17 step: 8/12 time:0.04+1.01 loss_avg:2.4327e-01
+INFO: 2023-07-21 17:11:55 epoch:0 dataset: 1/17 step: 9/12 time:0.04+1.01 loss_avg:2.3366e-01
+INFO: 2023-07-21 17:11:56 epoch:0 dataset: 1/17 step: 10/12 time:0.04+1.01 loss_avg:2.3797e-01
+INFO: 2023-07-21 17:11:57 epoch:0 dataset: 1/17 step: 11/12 time:0.04+1.01 loss_avg:2.4267e-01
+INFO: Training on data_train_chr15_96.npy complete.
+INFO: 2023-07-21 17:11:58 epoch:0 dataset: 2/17 step: 0/15 time:0.24+1.12 loss_avg:2.3781e-01
+INFO: 2023-07-21 17:11:59 epoch:0 dataset: 2/17 step: 1/15 time:0.04+1.02 loss_avg:2.4345e-01
+INFO: 2023-07-21 17:12:00 epoch:0 dataset: 2/17 step: 2/15 time:0.04+1.02 loss_avg:2.3243e-01
+INFO: 2023-07-21 17:12:01 epoch:0 dataset: 2/17 step: 3/15 time:0.04+1.02 loss_avg:2.3390e-01
+INFO: 2023-07-21 17:12:02 epoch:0 dataset: 2/17 step: 4/15 time:0.04+1.02 loss_avg:2.3059e-01
+INFO: 2023-07-21 17:12:03 epoch:0 dataset: 2/17 step: 5/15 time:0.04+1.03 loss_avg:2.3767e-01
+INFO: 2023-07-21 17:12:04 epoch:0 dataset: 2/17 step: 6/15 time:0.04+1.02 loss_avg:2.3472e-01
+INFO: 2023-07-21 17:12:05 epoch:0 dataset: 2/17 step: 7/15 time:0.04+1.02 loss_avg:2.3358e-01
+INFO: 2023-07-21 17:12:06 epoch:0 dataset: 2/17 step: 8/15 time:0.04+1.02 loss_avg:2.4804e-01
+INFO: 2023-07-21 17:12:08 epoch:0 dataset: 2/17 step: 9/15 time:0.04+1.02 loss_avg:2.3362e-01
+INFO: 2023-07-21 17:12:09 epoch:0 dataset: 2/17 step: 10/15 time:0.04+1.02 loss_avg:2.4683e-01
+INFO: 2023-07-21 17:12:10 epoch:0 dataset: 2/17 step: 11/15 time:0.04+1.01 loss_avg:2.2904e-01
+INFO: 2023-07-21 17:12:11 epoch:0 dataset: 2/17 step: 12/15 time:0.04+1.02 loss_avg:2.2603e-01
+INFO: 2023-07-21 17:12:12 epoch:0 dataset: 2/17 step: 13/15 time:0.04+1.01 loss_avg:2.4122e-01
+INFO: 2023-07-21 17:12:13 epoch:0 dataset: 2/17 step: 14/15 time:0.04+1.01 loss_avg:2.3278e-01
+INFO: Training on data_train_chr12_96.npy complete.
+INFO: 2023-07-21 17:12:15 epoch:0 dataset: 3/17 step: 0/15 time:0.74+1.06 loss_avg:2.6673e-01
+INFO: 2023-07-21 17:12:16 epoch:0 dataset: 3/17 step: 1/15 time:0.04+1.04 loss_avg:2.6444e-01
+INFO: 2023-07-21 17:12:17 epoch:0 dataset: 3/17 step: 2/15 time:0.04+1.02 loss_avg:2.6479e-01
+INFO: 2023-07-21 17:12:18 epoch:0 dataset: 3/17 step: 3/15 time:0.04+1.03 loss_avg:2.7536e-01
+INFO: 2023-07-21 17:12:19 epoch:0 dataset: 3/17 step: 4/15 time:0.04+1.03 loss_avg:2.6965e-01
+INFO: 2023-07-21 17:12:20 epoch:0 dataset: 3/17 step: 5/15 time:0.04+1.02 loss_avg:2.6536e-01
+INFO: 2023-07-21 17:12:21 epoch:0 dataset: 3/17 step: 6/15 time:0.04+1.02 loss_avg:2.7111e-01
+INFO: 2023-07-21 17:12:22 epoch:0 dataset: 3/17 step: 7/15 time:0.04+1.02 loss_avg:2.6043e-01
+INFO: 2023-07-21 17:12:23 epoch:0 dataset: 3/17 step: 8/15 time:0.04+1.02 loss_avg:2.7500e-01
+INFO: 2023-07-21 17:12:24 epoch:0 dataset: 3/17 step: 9/15 time:0.04+1.02 loss_avg:2.5874e-01
+INFO: 2023-07-21 17:12:25 epoch:0 dataset: 3/17 step: 10/15 time:0.04+1.02 loss_avg:2.6641e-01
+INFO: 2023-07-21 17:12:26 epoch:0 dataset: 3/17 step: 11/15 time:0.04+1.02 loss_avg:2.6206e-01
+INFO: 2023-07-21 17:12:27 epoch:0 dataset: 3/17 step: 12/15 time:0.04+1.02 loss_avg:2.6695e-01
+INFO: 2023-07-21 17:12:28 epoch:0 dataset: 3/17 step: 13/15 time:0.04+1.02 loss_avg:2.6656e-01
+INFO: 2023-07-21 17:12:29 epoch:0 dataset: 3/17 step: 14/15 time:0.04+1.02 loss_avg:2.7028e-01
+INFO: Training on data_train_chr11_96.npy complete.
+INFO: 2023-07-21 17:12:31 epoch:0 dataset: 4/17 step: 0/11 time:0.59+1.06 loss_avg:2.4214e-01
+INFO: 2023-07-21 17:12:32 epoch:0 dataset: 4/17 step: 1/11 time:0.04+1.03 loss_avg:2.4302e-01
+INFO: 2023-07-21 17:12:33 epoch:0 dataset: 4/17 step: 2/11 time:0.04+1.02 loss_avg:2.3957e-01
+INFO: 2023-07-21 17:12:34 epoch:0 dataset: 4/17 step: 3/11 time:0.05+1.02 loss_avg:2.3980e-01
+INFO: 2023-07-21 17:12:35 epoch:0 dataset: 4/17 step: 4/11 time:0.04+1.03 loss_avg:2.3019e-01
+INFO: 2023-07-21 17:12:36 epoch:0 dataset: 4/17 step: 5/11 time:0.04+1.02 loss_avg:2.4516e-01
+INFO: 2023-07-21 17:12:38 epoch:0 dataset: 4/17 step: 6/11 time:0.04+1.02 loss_avg:2.3451e-01
+INFO: 2023-07-21 17:12:39 epoch:0 dataset: 4/17 step: 7/11 time:0.04+1.02 loss_avg:2.3261e-01
+INFO: 2023-07-21 17:12:40 epoch:0 dataset: 4/17 step: 8/11 time:0.04+1.02 loss_avg:2.3939e-01
+INFO: 2023-07-21 17:12:41 epoch:0 dataset: 4/17 step: 9/11 time:0.04+1.02 loss_avg:2.3215e-01
+INFO: 2023-07-21 17:12:42 epoch:0 dataset: 4/17 step: 10/11 time:0.04+1.02 loss_avg:2.4049e-01
+INFO: Training on data_train_chr17_96.npy complete.
+INFO: 2023-07-21 17:12:44 epoch:0 dataset: 5/17 step: 0/16 time:0.77+1.05 loss_avg:2.6979e-01
+INFO: 2023-07-21 17:12:45 epoch:0 dataset: 5/17 step: 1/16 time:0.04+1.03 loss_avg:2.7000e-01
+INFO: 2023-07-21 17:12:46 epoch:0 dataset: 5/17 step: 2/16 time:0.04+1.03 loss_avg:2.7637e-01
+INFO: 2023-07-21 17:12:47 epoch:0 dataset: 5/17 step: 3/16 time:0.04+1.03 loss_avg:2.6092e-01
+INFO: 2023-07-21 17:12:48 epoch:0 dataset: 5/17 step: 4/16 time:0.04+1.03 loss_avg:2.5922e-01
+INFO: 2023-07-21 17:12:49 epoch:0 dataset: 5/17 step: 5/16 time:0.04+1.03 loss_avg:2.5948e-01
+INFO: 2023-07-21 17:12:50 epoch:0 dataset: 5/17 step: 6/16 time:0.04+1.03 loss_avg:2.6760e-01
+INFO: 2023-07-21 17:12:51 epoch:0 dataset: 5/17 step: 7/16 time:0.04+1.02 loss_avg:2.7156e-01
+INFO: 2023-07-21 17:12:52 epoch:0 dataset: 5/17 step: 8/16 time:0.04+1.03 loss_avg:2.6835e-01
+INFO: 2023-07-21 17:12:53 epoch:0 dataset: 5/17 step: 9/16 time:0.04+1.03 loss_avg:2.7979e-01
+INFO: 2023-07-21 17:12:54 epoch:0 dataset: 5/17 step: 10/16 time:0.04+1.03 loss_avg:2.7473e-01
+INFO: 2023-07-21 17:12:55 epoch:0 dataset: 5/17 step: 11/16 time:0.04+1.03 loss_avg:2.6967e-01
+INFO: 2023-07-21 17:12:56 epoch:0 dataset: 5/17 step: 12/16 time:0.04+1.02 loss_avg:2.8010e-01
+INFO: 2023-07-21 17:12:57 epoch:0 dataset: 5/17 step: 13/16 time:0.04+1.03 loss_avg:2.6853e-01
+INFO: 2023-07-21 17:12:59 epoch:0 dataset: 5/17 step: 14/16 time:0.04+1.02 loss_avg:2.5934e-01
+INFO: 2023-07-21 17:13:00 epoch:0 dataset: 5/17 step: 15/16 time:0.04+1.03 loss_avg:2.7451e-01
+INFO: Training on data_train_chr8_96.npy complete.
+INFO: 2023-07-21 17:13:01 epoch:0 dataset: 6/17 step: 0/19 time:0.86+1.06 loss_avg:1.9482e-01
+INFO: 2023-07-21 17:13:03 epoch:0 dataset: 6/17 step: 1/19 time:0.04+1.04 loss_avg:2.1698e-01
+INFO: 2023-07-21 17:13:04 epoch:0 dataset: 6/17 step: 2/19 time:0.04+1.02 loss_avg:2.0636e-01
+INFO: 2023-07-21 17:13:05 epoch:0 dataset: 6/17 step: 3/19 time:0.04+1.03 loss_avg:2.2648e-01
+INFO: 2023-07-21 17:13:06 epoch:0 dataset: 6/17 step: 4/19 time:0.04+1.03 loss_avg:2.3135e-01
+INFO: 2023-07-21 17:13:07 epoch:0 dataset: 6/17 step: 5/19 time:0.04+1.03 loss_avg:2.0440e-01
+INFO: 2023-07-21 17:13:08 epoch:0 dataset: 6/17 step: 6/19 time:0.04+1.03 loss_avg:2.2287e-01
+INFO: 2023-07-21 17:13:09 epoch:0 dataset: 6/17 step: 7/19 time:0.04+1.03 loss_avg:2.2311e-01
+INFO: 2023-07-21 17:13:10 epoch:0 dataset: 6/17 step: 8/19 time:0.04+1.03 loss_avg:2.1307e-01
+INFO: 2023-07-21 17:13:11 epoch:0 dataset: 6/17 step: 9/19 time:0.04+1.03 loss_avg:2.2152e-01
+INFO: 2023-07-21 17:13:12 epoch:0 dataset: 6/17 step: 10/19 time:0.04+1.03 loss_avg:2.1887e-01
+INFO: 2023-07-21 17:13:13 epoch:0 dataset: 6/17 step: 11/19 time:0.04+1.03 loss_avg:2.2003e-01
+INFO: 2023-07-21 17:13:14 epoch:0 dataset: 6/17 step: 12/19 time:0.04+1.03 loss_avg:2.3201e-01
+INFO: 2023-07-21 17:13:15 epoch:0 dataset: 6/17 step: 13/19 time:0.04+1.03 loss_avg:1.9993e-01
+INFO: 2023-07-21 17:13:16 epoch:0 dataset: 6/17 step: 14/19 time:0.04+1.03 loss_avg:2.3125e-01
+INFO: 2023-07-21 17:13:18 epoch:0 dataset: 6/17 step: 15/19 time:0.04+1.03 loss_avg:2.1596e-01
+INFO: 2023-07-21 17:13:19 epoch:0 dataset: 6/17 step: 16/19 time:0.04+1.03 loss_avg:2.2575e-01
+INFO: 2023-07-21 17:13:20 epoch:0 dataset: 6/17 step: 17/19 time:0.04+1.03 loss_avg:2.1813e-01
+INFO: 2023-07-21 17:13:21 epoch:0 dataset: 6/17 step: 18/19 time:0.04+1.02 loss_avg:2.2145e-01
+INFO: Training on data_train_chr7_96.npy complete.
+INFO: 2023-07-21 17:13:23 epoch:0 dataset: 7/17 step: 0/21 time:0.90+1.06 loss_avg:1.7784e-01
+INFO: 2023-07-21 17:13:24 epoch:0 dataset: 7/17 step: 1/21 time:0.04+1.04 loss_avg:1.8140e-01
+INFO: 2023-07-21 17:13:25 epoch:0 dataset: 7/17 step: 2/21 time:0.04+1.03 loss_avg:1.8060e-01
+INFO: 2023-07-21 17:13:26 epoch:0 dataset: 7/17 step: 3/21 time:0.04+1.03 loss_avg:1.6758e-01
+INFO: 2023-07-21 17:13:27 epoch:0 dataset: 7/17 step: 4/21 time:0.04+1.03 loss_avg:1.7813e-01
+INFO: 2023-07-21 17:13:28 epoch:0 dataset: 7/17 step: 5/21 time:0.04+1.03 loss_avg:1.7245e-01
+INFO: 2023-07-21 17:13:29 epoch:0 dataset: 7/17 step: 6/21 time:0.04+1.03 loss_avg:1.7633e-01
+INFO: 2023-07-21 17:13:30 epoch:0 dataset: 7/17 step: 7/21 time:0.04+1.03 loss_avg:1.7959e-01
+INFO: 2023-07-21 17:13:31 epoch:0 dataset: 7/17 step: 8/21 time:0.04+1.03 loss_avg:1.6919e-01
+INFO: 2023-07-21 17:13:32 epoch:0 dataset: 7/17 step: 9/21 time:0.04+1.03 loss_avg:1.6350e-01
+INFO: 2023-07-21 17:13:33 epoch:0 dataset: 7/17 step: 10/21 time:0.05+1.03 loss_avg:1.6527e-01
+INFO: 2023-07-21 17:13:35 epoch:0 dataset: 7/17 step: 11/21 time:0.04+1.03 loss_avg:1.6924e-01
+INFO: 2023-07-21 17:13:36 epoch:0 dataset: 7/17 step: 12/21 time:0.04+1.04 loss_avg:1.5795e-01
+INFO: 2023-07-21 17:13:37 epoch:0 dataset: 7/17 step: 13/21 time:0.04+1.04 loss_avg:1.7057e-01
+INFO: 2023-07-21 17:13:38 epoch:0 dataset: 7/17 step: 14/21 time:0.04+1.04 loss_avg:1.7225e-01
+INFO: 2023-07-21 17:13:39 epoch:0 dataset: 7/17 step: 15/21 time:0.04+1.04 loss_avg:1.6095e-01
+INFO: 2023-07-21 17:13:40 epoch:0 dataset: 7/17 step: 16/21 time:0.04+1.04 loss_avg:1.6602e-01
+INFO: 2023-07-21 17:13:41 epoch:0 dataset: 7/17 step: 17/21 time:0.04+1.03 loss_avg:1.6564e-01
+INFO: 2023-07-21 17:13:42 epoch:0 dataset: 7/17 step: 18/21 time:0.04+1.03 loss_avg:1.7002e-01
+INFO: 2023-07-21 17:13:43 epoch:0 dataset: 7/17 step: 19/21 time:0.04+1.03 loss_avg:1.7343e-01
+INFO: 2023-07-21 17:13:44 epoch:0 dataset: 7/17 step: 20/21 time:0.04+1.03 loss_avg:1.7796e-01
+INFO: Training on data_train_chrX_96.npy complete.
+INFO: 2023-07-21 17:13:46 epoch:0 dataset: 8/17 step: 0/15 time:0.71+1.05 loss_avg:2.4495e-01
+INFO: 2023-07-21 17:13:47 epoch:0 dataset: 8/17 step: 1/15 time:0.04+1.05 loss_avg:2.4400e-01
+INFO: 2023-07-21 17:13:48 epoch:0 dataset: 8/17 step: 2/15 time:0.04+1.04 loss_avg:2.5124e-01
+INFO: 2023-07-21 17:13:49 epoch:0 dataset: 8/17 step: 3/15 time:0.04+1.04 loss_avg:2.4820e-01
+INFO: 2023-07-21 17:13:50 epoch:0 dataset: 8/17 step: 4/15 time:0.04+1.04 loss_avg:2.4794e-01
+INFO: 2023-07-21 17:13:51 epoch:0 dataset: 8/17 step: 5/15 time:0.04+1.04 loss_avg:2.4334e-01
+INFO: 2023-07-21 17:13:52 epoch:0 dataset: 8/17 step: 6/15 time:0.04+1.03 loss_avg:2.4284e-01
+INFO: 2023-07-21 17:13:54 epoch:0 dataset: 8/17 step: 7/15 time:0.04+1.04 loss_avg:2.4327e-01
+INFO: 2023-07-21 17:13:55 epoch:0 dataset: 8/17 step: 8/15 time:0.04+1.03 loss_avg:2.3646e-01
+INFO: 2023-07-21 17:13:56 epoch:0 dataset: 8/17 step: 9/15 time:0.04+1.03 loss_avg:2.4114e-01
+INFO: 2023-07-21 17:13:57 epoch:0 dataset: 8/17 step: 10/15 time:0.05+1.03 loss_avg:2.3566e-01
+INFO: 2023-07-21 17:13:58 epoch:0 dataset: 8/17 step: 11/15 time:0.04+1.03 loss_avg:2.4464e-01
+INFO: 2023-07-21 17:13:59 epoch:0 dataset: 8/17 step: 12/15 time:0.04+1.03 loss_avg:2.4891e-01
+INFO: 2023-07-21 17:14:00 epoch:0 dataset: 8/17 step: 13/15 time:0.04+1.03 loss_avg:2.4164e-01
+INFO: 2023-07-21 17:14:01 epoch:0 dataset: 8/17 step: 14/15 time:0.04+1.03 loss_avg:2.4787e-01
+INFO: Training on data_train_chr9_96.npy complete.
+INFO: 2023-07-21 17:14:03 epoch:0 dataset: 9/17 step: 0/15 time:0.75+1.06 loss_avg:2.2808e-01
+INFO: 2023-07-21 17:14:04 epoch:0 dataset: 9/17 step: 1/15 time:0.04+1.05 loss_avg:2.2989e-01
+INFO: 2023-07-21 17:14:05 epoch:0 dataset: 9/17 step: 2/15 time:0.04+1.04 loss_avg:2.1859e-01
+INFO: 2023-07-21 17:14:06 epoch:0 dataset: 9/17 step: 3/15 time:0.04+1.04 loss_avg:2.1606e-01
+INFO: 2023-07-21 17:14:07 epoch:0 dataset: 9/17 step: 4/15 time:0.04+1.04 loss_avg:2.2015e-01
+INFO: 2023-07-21 17:14:08 epoch:0 dataset: 9/17 step: 5/15 time:0.04+1.04 loss_avg:2.1096e-01
+INFO: 2023-07-21 17:14:09 epoch:0 dataset: 9/17 step: 6/15 time:0.04+1.04 loss_avg:2.2315e-01
+INFO: 2023-07-21 17:14:10 epoch:0 dataset: 9/17 step: 7/15 time:0.04+1.04 loss_avg:2.2098e-01
+INFO: 2023-07-21 17:14:12 epoch:0 dataset: 9/17 step: 8/15 time:0.04+1.04 loss_avg:2.1669e-01
+INFO: 2023-07-21 17:14:13 epoch:0 dataset: 9/17 step: 9/15 time:0.04+1.04 loss_avg:2.1651e-01
+INFO: 2023-07-21 17:14:14 epoch:0 dataset: 9/17 step: 10/15 time:0.04+1.04 loss_avg:2.0629e-01
+INFO: 2023-07-21 17:14:15 epoch:0 dataset: 9/17 step: 11/15 time:0.04+1.03 loss_avg:2.1266e-01
+INFO: 2023-07-21 17:14:16 epoch:0 dataset: 9/17 step: 12/15 time:0.04+1.04 loss_avg:2.2326e-01
+INFO: 2023-07-21 17:14:17 epoch:0 dataset: 9/17 step: 13/15 time:0.04+1.03 loss_avg:2.1358e-01
+INFO: 2023-07-21 17:14:18 epoch:0 dataset: 9/17 step: 14/15 time:0.04+1.03 loss_avg:2.0427e-01
+INFO: Training on data_train_chr14_96.npy complete.
+INFO: 2023-07-21 17:14:20 epoch:0 dataset: 10/17 step: 0/15 time:0.70+1.07 loss_avg:2.2680e-01
+INFO: 2023-07-21 17:14:21 epoch:0 dataset: 10/17 step: 1/15 time:0.04+1.05 loss_avg:2.2143e-01
+INFO: 2023-07-21 17:14:22 epoch:0 dataset: 10/17 step: 2/15 time:0.04+1.04 loss_avg:2.2668e-01
+INFO: 2023-07-21 17:14:23 epoch:0 dataset: 10/17 step: 3/15 time:0.04+1.04 loss_avg:2.2970e-01
+INFO: 2023-07-21 17:14:24 epoch:0 dataset: 10/17 step: 4/15 time:0.04+1.04 loss_avg:2.3084e-01
+INFO: 2023-07-21 17:14:25 epoch:0 dataset: 10/17 step: 5/15 time:0.04+1.04 loss_avg:2.3332e-01
+INFO: 2023-07-21 17:14:26 epoch:0 dataset: 10/17 step: 6/15 time:0.04+1.04 loss_avg:2.3352e-01
+INFO: 2023-07-21 17:14:27 epoch:0 dataset: 10/17 step: 7/15 time:0.04+1.04 loss_avg:2.2813e-01
+INFO: 2023-07-21 17:14:28 epoch:0 dataset: 10/17 step: 8/15 time:0.04+1.04 loss_avg:2.3019e-01
+INFO: 2023-07-21 17:14:30 epoch:0 dataset: 10/17 step: 9/15 time:0.04+1.04 loss_avg:2.2705e-01
+INFO: 2023-07-21 17:14:31 epoch:0 dataset: 10/17 step: 10/15 time:0.04+1.04 loss_avg:2.2422e-01
+INFO: 2023-07-21 17:14:32 epoch:0 dataset: 10/17 step: 11/15 time:0.04+1.04 loss_avg:2.2366e-01
+INFO: 2023-07-21 17:14:33 epoch:0 dataset: 10/17 step: 12/15 time:0.04+1.03 loss_avg:2.2951e-01
+INFO: 2023-07-21 17:14:34 epoch:0 dataset: 10/17 step: 13/15 time:0.04+1.03 loss_avg:2.2889e-01
+INFO: 2023-07-21 17:14:35 epoch:0 dataset: 10/17 step: 14/15 time:0.04+1.04 loss_avg:2.3314e-01
+INFO: Training on data_train_chr13_96.npy complete.
+INFO: 2023-07-21 17:14:37 epoch:0 dataset: 11/17 step: 0/19 time:0.88+1.07 loss_avg:2.2741e-01
+INFO: 2023-07-21 17:14:38 epoch:0 dataset: 11/17 step: 1/19 time:0.04+1.05 loss_avg:2.2615e-01
+INFO: 2023-07-21 17:14:39 epoch:0 dataset: 11/17 step: 2/19 time:0.04+1.04 loss_avg:2.2665e-01
+INFO: 2023-07-21 17:14:40 epoch:0 dataset: 11/17 step: 3/19 time:0.05+1.04 loss_avg:2.2185e-01
+INFO: 2023-07-21 17:14:41 epoch:0 dataset: 11/17 step: 4/19 time:0.04+1.04 loss_avg:2.3259e-01
+INFO: 2023-07-21 17:14:42 epoch:0 dataset: 11/17 step: 5/19 time:0.04+1.04 loss_avg:2.2040e-01
+INFO: 2023-07-21 17:14:43 epoch:0 dataset: 11/17 step: 6/19 time:0.04+1.04 loss_avg:2.3317e-01
+INFO: 2023-07-21 17:14:44 epoch:0 dataset: 11/17 step: 7/19 time:0.04+1.04 loss_avg:2.1695e-01
+INFO: 2023-07-21 17:14:46 epoch:0 dataset: 11/17 step: 8/19 time:0.04+1.04 loss_avg:2.1925e-01
+INFO: 2023-07-21 17:14:47 epoch:0 dataset: 11/17 step: 9/19 time:0.05+1.04 loss_avg:2.2864e-01
+INFO: 2023-07-21 17:14:48 epoch:0 dataset: 11/17 step: 10/19 time:0.04+1.04 loss_avg:2.4052e-01
+INFO: 2023-07-21 17:14:49 epoch:0 dataset: 11/17 step: 11/19 time:0.04+1.04 loss_avg:2.2877e-01
+INFO: 2023-07-21 17:14:50 epoch:0 dataset: 11/17 step: 12/19 time:0.04+1.04 loss_avg:2.2496e-01
+INFO: 2023-07-21 17:14:51 epoch:0 dataset: 11/17 step: 13/19 time:0.04+1.04 loss_avg:2.2981e-01
+INFO: 2023-07-21 17:14:52 epoch:0 dataset: 11/17 step: 14/19 time:0.04+1.04 loss_avg:2.2658e-01
+INFO: 2023-07-21 17:14:53 epoch:0 dataset: 11/17 step: 15/19 time:0.04+1.03 loss_avg:2.2288e-01
+INFO: 2023-07-21 17:14:54 epoch:0 dataset: 11/17 step: 16/19 time:0.04+1.04 loss_avg:2.2376e-01
+INFO: 2023-07-21 17:14:55 epoch:0 dataset: 11/17 step: 17/19 time:0.04+1.04 loss_avg:2.2240e-01
+INFO: 2023-07-21 17:14:56 epoch:0 dataset: 11/17 step: 18/19 time:0.04+1.04 loss_avg:2.3221e-01
+INFO: Training on data_train_chr4_96.npy complete.
+INFO: 2023-07-21 17:14:58 epoch:0 dataset: 12/17 step: 0/19 time:0.84+1.07 loss_avg:2.2043e-01
+INFO: 2023-07-21 17:14:59 epoch:0 dataset: 12/17 step: 1/19 time:0.04+1.05 loss_avg:2.2085e-01
+INFO: 2023-07-21 17:15:00 epoch:0 dataset: 12/17 step: 2/19 time:0.04+1.08 loss_avg:2.2152e-01
+INFO: 2023-07-21 17:15:02 epoch:0 dataset: 12/17 step: 3/19 time:0.04+1.04 loss_avg:2.2409e-01
+INFO: 2023-07-21 17:15:03 epoch:0 dataset: 12/17 step: 4/19 time:0.04+1.04 loss_avg:2.2835e-01
+INFO: 2023-07-21 17:15:04 epoch:0 dataset: 12/17 step: 5/19 time:0.04+1.05 loss_avg:2.1582e-01
+INFO: 2023-07-21 17:15:05 epoch:0 dataset: 12/17 step: 6/19 time:0.04+1.04 loss_avg:2.2494e-01
+INFO: 2023-07-21 17:15:06 epoch:0 dataset: 12/17 step: 7/19 time:0.04+1.04 loss_avg:2.2249e-01
+INFO: 2023-07-21 17:15:07 epoch:0 dataset: 12/17 step: 8/19 time:0.04+1.04 loss_avg:2.2413e-01
+INFO: 2023-07-21 17:15:08 epoch:0 dataset: 12/17 step: 9/19 time:0.04+1.04 loss_avg:2.3296e-01
+INFO: 2023-07-21 17:15:09 epoch:0 dataset: 12/17 step: 10/19 time:0.04+1.04 loss_avg:2.2493e-01
+INFO: 2023-07-21 17:15:10 epoch:0 dataset: 12/17 step: 11/19 time:0.04+1.05 loss_avg:2.2626e-01
+INFO: 2023-07-21 17:15:11 epoch:0 dataset: 12/17 step: 12/19 time:0.04+1.04 loss_avg:2.2739e-01
+INFO: 2023-07-21 17:15:12 epoch:0 dataset: 12/17 step: 13/19 time:0.04+1.04 loss_avg:2.2493e-01
+INFO: 2023-07-21 17:15:13 epoch:0 dataset: 12/17 step: 14/19 time:0.04+1.04 loss_avg:2.2949e-01
+INFO: 2023-07-21 17:15:15 epoch:0 dataset: 12/17 step: 15/19 time:0.04+1.04 loss_avg:2.2228e-01
+INFO: 2023-07-21 17:15:16 epoch:0 dataset: 12/17 step: 16/19 time:0.04+1.04 loss_avg:2.2451e-01
+INFO: 2023-07-21 17:15:17 epoch:0 dataset: 12/17 step: 17/19 time:0.04+1.04 loss_avg:2.2170e-01
+INFO: 2023-07-21 17:15:18 epoch:0 dataset: 12/17 step: 18/19 time:0.04+1.04 loss_avg:2.2719e-01
+INFO: Training on data_train_chr5_96.npy complete.
+INFO: 2023-07-21 17:15:20 epoch:0 dataset: 13/17 step: 0/20 time:0.92+1.06 loss_avg:2.1750e-01
+INFO: 2023-07-21 17:15:21 epoch:0 dataset: 13/17 step: 1/20 time:0.04+1.04 loss_avg:2.1918e-01
+INFO: 2023-07-21 17:15:22 epoch:0 dataset: 13/17 step: 2/20 time:0.04+1.05 loss_avg:2.0712e-01
+INFO: 2023-07-21 17:15:23 epoch:0 dataset: 13/17 step: 3/20 time:0.04+1.05 loss_avg:2.1529e-01
+INFO: 2023-07-21 17:15:24 epoch:0 dataset: 13/17 step: 4/20 time:0.05+1.04 loss_avg:2.1237e-01
+INFO: 2023-07-21 17:15:25 epoch:0 dataset: 13/17 step: 5/20 time:0.04+1.04 loss_avg:2.1435e-01
+INFO: 2023-07-21 17:15:26 epoch:0 dataset: 13/17 step: 6/20 time:0.04+1.05 loss_avg:2.2226e-01
+INFO: 2023-07-21 17:15:27 epoch:0 dataset: 13/17 step: 7/20 time:0.04+1.04 loss_avg:2.1692e-01
+INFO: 2023-07-21 17:15:28 epoch:0 dataset: 13/17 step: 8/20 time:0.04+1.04 loss_avg:2.1598e-01
+INFO: 2023-07-21 17:15:30 epoch:0 dataset: 13/17 step: 9/20 time:0.04+1.04 loss_avg:2.1393e-01
+INFO: 2023-07-21 17:15:31 epoch:0 dataset: 13/17 step: 10/20 time:0.04+1.04 loss_avg:2.1679e-01
+INFO: 2023-07-21 17:15:32 epoch:0 dataset: 13/17 step: 11/20 time:0.04+1.04 loss_avg:2.1244e-01
+INFO: 2023-07-21 17:15:33 epoch:0 dataset: 13/17 step: 12/20 time:0.04+1.04 loss_avg:2.1904e-01
+INFO: 2023-07-21 17:15:34 epoch:0 dataset: 13/17 step: 13/20 time:0.04+1.05 loss_avg:2.1041e-01
+INFO: 2023-07-21 17:15:35 epoch:0 dataset: 13/17 step: 14/20 time:0.04+1.04 loss_avg:2.1712e-01
+INFO: 2023-07-21 17:15:36 epoch:0 dataset: 13/17 step: 15/20 time:0.04+1.04 loss_avg:2.1485e-01
+INFO: 2023-07-21 17:15:37 epoch:0 dataset: 13/17 step: 16/20 time:0.04+1.04 loss_avg:2.2018e-01
+INFO: 2023-07-21 17:15:38 epoch:0 dataset: 13/17 step: 17/20 time:0.04+1.04 loss_avg:2.1647e-01
+INFO: 2023-07-21 17:15:39 epoch:0 dataset: 13/17 step: 18/20 time:0.04+1.04 loss_avg:2.1741e-01
+INFO: 2023-07-21 17:15:40 epoch:0 dataset: 13/17 step: 19/20 time:0.04+1.04 loss_avg:2.1266e-01
+INFO: Training on data_train_chr3_96.npy complete.
+INFO: 2023-07-21 17:15:43 epoch:0 dataset: 14/17 step: 0/25 time:1.06+1.07 loss_avg:2.6915e-01
+INFO: 2023-07-21 17:15:44 epoch:0 dataset: 14/17 step: 1/25 time:0.04+1.05 loss_avg:2.6549e-01
+INFO: 2023-07-21 17:15:45 epoch:0 dataset: 14/17 step: 2/25 time:0.04+1.05 loss_avg:2.6312e-01
+INFO: 2023-07-21 17:15:46 epoch:0 dataset: 14/17 step: 3/25 time:0.04+1.05 loss_avg:2.7006e-01
+INFO: 2023-07-21 17:15:47 epoch:0 dataset: 14/17 step: 4/25 time:0.04+1.04 loss_avg:2.5666e-01
+INFO: 2023-07-21 17:15:48 epoch:0 dataset: 14/17 step: 5/25 time:0.05+1.04 loss_avg:2.5779e-01
+INFO: 2023-07-21 17:15:49 epoch:0 dataset: 14/17 step: 6/25 time:0.04+1.05 loss_avg:2.5673e-01
+INFO: 2023-07-21 17:15:50 epoch:0 dataset: 14/17 step: 7/25 time:0.04+1.04 loss_avg:2.5868e-01
+INFO: 2023-07-21 17:15:51 epoch:0 dataset: 14/17 step: 8/25 time:0.04+1.04 loss_avg:2.6593e-01
+INFO: 2023-07-21 17:15:52 epoch:0 dataset: 14/17 step: 9/25 time:0.04+1.05 loss_avg:2.6661e-01
+INFO: 2023-07-21 17:15:53 epoch:0 dataset: 14/17 step: 10/25 time:0.04+1.04 loss_avg:2.7451e-01
+INFO: 2023-07-21 17:15:55 epoch:0 dataset: 14/17 step: 11/25 time:0.04+1.04 loss_avg:2.6030e-01
+INFO: 2023-07-21 17:15:56 epoch:0 dataset: 14/17 step: 12/25 time:0.04+1.04 loss_avg:2.8639e-01
+INFO: 2023-07-21 17:15:57 epoch:0 dataset: 14/17 step: 13/25 time:0.04+1.04 loss_avg:2.7572e-01
+INFO: 2023-07-21 17:15:58 epoch:0 dataset: 14/17 step: 14/25 time:0.04+1.05 loss_avg:2.5862e-01
+INFO: 2023-07-21 17:15:59 epoch:0 dataset: 14/17 step: 15/25 time:0.04+1.04 loss_avg:2.6913e-01
+INFO: 2023-07-21 17:16:00 epoch:0 dataset: 14/17 step: 16/25 time:0.05+1.04 loss_avg:2.7028e-01
+INFO: 2023-07-21 17:16:01 epoch:0 dataset: 14/17 step: 17/25 time:0.04+1.04 loss_avg:2.5964e-01
+INFO: 2023-07-21 17:16:02 epoch:0 dataset: 14/17 step: 18/25 time:0.04+1.04 loss_avg:2.6485e-01
+INFO: 2023-07-21 17:16:03 epoch:0 dataset: 14/17 step: 19/25 time:0.04+1.05 loss_avg:2.5657e-01
+INFO: 2023-07-21 17:16:04 epoch:0 dataset: 14/17 step: 20/25 time:0.04+1.05 loss_avg:2.5618e-01
+INFO: 2023-07-21 17:16:05 epoch:0 dataset: 14/17 step: 21/25 time:0.04+1.04 loss_avg:2.6827e-01
+INFO: 2023-07-21 17:16:06 epoch:0 dataset: 14/17 step: 22/25 time:0.04+1.04 loss_avg:2.6993e-01
+INFO: 2023-07-21 17:16:08 epoch:0 dataset: 14/17 step: 23/25 time:0.04+1.04 loss_avg:2.5975e-01
+INFO: 2023-07-21 17:16:09 epoch:0 dataset: 14/17 step: 24/25 time:0.04+1.04 loss_avg:2.5219e-01
+INFO: Training on data_train_chr1_96.npy complete.
+INFO: 2023-07-21 17:16:10 epoch:0 dataset: 15/17 step: 0/16 time:0.77+1.06 loss_avg:2.1961e-01
+INFO: 2023-07-21 17:16:12 epoch:0 dataset: 15/17 step: 1/16 time:0.04+1.06 loss_avg:2.1940e-01
+INFO: 2023-07-21 17:16:13 epoch:0 dataset: 15/17 step: 2/16 time:0.04+1.05 loss_avg:2.1729e-01
+INFO: 2023-07-21 17:16:14 epoch:0 dataset: 15/17 step: 3/16 time:0.04+1.05 loss_avg:2.1609e-01
+INFO: 2023-07-21 17:16:15 epoch:0 dataset: 15/17 step: 4/16 time:0.04+1.05 loss_avg:2.2002e-01
+INFO: 2023-07-21 17:16:16 epoch:0 dataset: 15/17 step: 5/16 time:0.04+1.05 loss_avg:2.2167e-01
+INFO: 2023-07-21 17:16:17 epoch:0 dataset: 15/17 step: 6/16 time:0.04+1.04 loss_avg:2.1742e-01
+INFO: 2023-07-21 17:16:18 epoch:0 dataset: 15/17 step: 7/16 time:0.04+1.05 loss_avg:2.2513e-01
+INFO: 2023-07-21 17:16:19 epoch:0 dataset: 15/17 step: 8/16 time:0.04+1.05 loss_avg:2.2269e-01
+INFO: 2023-07-21 17:16:20 epoch:0 dataset: 15/17 step: 9/16 time:0.04+1.05 loss_avg:2.2348e-01
+INFO: 2023-07-21 17:16:21 epoch:0 dataset: 15/17 step: 10/16 time:0.04+1.05 loss_avg:2.2035e-01
+INFO: 2023-07-21 17:16:22 epoch:0 dataset: 15/17 step: 11/16 time:0.04+1.05 loss_avg:2.1880e-01
+INFO: 2023-07-21 17:16:24 epoch:0 dataset: 15/17 step: 12/16 time:0.04+1.04 loss_avg:2.1540e-01
+INFO: 2023-07-21 17:16:25 epoch:0 dataset: 15/17 step: 13/16 time:0.04+1.04 loss_avg:2.2503e-01
+INFO: 2023-07-21 17:16:26 epoch:0 dataset: 15/17 step: 14/16 time:0.04+1.04 loss_avg:2.2444e-01
+INFO: 2023-07-21 17:16:27 epoch:0 dataset: 15/17 step: 15/16 time:0.04+1.04 loss_avg:2.2492e-01
+INFO: Training on data_train_chr10_96.npy complete.
+INFO: 2023-07-21 17:16:28 epoch:0 dataset: 16/17 step: 0/12 time:0.62+1.07 loss_avg:2.1796e-01
+INFO: 2023-07-21 17:16:30 epoch:0 dataset: 16/17 step: 1/12 time:0.04+1.05 loss_avg:2.2384e-01
+INFO: 2023-07-21 17:16:31 epoch:0 dataset: 16/17 step: 2/12 time:0.04+1.05 loss_avg:2.1341e-01
+INFO: 2023-07-21 17:16:32 epoch:0 dataset: 16/17 step: 3/12 time:0.04+1.04 loss_avg:2.2256e-01
+INFO: 2023-07-21 17:16:33 epoch:0 dataset: 16/17 step: 4/12 time:0.04+1.05 loss_avg:2.1948e-01
+INFO: 2023-07-21 17:16:34 epoch:0 dataset: 16/17 step: 5/12 time:0.04+1.04 loss_avg:2.1496e-01
+INFO: 2023-07-21 17:16:35 epoch:0 dataset: 16/17 step: 6/12 time:0.04+1.05 loss_avg:2.2153e-01
+INFO: 2023-07-21 17:16:36 epoch:0 dataset: 16/17 step: 7/12 time:0.04+1.05 loss_avg:2.1432e-01
+INFO: 2023-07-21 17:16:37 epoch:0 dataset: 16/17 step: 8/12 time:0.04+1.04 loss_avg:2.1681e-01
+INFO: 2023-07-21 17:16:38 epoch:0 dataset: 16/17 step: 9/12 time:0.04+1.04 loss_avg:2.1550e-01
+INFO: 2023-07-21 17:16:39 epoch:0 dataset: 16/17 step: 10/12 time:0.04+1.04 loss_avg:2.2085e-01
+INFO: 2023-07-21 17:16:40 epoch:0 dataset: 16/17 step: 11/12 time:0.04+1.04 loss_avg:2.1390e-01
+INFO: Training on data_train_chr16_96.npy complete.
+INFO: 2023-07-21 17:16:42 epoch:0 dataset: 0/17 step: 0/11 time:0.67+1.08 loss_avg:2.2777e-01
+INFO: 2023-07-21 17:16:43 epoch:0 dataset: 0/17 step: 1/11 time:0.04+1.06 loss_avg:2.2069e-01
+INFO: 2023-07-21 17:16:44 epoch:0 dataset: 0/17 step: 2/11 time:0.04+1.05 loss_avg:2.2226e-01
+INFO: 2023-07-21 17:16:45 epoch:0 dataset: 0/17 step: 3/11 time:0.04+1.05 loss_avg:2.2015e-01
+INFO: 2023-07-21 17:16:47 epoch:0 dataset: 0/17 step: 4/11 time:0.04+1.05 loss_avg:2.2458e-01
+INFO: 2023-07-21 17:16:48 epoch:0 dataset: 0/17 step: 5/11 time:0.04+1.05 loss_avg:2.2243e-01
+INFO: 2023-07-21 17:16:49 epoch:0 dataset: 0/17 step: 6/11 time:0.04+1.05 loss_avg:2.2259e-01
+INFO: 2023-07-21 17:16:50 epoch:0 dataset: 0/17 step: 7/11 time:0.04+1.04 loss_avg:2.1477e-01
+INFO: 2023-07-21 17:16:51 epoch:0 dataset: 0/17 step: 8/11 time:0.04+1.04 loss_avg:2.1730e-01
+INFO: 2023-07-21 17:16:52 epoch:0 dataset: 0/17 step: 9/11 time:0.04+1.04 loss_avg:2.1764e-01
+INFO: 2023-07-21 17:16:53 epoch:0 dataset: 0/17 step: 10/11 time:0.04+1.04 loss_avg:2.2041e-01
+INFO: Training on data_train_chr18_96.npy complete.

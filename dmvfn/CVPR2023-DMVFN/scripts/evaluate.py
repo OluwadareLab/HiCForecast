@@ -7,13 +7,13 @@ from corr import*
 from GenomeDISCO import*
 from ssim import*
 
-
+dim = 128
 epoch = 49
-pred = np.load("./../data/data_96/predictions/single_channel_MSE_VGG_96/batch_8/epoch_{}/pred_chr19_final.npy".format(epoch))
-ground_truth = np.load("./../data/data_96/data_gt_chr19_96.npy")
+pred = np.load("./../data/data_{}/predictions/single_channel_MSE_VGG_{}/batch_8/epoch_{}/pred_chr19_final.npy".format(dim, dim, epoch))
+ground_truth = np.load("./../data/data_{}/data_gt_chr19_{}.npy".format(dim, dim)
 #ground_truth_batches = np.load("./../data/data_96/val/data_val_chr19_96.npy")
-pearson_save_path = "./../results/data_96/single_channel_MSE_VGG_96/batch_8/epoch_{}/pearson_chr19.npy".format(epoch)
-disco_save_path = "./../results/data_96/single_channel_MSE_VGG_96/batch_8/epoch_{}/disco_chr19_shift_35.npy".format(epoch)
+pearson_save_path = "./../results/data_{}/single_channel_MSE_VGG_{}/batch_8/epoch_{}/pearson_chr19.npy".format(dim, dim, epoch)
+disco_save_path = "./../results/data_{}/single_channel_MSE_VGG_{}/batch_8/epoch_{}/disco_chr19_shift_35.npy".format(dim, dim, epoch)
 
 
 print("pred.shape: ", pred.shape)
