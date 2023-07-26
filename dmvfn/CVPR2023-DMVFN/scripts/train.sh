@@ -1,12 +1,12 @@
 torchrun --nproc_per_node=1 \
 --master_port=4321 ./train_1d.py \
---epoch 1 \
+--epoch 50 \
 --max_HiC 400 \
 --num_gpu 1 \
---device_number 0 \
+--device_number 3 \
 --num_workers 2 \
 --batch_size 8 \
 --train_dataset hic \
 --val_datasets hic \
---data_train_path ./../data/data_32/train/ \
---code_test
+--data_train_path ./../data/data_80/train/ \
+--no_code_test
