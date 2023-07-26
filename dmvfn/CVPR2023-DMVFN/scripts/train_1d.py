@@ -37,6 +37,7 @@ def base_build_dataset(name):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--epoch', default=1, type=int)
+parser.add_argument('--max_HiC', type=int)
 parser.add_argument('--num_gpu', default=1, type=int) # or 8
 parser.add_argument('--device_number', type=int)
 parser.add_argument('--num_workers', default=0, type=int)
@@ -73,6 +74,7 @@ torch.backends.cudnn.benchmark = True
 #exp = os.path.abspath('.').split('/')[-1]
 loss_fn_alex = lpips.LPIPS(net='alex').to(device)
 
+max_HiC = args.max_HiC
 rgb = args.rgb
 
 current_time = get_timestamp()
@@ -113,7 +115,8 @@ def get_learning_rate(step):
 
 logger = logging.getLogger('base')
 #logger.info("Argument rgb: {}".format(rgb))
-logger.info("Default loss without VGG")
+#logger.info("Default loss without VGG")
+logger.info("Discounted MSE with VGG")
 
 for arg, value in sorted(vars(args).items()):
     logger.info("{} Argument {}: {}".format(get_formatted_timestamp(), arg, value))
@@ -144,6 +147,9 @@ def train(model, args):
         set_number = 0 
         for chr_file in train_list:
             dataset = np.load(train_path + chr_file)
+            dataset[dataset > max_HiC] = max_HiC
+            dataset = dataset / max_HiC
+            #print("dataset[200][1][40]: ", dataset[200][1][40])
             sampler = DistributedSampler(dataset)
             train_data = DataLoader(dataset, batch_size=args.batch_size, num_workers=args.num_workers, pin_memory=True, drop_last=True, sampler=sampler)
             sampler.set_epoch(epoch)
@@ -159,7 +165,7 @@ def train(model, args):
                     data = torch.unsqueeze(data, 2)
 
                 #data_gpu = torch.from_numpy(data)
-                data_gpu = data.to(device, non_blocking=True) / 255. #B,3,C,H,W
+                data_gpu = data.to(device, dtype=torch.float32, non_blocking=True)  #B,3,C,H,W
                 
                 learning_rate = get_learning_rate(step)
 

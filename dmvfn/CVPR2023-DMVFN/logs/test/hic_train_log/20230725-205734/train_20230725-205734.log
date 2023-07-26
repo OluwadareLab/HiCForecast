@@ -1,0 +1,47 @@
+INFO: Default loss without VGG
+INFO: 2023-07-25 20:57:34 Argument batch_size: 8
+INFO: 2023-07-25 20:57:34 Argument code_test: True
+INFO: 2023-07-25 20:57:34 Argument data_train_path: ./../data/data_96/train/
+INFO: 2023-07-25 20:57:34 Argument device_number: 3
+INFO: 2023-07-25 20:57:34 Argument epoch: 1
+INFO: 2023-07-25 20:57:34 Argument local_rank: 0
+INFO: 2023-07-25 20:57:34 Argument max_HiC: 200
+INFO: 2023-07-25 20:57:34 Argument num_gpu: 1
+INFO: 2023-07-25 20:57:34 Argument num_workers: 1
+INFO: 2023-07-25 20:57:34 Argument resume_epoch: 0
+INFO: 2023-07-25 20:57:34 Argument resume_path: None
+INFO: 2023-07-25 20:57:34 Argument rgb: False
+INFO: 2023-07-25 20:57:34 Argument train_dataset: hic
+INFO: 2023-07-25 20:57:34 Argument val_datasets: ['hic']
+INFO: Traceback:
+INFO: Traceback (most recent call last):
+  File "./train_1d.py", line 297, in <module>
+    train(model, args)
+  File "./train_1d.py", line 171, in train
+    loss_avg = model.train(data_gpu, learning_rate)
+  File "/home/dmitryp/dpinchuk/dmvfn/CVPR2023-DMVFN/model/model_1d.py", line 62, in train
+    merged =  self.dmvfn(torch.cat((img0, img1, gt), 1), scale=[4,4,4,2,2,2,1,1,1])
+  File "/usr/local/lib/python3.8/dist-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/torch/nn/parallel/distributed.py", line 1156, in forward
+    output = self._run_ddp_forward(*inputs, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/torch/nn/parallel/distributed.py", line 1110, in _run_ddp_forward
+    return module_to_run(*inputs[0], **kwargs[0])  # type: ignore[index]
+  File "/usr/local/lib/python3.8/dist-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/dmitryp/dpinchuk/dmvfn/CVPR2023-DMVFN/model/arch_1d.py", line 128, in forward
+    routing_vector = self.routing(x[:, :2*input_chan]).reshape(batch_size, -1)
+  File "/usr/local/lib/python3.8/dist-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+  File "/usr/local/lib/python3.8/dist-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/torch/nn/modules/conv.py", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File "/usr/local/lib/python3.8/dist-packages/torch/nn/modules/conv.py", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+RuntimeError: Input type (double) and bias type (float) should be the same
+
+INFO: Sys.exc_info()[2]:
+INFO: <traceback object at 0x7f2d4b6cb380>

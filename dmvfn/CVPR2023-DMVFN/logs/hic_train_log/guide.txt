@@ -1,3 +1,99 @@
+20230722-194256
+INFO: Default loss without VGG
+INFO: 2023-07-22 19:42:56 Argument batch_size: 64
+INFO: 2023-07-22 19:42:56 Argument code_test: False
+INFO: 2023-07-22 19:42:56 Argument data_train_path: ./../data/data_96/train/
+INFO: 2023-07-22 19:42:56 Argument device_number: 0
+INFO: 2023-07-22 19:42:56 Argument epoch: 150
+INFO: 2023-07-22 19:42:56 Argument local_rank: 0
+INFO: 2023-07-22 19:42:56 Argument num_gpu: 1
+INFO: 2023-07-22 19:42:56 Argument num_workers: 1
+INFO: 2023-07-22 19:42:56 Argument resume_epoch: 0
+INFO: 2023-07-22 19:42:56 Argument resume_path: None
+INFO: 2023-07-22 19:42:56 Argument rgb: False
+
+20230721-180608
+INFO: Discounted L1 losss
+INFO: 2023-07-21 18:06:08 Argument batch_size: 8
+INFO: 2023-07-21 18:06:08 Argument code_test: False
+INFO: 2023-07-21 18:06:08 Argument data_train_path: ./../data/data_96/train/
+INFO: 2023-07-21 18:06:08 Argument device_number: 3
+INFO: 2023-07-21 18:06:08 Argument epoch: 150
+INFO: 2023-07-21 18:06:08 Argument local_rank: 0
+INFO: 2023-07-21 18:06:08 Argument num_gpu: 1
+INFO: 2023-07-21 18:06:08 Argument num_workers: 2
+INFO: 2023-07-21 18:06:08 Argument resume_epoch: 0
+INFO: 2023-07-21 18:06:08 Argument resume_path: None
+INFO: 2023-07-21 18:06:08 Argument rgb: False
+
+20230721-181534
+INFO: Discounted MSE losss
+INFO: 2023-07-21 18:15:34 Argument batch_size: 8
+INFO: 2023-07-21 18:15:34 Argument code_test: False
+INFO: 2023-07-21 18:15:34 Argument data_train_path: ./../data/data_96/train/
+INFO: 2023-07-21 18:15:34 Argument device_number: 2
+INFO: 2023-07-21 18:15:34 Argument epoch: 150
+INFO: 2023-07-21 18:15:34 Argument local_rank: 0
+INFO: 2023-07-21 18:15:34 Argument num_gpu: 1
+INFO: 2023-07-21 18:15:34 Argument num_workers: 2
+INFO: 2023-07-21 18:15:34 Argument resume_epoch: 0
+INFO: 2023-07-21 18:15:34 Argument resume_path: None
+INFO: 2023-07-21 18:15:34 Argument rgb: False
+
+20230720-211655
+INFO: 2023-07-20 21:16:55 Argument batch_size: 16
+INFO: 2023-07-20 21:16:55 Argument code_test: False
+INFO: 2023-07-20 21:16:55 Argument data_train_path: ./../data/data_96/train/
+INFO: 2023-07-20 21:16:55 Argument device_number: 0
+INFO: 2023-07-20 21:16:55 Argument epoch: 150
+INFO: 2023-07-20 21:16:55 Argument local_rank: 0
+INFO: 2023-07-20 21:16:55 Argument num_gpu: 1
+INFO: 2023-07-20 21:16:55 Argument num_workers: 3
+INFO: 2023-07-20 21:16:55 Argument resume_epoch: 0
+INFO: 2023-07-20 21:16:55 Argument resume_path: None
+INFO: 2023-07-20 21:16:55 Argument rgb: False
+
+20230721-114651
+INFO: Default loss with VGG.
+INFO: 2023-07-21 11:46:51 Argument batch_size: 16
+INFO: 2023-07-21 11:46:51 Argument code_test: False
+INFO: 2023-07-21 11:46:51 Argument data_train_path: ./../data/data_96/train/
+INFO: 2023-07-21 11:46:51 Argument device_number: 1
+INFO: 2023-07-21 11:46:51 Argument epoch: 150
+INFO: 2023-07-21 11:46:51 Argument local_rank: 0
+INFO: 2023-07-21 11:46:51 Argument num_gpu: 1
+INFO: 2023-07-21 11:46:51 Argument num_workers: 3
+INFO: 2023-07-21 11:46:51 Argument resume_epoch: 0
+INFO: 2023-07-21 11:46:51 Argument resume_path: None
+INFO: 2023-07-21 11:46:51 Argument rgb: False
+
+20230722-162529
+INFO: Discounted MSE loss and VGG loss
+INFO: 2023-07-22 16:25:29 Argument batch_size: 8
+INFO: 2023-07-22 16:25:29 Argument code_test: False
+INFO: 2023-07-22 16:25:29 Argument data_train_path: ./../data/data_96/train/
+INFO: 2023-07-22 16:25:29 Argument device_number: 0
+INFO: 2023-07-22 16:25:29 Argument epoch: 150
+INFO: 2023-07-22 16:25:29 Argument local_rank: 0
+INFO: 2023-07-22 16:25:29 Argument num_gpu: 1
+INFO: 2023-07-22 16:25:29 Argument num_workers: 2
+INFO: 2023-07-22 16:25:29 Argument resume_epoch: 0
+INFO: 2023-07-22 16:25:29 Argument resume_path: None
+INFO: 2023-07-22 16:25:29 Argument rgb: False
+
+20230717-164102
+INFO: 2023-07-17 16:41:02 Argument batch_size: 8
+INFO: 2023-07-17 16:41:02 Argument code_test: False
+INFO: 2023-07-17 16:41:02 Argument data_train_path: ./../data/data_96/train/
+INFO: 2023-07-17 16:41:02 Argument device_number: 0
+INFO: 2023-07-17 16:41:02 Argument epoch: 150
+INFO: 2023-07-17 16:41:02 Argument local_rank: 0
+INFO: 2023-07-17 16:41:02 Argument num_gpu: 1
+INFO: 2023-07-17 16:41:02 Argument num_workers: 0
+INFO: 2023-07-17 16:41:02 Argument resume_epoch: 35
+INFO: 2023-07-17 16:41:02 Argument resume_path: ./../models/hic_train_log/20230714-194514/dmvfn_35.pkl
+INFO: 2023-07-17 16:41:02 Argument rgb: False
+
 20230714-183009
 INFO: 2023-07-14 18:30:09 Argument batch_size: 8
 INFO: 2023-07-14 18:30:09 Argument code_test: False
