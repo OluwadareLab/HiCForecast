@@ -13,6 +13,8 @@ from torch.utils import data
 from ResConvLSTMNet import *
 from utils import *
 
+from tqdm import tqdm
+
 def test(model, device, test_loader, total_len, input_len, input_dim, imgSizes):
 	model.eval()
 	loss_sum = 0.0
@@ -21,7 +23,7 @@ def test(model, device, test_loader, total_len, input_len, input_dim, imgSizes):
 	with torch.no_grad():
 		mask_true_test = np.zeros((1, total_len-input_len-1, c, h, w))
 		mask_true_test = torch.FloatTensor(mask_true_test).to(device)
-		for i, X in enumerate(test_loader):
+		for i, X in enumerate(tqdm(test_loader)):
 			output, loss = model(X.to(device), mask_true_test)
 			#print(output.shape)
 			predictions.append(output.cpu().detach().numpy())

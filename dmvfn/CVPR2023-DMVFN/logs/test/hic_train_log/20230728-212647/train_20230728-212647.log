@@ -1,0 +1,21 @@
+INFO: Discounted L1 loss with VGG
+INFO: 2023-07-28 21:26:47 Argument batch_size: 8
+INFO: 2023-07-28 21:26:47 Argument code_test: True
+INFO: 2023-07-28 21:26:47 Argument data_train_path: ./../data/data_80/train/
+INFO: 2023-07-28 21:26:47 Argument device_number: 1
+INFO: 2023-07-28 21:26:47 Argument epoch: 1
+INFO: 2023-07-28 21:26:47 Argument local_rank: 0
+INFO: 2023-07-28 21:26:47 Argument max_HiC: 400
+INFO: 2023-07-28 21:26:47 Argument num_gpu: 1
+INFO: 2023-07-28 21:26:47 Argument num_workers: 2
+INFO: 2023-07-28 21:26:47 Argument resume_epoch: 0
+INFO: 2023-07-28 21:26:47 Argument resume_path: None
+INFO: 2023-07-28 21:26:47 Argument rgb: False
+INFO: 2023-07-28 21:26:47 Argument train_dataset: hic
+INFO: 2023-07-28 21:26:47 Argument val_datasets: ['hic']
+INFO: 2023-07-28 21:26:52 epoch:0 dataset: 1/17 step: 0/123 time:0.44+2.20 loss_avg:2.1365e-01
+INFO: 2023-07-28 21:26:53 epoch:0 dataset: 1/17 step: 1/123 time:0.00+0.64 loss_avg:2.0868e-01
+INFO: Training on data_train_chr12_80.npy complete.
+INFO: 2023-07-28 21:26:54 epoch:0 dataset: 2/17 step: 0/96 time:0.52+0.65 loss_avg:2.1853e-01
+INFO: 2023-07-28 21:26:54 epoch:0 dataset: 2/17 step: 1/96 time:0.00+0.64 loss_avg:2.1082e-01
+INFO: 2023-07-28 21:26:55 Training module completed.

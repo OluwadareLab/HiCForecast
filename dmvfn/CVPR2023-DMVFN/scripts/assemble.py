@@ -22,16 +22,25 @@ def get_predictions(file_predict, file_index, num_bins, sub_mat_n):
     
     return predictions
 
-dim = 96
+dim = 50
 epoch=49
-batch = 256
-loss = "single_channel_no_vgg"
+batch = 8
+max_HiC = 400
+#loss = "single_channel_no_vgg"
 #loss = "single_channel_default_VGG"
 #loss = "single_channel_L1_no_vgg"
 #loss = "single_channel_MSE_no_vgg"
-file_predict = "./../data/data_{}/predictions/{}_{}/batch_{}/epoch_{}/pred_chr19.npy".format(dim, loss, dim, batch, epoch)
+#loss = "single_channel_MSE_VGG"
+loss = "HiC4D"
+'''
+file_predict = "./../data/data_{}/predictions/{}_{}/norm_{}/batch_{}/epoch_{}/pred_chr19.npy".format(dim, loss, dim, max_HiC, batch, epoch)
 file_index = "./../data/data_{}/val/data_val_index_chr19_{}.npy".format(dim, dim)
-file_out = "./../data/data_{}/predictions/{}_{}/batch_{}/epoch_{}/pred_chr19_final.npy".format(dim, loss, dim, batch, epoch)
+file_out = "./../data/data_{}/predictions/{}_{}/norm_{}/batch_{}/epoch_{}/pred_chr19_final.npy".format(dim, loss, dim, max_HiC, batch, epoch)
+'''
+#Different file structure for HiC4D
+file_predict = "./../data/data_{}/predictions/{}_{}/norm_{}/pred_chr19.npy".format(dim, loss, dim, max_HiC, batch, epoch)
+file_index = "./../data/data_{}/val/data_val_index_chr19_{}.npy".format(dim, dim)
+file_out = "./../data/data_{}/predictions/{}_{}/norm_{}/pred_chr19_final.npy".format(dim, loss, dim, max_HiC, batch, epoch)
 
 predict_mat = get_predictions(file_predict, file_index, 1534, dim)
 

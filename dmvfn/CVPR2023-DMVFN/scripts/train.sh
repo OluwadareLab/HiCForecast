@@ -8,5 +8,5 @@ torchrun --nproc_per_node=1 \
 --batch_size 8 \
 --train_dataset hic \
 --val_datasets hic \
---data_train_path ./../data/data_80/train/ \
+--data_train_path ./../data/data_48/train/ \
 --no_code_test
