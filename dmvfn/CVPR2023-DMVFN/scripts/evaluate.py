@@ -7,7 +7,7 @@ from corr import*
 from GenomeDISCO import*
 from ssim import*
 
-dim = 50
+dim = 48
 epoch = 49
 batch = 8
 max_HiC = 400
@@ -16,20 +16,21 @@ max_HiC = 400
 #loss = "single_channel_no_vgg"
 #loss = "single_channel_L1_no_vgg"
 #loss = "single_channel_MSE_no_vgg"
-loss = "HiC4D"
+loss = "single_channel_L1_VGG"
+#loss = "HiC4D"
 #default file structure:
-'''
 pred = np.load("./../data/data_{}/predictions/{}_{}/norm_{}/batch_{}/epoch_{}/pred_chr19_final.npy".format(dim, loss, dim,max_HiC, batch, epoch))
 ground_truth = np.load("./../data/data_{}/data_gt_chr19_{}.npy".format(dim, dim))
-'''
 
 #ground_truth_batches = np.load("./../data/data_96/val/data_val_chr19_96.npy")
 #pearson_save_path = "./../results/data_{}/{}_{}/batch_{}/epoch_{}/pearson_chr19.npy".format(dim, loss, dim, batch, epoch)
 #disco_save_path = "./../results/data_{}/{}_{}/batch_{}/epoch_{}/disco_chr19_shift_35.npy".format(dim, loss, dim, batch, epoch)
 
 #Different file structure for HiC4D
+'''
 pred = np.load("./../data/data_{}/predictions/{}_{}/norm_{}/pred_chr19_final.npy".format(dim, loss, dim,max_HiC))
 ground_truth = np.load("./../data/data_{}/data_gt_chr19_{}.npy".format(dim, dim))
+'''
 
 ground_truth[ground_truth > max_HiC] = max_HiC
 print("pred.shape: ", pred.shape)
