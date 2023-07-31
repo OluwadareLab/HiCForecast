@@ -7,16 +7,16 @@ from corr import*
 from GenomeDISCO import*
 from ssim import*
 
-dim = 48
+dim = 80
 epoch = 49
 batch = 8
 max_HiC = 400
-#loss = "single_channel_MSE_VGG"
+loss = "single_channel_MSE_VGG"
 #loss = "single_channel_default_VGG"
 #loss = "single_channel_no_vgg"
 #loss = "single_channel_L1_no_vgg"
 #loss = "single_channel_MSE_no_vgg"
-loss = "single_channel_L1_VGG"
+#loss = "single_channel_L1_VGG"
 #loss = "HiC4D"
 #default file structure:
 pred = np.load("./../data/data_{}/predictions/{}_{}/norm_{}/batch_{}/epoch_{}/pred_chr19_final.npy".format(dim, loss, dim,max_HiC, batch, epoch))
@@ -48,6 +48,8 @@ pearson_list = np.concatenate(pearson_list, axis=0)
 print("pearson_list.shape: ", pearson_list.shape)
 print("pearson_mean_list: ", pearson_mean_list)
 
+#GenomeDISCO:
+'''
 disco_list = []
 for i in range(3):
     disco = compute_reproducibility(ground_truth[3 + i], pred[i], True)
@@ -55,6 +57,7 @@ for i in range(3):
 print("disco_list: ", disco_list)
 disco_list = np.array(disco_list)
 print("disco_list.shape: ", disco_list.shape)
+'''
 
 '''
 print("pred.shape: ", pred.shape)

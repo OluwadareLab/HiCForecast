@@ -22,16 +22,16 @@ def get_predictions(file_predict, file_index, num_bins, sub_mat_n):
     
     return predictions
 
-dim = 48
+dim = 96
 epoch=49
 batch = 8
-max_HiC = 400
+max_HiC = 100
 #loss = "single_channel_no_vgg"
 #loss = "single_channel_default_VGG"
 #loss = "single_channel_L1_no_vgg"
 #loss = "single_channel_MSE_no_vgg"
-#loss = "single_channel_MSE_VGG"
-loss = "single_channel_L1_VGG"
+loss = "single_channel_MSE_VGG"
+#loss = "single_channel_L1_VGG"
 #loss = "HiC4D"
 file_predict = "./../data/data_{}/predictions/{}_{}/norm_{}/batch_{}/epoch_{}/pred_chr19.npy".format(dim, loss, dim, max_HiC, batch, epoch)
 file_index = "./../data/data_{}/val/data_val_index_chr19_{}.npy".format(dim, dim)

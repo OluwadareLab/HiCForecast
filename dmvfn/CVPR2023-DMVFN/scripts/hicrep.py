@@ -6,16 +6,16 @@ base = importr('base')
 utils = importr("utils")
 hicrep = importr("hicrep")
 
-dim = 48
+dim = 96
 epoch = 49
 batch = 8
-max_HiC = 400
-#loss = "single_channel_MSE_VGG"
+max_HiC = 100
+loss = "single_channel_MSE_VGG"
 #loss = "single_channel_no_vgg"
 #loss = "single_channel_default_VGG"
 #loss = "single_channel_L1_no_vgg"
 #loss = "single_channel_MSE_no_vgg"
-loss = "single_channel_L1_VGG"
+#loss = "single_channel_L1_VGG"
 #loss = "HiC4D"
 #default file structure:
 GT = np.load("./../data/data_{}/data_gt_chr19_{}.npy".format(dim, dim))

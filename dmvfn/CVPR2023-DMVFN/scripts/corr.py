@@ -10,7 +10,7 @@ def _clear_max_min(x, y):
     return x[inter_idx], y[inter_idx]
 
 
-def diagcorr(mat1, mat2, rtype='pearson', max_shift=35, percentile=100, clearmaxmin=False, symmetric=False):
+def diagcorr(mat1, mat2, rtype='pearson', min_shift=10, max_shift=30, percentile=100, clearmaxmin=False, symmetric=False):
     """
     Function for calculating pearson correlation along with distance genome.
     """
@@ -24,9 +24,9 @@ def diagcorr(mat1, mat2, rtype='pearson', max_shift=35, percentile=100, clearmax
 
     assert l2 > max_shift, "Shifting distance is too large for input matrices!"
 
-    r = np.zeros(max_shift)
-    p = np.zeros(max_shift)
-    for s in range(max_shift):
+    r = np.zeros(min_shift, max_shift)
+    p = np.zeros(min_shift, max_shift)
+    for s in range(min_shift, max_shift):
         diag1 = np.diag(mat1, k=s)
         diag2 = np.diag(mat2, k=s)
         if symmetric:
