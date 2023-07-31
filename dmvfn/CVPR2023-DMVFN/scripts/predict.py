@@ -32,14 +32,18 @@ parser.add_argument('--load_path', required=True, type=str, help='model path')
 parser.add_argument('--output_dir', type=str, help='output path')
 parser.add_argument('--rgb', action="store_true")
 parser.add_argument('--single_channel', dest='rgb', action='store_false')
+parser.add_argument('--max_HiC', type=int)
 args = parser.parse_args()
 
 rgb = args.rgb
+max_HiC = args.max_HiC
 
 def evaluate(model, args):
 
     with torch.no_grad():
         dat_test = np.load(args.data_path).astype(np.float32)
+        dat_test[dat_test > max_HiC] = max_HiC
+        dat_test = dat_test / max_HiC
         #dat_test = dat_test / 225.
         #print("dat_test.shape: ", dat_test.shape)
         #print("dat_test[:10,1:3].shape: ", dat_test[:10, 1:3].shape)
@@ -78,8 +82,7 @@ def evaluate(model, args):
             #print("X.shape: ", X.shape)
                 X = torch.unsqueeze(X, 2)
 
-            X = X.to(device, non_blocking=True)
-            X = X / 255.
+            X = X.to(device, dtype=torch.float32, non_blocking=True)
 
             pred = model.eval(X, 'hic') # BNCHW
             #print("pred.shape: ", pred.shape)
@@ -89,7 +92,7 @@ def evaluate(model, args):
                 pred = pred[:,:,0,:,:]
             #print("pred.shape: ", pred.shape)
             pred = torch.squeeze(pred, dim=2)
-            pred = np.array(pred.cpu() * 255)
+            pred = np.array(pred.cpu() * max_HiC)
             predictions.append(pred)
 
         predictions = np.concatenate(predictions, axis=0)

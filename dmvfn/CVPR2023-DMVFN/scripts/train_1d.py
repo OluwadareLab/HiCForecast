@@ -116,7 +116,7 @@ def get_learning_rate(step):
 logger = logging.getLogger('base')
 #logger.info("Argument rgb: {}".format(rgb))
 #logger.info("Default loss without VGG")
-logger.info("Discounted MSE with VGG")
+logger.info("Discounted L1 loss with VGG")
 
 for arg, value in sorted(vars(args).items()):
     logger.info("{} Argument {}: {}".format(get_formatted_timestamp(), arg, value))

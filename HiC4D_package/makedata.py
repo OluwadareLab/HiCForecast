@@ -12,7 +12,7 @@ chrs_val = ['chr19']
 
 #resolution = 31250  #31250 for 64  #8928 for 224? #used to be 40000
 #sub_mat_n = int(2_000_000 // resolution)
-sub_mat_n = 128
+sub_mat_n = 50
 dir_data = "./data/data_{}/".format(sub_mat_n)
 num_bins_all = []
 
@@ -243,5 +243,6 @@ def make_ground_truth():
 
 
 if __name__ == "__main__":
+    make_val_data()
     make_ground_truth()
       

@@ -67,8 +67,8 @@ class Model:
             l1_loss = 0
             for i in range(9):
                 #loss_l1 +=  (self.lap(merged[i], gt)).mean()*(0.8**(8-i))
-                loss_mse += (self.MSELoss(merged[i], gt)).mean()*(0.8**(8-i)) 
-                #l1_loss += (self.l1_loss(merged[i], gt)).mean()*(0.8**(8-i)) 
+                #loss_mse += (self.MSELoss(merged[i], gt)).mean()*(0.8**(8-i)) 
+                loss_l1 += (self.l1_loss(merged[i], gt)).mean()*(0.8**(8-i)) 
 
             merged_sq = torch.squeeze(merged[-1])
             merged_rgb = torch.stack((merged_sq, merged_sq, merged_sq))
@@ -80,8 +80,8 @@ class Model:
             #loss_vgg = (self.vggloss(merged[-1], gt)).mean()
             
             self.optimG.zero_grad()
-            #loss_G =  loss_l1 #+ loss_vgg * 0.5
-            loss_G = loss_mse + loss_vgg * 0.5
+            loss_G =  loss_l1 + loss_vgg * 0.5
+            #loss_G = loss_mse + loss_vgg * 0.5
             loss_avg += loss_G
             loss_G.backward()
             self.optimG.step()

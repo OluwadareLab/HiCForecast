@@ -1,6 +1,7 @@
 torchrun --nproc_per_node=1 \
 --master_port=4321 ./train_1d.py \
 --epoch 50 \
+<<<<<<< HEAD
 --max_HiC 100 \
 --num_gpu 1 \
 --device_number 0 \
