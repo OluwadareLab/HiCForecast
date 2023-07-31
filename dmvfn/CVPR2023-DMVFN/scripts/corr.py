@@ -24,9 +24,9 @@ def diagcorr(mat1, mat2, rtype='pearson', min_shift=10, max_shift=30, percentile
 
     assert l2 > max_shift, "Shifting distance is too large for input matrices!"
 
-    r = np.zeros(min_shift, max_shift)
-    p = np.zeros(min_shift, max_shift)
-    for s in range(min_shift, max_shift):
+    r = np.zeros(max_shift - min_shift + 1)
+    p = np.zeros(max_shift - min_shift + 1)
+    for s in range(min_shift, max_shift+1):
         diag1 = np.diag(mat1, k=s)
         diag2 = np.diag(mat2, k=s)
         if symmetric:
@@ -41,9 +41,9 @@ def diagcorr(mat1, mat2, rtype='pearson', min_shift=10, max_shift=30, percentile
             diag1, diag2 = _clear_max_min(diag1, diag2)
 
         if rtype == 'pearson':
-            r[s], p[s] = pearsonr(diag1, diag2)
+            r[s - min_shift], p[s - min_shift] = pearsonr(diag1, diag2)
         elif rtype == 'spearman':
-            r[s], p[s] = spearmanr(diag1, diag2)
+            r[s - min_shift], p[s - min_shift] = spearmanr(diag1, diag2)
 
     return r
 
