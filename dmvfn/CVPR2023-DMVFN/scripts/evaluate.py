@@ -7,13 +7,13 @@ from corr import*
 from GenomeDISCO import*
 from ssim import*
 
-dim = 80
+dim = 96
 epoch = 49
-batch = 8
-max_HiC = 400
-loss = "single_channel_MSE_VGG"
+batch = 16
+max_HiC = 255
+#loss = "single_channel_MSE_VGG"
 #loss = "single_channel_default_VGG"
-#loss = "single_channel_no_vgg"
+loss = "single_channel_no_vgg"
 #loss = "single_channel_L1_no_vgg"
 #loss = "single_channel_MSE_no_vgg"
 #loss = "single_channel_L1_VGG"
@@ -28,11 +28,11 @@ ground_truth = np.load("./../data/data_{}/data_gt_chr19_{}.npy".format(dim, dim)
 
 #Different file structure for HiC4D
 '''
-pred = np.load("./../data/data_{}/predictions/{}_{}/norm_{}/pred_chr19_final.npy".format(dim, loss, dim,max_HiC))
+pred = np.load("./../data/data_{}/predictions/{}_{}/norm_{}/chr19_predicted_final.npy".format(dim, loss, dim,max_HiC))
 ground_truth = np.load("./../data/data_{}/data_gt_chr19_{}.npy".format(dim, dim))
 '''
 
-ground_truth[ground_truth > max_HiC] = max_HiC
+#ground_truth[ground_truth > max_HiC] = max_HiC
 print("pred.shape: ", pred.shape)
 print("ground_truth.shape: ", ground_truth.shape)
 pearson_list = []

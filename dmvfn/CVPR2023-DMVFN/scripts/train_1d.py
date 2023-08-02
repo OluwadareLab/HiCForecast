@@ -115,8 +115,9 @@ def get_learning_rate(step):
 
 logger = logging.getLogger('base')
 #logger.info("Argument rgb: {}".format(rgb))
-#logger.info("Default loss without VGG")
-logger.info("Discounted L1 loss with VGG")
+logger.info("Default loss without VGG")
+logger.info("No cutoff")
+#logger.info("Discounted L1 loss with VGG")
 
 for arg, value in sorted(vars(args).items()):
     logger.info("{} Argument {}: {}".format(get_formatted_timestamp(), arg, value))
@@ -147,7 +148,7 @@ def train(model, args):
         set_number = 0 
         for chr_file in train_list:
             dataset = np.load(train_path + chr_file)
-            dataset[dataset > max_HiC] = max_HiC
+            #dataset[dataset > max_HiC] = max_HiC
             dataset = dataset / max_HiC
             #print("dataset[200][1][40]: ", dataset[200][1][40])
             sampler = DistributedSampler(dataset)
