@@ -26,7 +26,7 @@ def diagcorr(mat1, mat2, rtype='pearson', min_shift=10, max_shift=30, percentile
 
     r = np.zeros(max_shift - min_shift + 1)
     p = np.zeros(max_shift - min_shift + 1)
-    for s in range(min_shift, max_shift+1):
+    for s in range(min_shift, max_shift + 1):
         diag1 = np.diag(mat1, k=s)
         diag2 = np.diag(mat2, k=s)
         if symmetric:

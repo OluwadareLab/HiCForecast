@@ -6,9 +6,10 @@ base = importr('base')
 utils = importr("utils")
 hicrep = importr("hicrep")
 
-dim = 64
-epoch = 49
+dim = 96
+epoch = 54
 batch = 8
+#max_HiC = "255_cut_off"
 max_HiC = 255
 #loss = "single_channel_MSE_VGG"
 loss = "single_channel_no_vgg"
@@ -18,6 +19,7 @@ loss = "single_channel_no_vgg"
 #loss = "single_channel_L1_VGG"
 #loss = "HiC4D"
 
+lower_bound = 0
 lower_bound = 40000
 
 if loss ==  "HiC4D":
@@ -34,6 +36,10 @@ else:
 #GT = np.load("./../data/data_{}/data_gt_chr19_{}.npy".format(dim, dim))
 print("GT.shape: ", GT.shape)
 print("B.shape: ", B.shape)
+
+#if max_HiC != 255:
+#    GT[GT > max_HiC] = max_HiC
+#    print("Performed HiC_Max cutoff")
 
 '''
 if max_HiC != 255:

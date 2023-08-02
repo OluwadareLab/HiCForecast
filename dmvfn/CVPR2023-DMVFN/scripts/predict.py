@@ -42,9 +42,7 @@ def evaluate(model, args):
 
     with torch.no_grad():
         dat_test = np.load(args.data_path).astype(np.float32)
-        #if max_HiC != 255:
-        #print("Doing max_HiC cutoff")
-        #dat_test[dat_test > max_HiC] = max_HiC
+        print("Cut off implementation turned off")
         dat_test = dat_test / max_HiC
         #dat_test = dat_test / 225.
         #print("dat_test.shape: ", dat_test.shape)

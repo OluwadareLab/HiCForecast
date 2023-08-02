@@ -8,8 +8,8 @@ from GenomeDISCO import*
 from ssim import*
 
 dim = 96
-epoch = 49
-batch = 16
+epoch = 54
+batch = 8
 max_HiC = 255
 #loss = "single_channel_MSE_VGG"
 #loss = "single_channel_default_VGG"
