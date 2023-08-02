@@ -7,16 +7,19 @@ utils = importr("utils")
 hicrep = importr("hicrep")
 
 dim = 96
-epoch = 49
+epoch = 54
 batch = 8
-max_HiC = 100
-loss = "single_channel_MSE_VGG"
-#loss = "single_channel_no_vgg"
+#max_HiC = "255_cut_off"
+max_HiC = 255
+#loss = "single_channel_MSE_VGG"
+loss = "single_channel_no_vgg"
 #loss = "single_channel_default_VGG"
 #loss = "single_channel_L1_no_vgg"
 #loss = "single_channel_MSE_no_vgg"
 #loss = "single_channel_L1_VGG"
 #loss = "HiC4D"
+
+lower_bound = 0
 #default file structure:
 GT = np.load("./../data/data_{}/data_gt_chr19_{}.npy".format(dim, dim))
 B = np.load("./../data/data_{}/predictions/{}_{}/norm_{}/batch_{}/epoch_{}/pred_chr19_final.npy".format(dim, loss, dim, max_HiC, batch, epoch))
@@ -27,7 +30,9 @@ GT = np.load("./../data/data_{}/data_gt_chr19_{}.npy".format(dim, dim))
 B = np.load("./../data/data_{}/predictions/{}_{}/norm_{}/pred_chr19_final.npy".format(dim, loss, dim, max_HiC))
 '''
 
-GT[GT > max_HiC] = max_HiC
+#if max_HiC != 255:
+#    GT[GT > max_HiC] = max_HiC
+#    print("Performed HiC_Max cutoff")
 
 rpy2.robjects.numpy2ri.activate()
 
@@ -39,7 +44,7 @@ print("nc: ", nc)
 
 for i in range(3):
     PredR = ro.r.matrix(B[i], nrow=nr, ncol=nc)
-    GTR = ro.r.matrix(GT[i], nrow=nr, ncol=nc)
+    GTR = ro.r.matrix(GT[i + 3], nrow=nr, ncol=nc)
 
     #ro.r.assign("mat1", Br1)
     #ro.r.assign("mat2", Br2)
@@ -51,6 +56,6 @@ for i in range(3):
     #mat2 = mat1
 
     get_scc = ro.r['get.scc']
-    scc_score = get_scc(GTR, PredR , resol = 40000, h = 5, lbr = 400000, ubr = 1600000)
+    scc_score = get_scc(GTR, PredR , resol = 40000, h = 5, lbr = lower_bound, ubr = 1600000)
 
     print("scc_scor: ", scc_score[2])
