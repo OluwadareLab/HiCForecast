@@ -24,9 +24,9 @@ def get_predictions(file_predict, file_index, num_bins, sub_mat_n):
 
 dim = 96
 max_HiC = 255
-epoch=54
+epoch=86
 batch = 8
-max_HiC = "255_cut_off"
+#max_HiC = "255_cut_off"
 loss = "single_channel_no_vgg"
 #loss = "single_channel_default_VGG"
 #loss = "single_channel_L1_no_vgg"

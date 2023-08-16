@@ -1,13 +1,14 @@
 torchrun --nproc_per_node=1 \
 --master_port=4321 ./train_1d.py \
---epoch 50 \
-<<<<<<< HEAD
---max_HiC 100 \
+--epoch 300 \
+--max_HiC 255 \
 --num_gpu 1 \
---device_number 0 \
+--device_number 1 \
 --num_workers 1 \
 --batch_size 8 \
 --train_dataset hic \
 --val_datasets hic \
 --data_train_path ./../data/data_96/train/ \
+--resume_path ./../models/hic_train_log/20230717-164102/dmvfn_54.pkl \
+--resume_epoch 55 \
 --no_code_test

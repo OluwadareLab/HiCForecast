@@ -127,7 +127,6 @@ def train(model, args):
     nr_eval = args.resume_epoch
    
     train_path = args.data_train_path
-    #train_path = "./../data/data_64/train/"
     train_list = os.listdir(train_path)
     dataset_length = 0
     for file_name in train_list:
