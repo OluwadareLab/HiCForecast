@@ -53,6 +53,9 @@ parser.add_argument('--no_code_test', dest='code_test', action='store_false')
 parser.add_argument('--rgb', action='store_true')
 parser.add_argument('--no_rgb', dest='rgb', action='store_false')
 parser.add_argument('--data_train_path', required=True, type=str)
+parser.add_argument('--data_val_path', required=True, type=str)
+parser.add_argument('--loss', required=True, type=str)
+parser.add_argument('--patch_size', required=True, type=int)
 parser.set_defaults(code_test=False)
 args = parser.parse_args()
 print("args parsed.")
@@ -76,6 +79,8 @@ loss_fn_alex = lpips.LPIPS(net='alex').to(device)
 
 max_HiC = args.max_HiC
 rgb = args.rgb
+patch_size = args.path_size
+batch_size = args.batch_size
 
 current_time = get_timestamp()
 code_test = args.code_test
@@ -126,6 +131,7 @@ def train(model, args):
     step = 0
     nr_eval = args.resume_epoch
    
+    data_val_path = args.data_val_path
     train_path = args.data_train_path
     train_list = os.listdir(train_path)
     dataset_length = 0
@@ -151,7 +157,7 @@ def train(model, args):
             dataset = dataset / max_HiC
             #print("dataset[200][1][40]: ", dataset[200][1][40])
             sampler = DistributedSampler(dataset)
-            train_data = DataLoader(dataset, batch_size=args.batch_size, num_workers=args.num_workers, pin_memory=True, drop_last=True, sampler=sampler)
+            train_data = DataLoader(dataset, batch_size=batch_size, num_workers=args.num_workers, pin_memory=True, drop_last=True, sampler=sampler)
             sampler.set_epoch(epoch)
             set_number = set_number + 1
             step_per_dataset = train_data.__len__()
@@ -187,23 +193,72 @@ def train(model, args):
                 break
             logger.info(f'Training on {chr_file} complete.')
         nr_eval += 1
-        '''
-        if nr_eval % 1 == 0:
-            for dataset_name in args.val_datasets:
-                val_dataset = base_build_dataset(dataset_name)
-                val_data = DataLoader(val_dataset, batch_size=1, pin_memory=True, num_workers=1)
-                evaluate(model, val_data, dataset_name, nr_eval, step)
-        '''
         if local_rank <= 0:    
+            model.save_model(save_model_path_cache, epoch, local_rank)   
             if (epoch == (args.epoch - 1)) or ((epoch + 1) % 50 == 0):
                 model.save_model(save_model_path, epoch, local_rank)   
-            else:
-                model.save_model(save_model_path_cache, epoch, local_rank)   
-
+        if epoch % 1 == 0:
+            val_dataset = np.load(data_val_path)
+            val_data = DataLoader(val_dataset, batch_size=1, pin_memory=True, num_workers=1)
+            evaluate(model, val_data, dataset_name, epoch, step)
         dist.barrier()
     logger.info('{} Training module completed.'.format(get_formatted_timestamp()))
 
 def evaluate(model, val_data, name, nr_eval, step):
+    if name == "HiC":
+        with torch.no_grad():
+            #lpips_score_mine, psnr_score_mine, msssim_score_mine, ssim_score_mine = np.zeros(5), np.zeros(5), np.zeros(5), np.zeros(5)
+            hicrep = np.zeros(3)
+            time_stamp = time.time()
+            num = val_data.__len__()
+            os.system("python3 ./predict.py \
+            --data_path {} \
+            --load_path ./../models/hic_train_log_cache/{}/dmvfn_{}.pkl \
+            --output_dir ./../data/data_{}/predictions/{}_{}/norm_{}/batch_{}/epoch_{}/pred_chr19.npy \
+            --single_channel \
+            --max_HiC {}".format(data_val_path, current_time, epoch, patch_size, loss, patch_size, max_HiC, batch_size, epoch, max_HiC)
+
+
+
+            for i, data in enumerate(val_data):
+                data_gpu, _ = data
+                data_gpu = data_gpu.to(device, non_blocking=True) / 255.
+                preds = model.eval(data_gpu, name)
+
+                b,n,c,h,w = preds.shape
+                assert b==1 and n==5
+
+                gt, pred = data_gpu[0], preds[0]
+                for j in range(5):
+                    psnr = -10 * math.log10(torch.mean((gt[j+4] - pred[j]) * (gt[j+4] - pred[j])).cpu().data)
+                    ssim_val = ssim( gt[j+4:j+5], pred[j:j+1], data_range=1.0, size_average=False) # return (N,)
+                    ms_ssim_val = ms_ssim( gt[j+4:j+5], pred[j:j+1], data_range=1.0, size_average=False ) #(N,)
+                    x, y = ((gt[j+4:j+5]-0.5)*2.0).clone(), ((pred[j:j+1]-0.5)*2.0).clone()
+                    lpips_val = loss_fn_alex(x, y)
+
+                    lpips_score_mine[j] += lpips_val
+                    ssim_score_mine[j] += ssim_val
+                    msssim_score_mine[j] += ms_ssim_val
+                    psnr_score_mine[j] += psnr
+                    
+                    gt_1 = (gt[j+4:j+5].permute(0, 2, 3, 1).cpu().numpy() * 255).astype('uint8')
+                    pred_1 = (pred[j:j+1].permute(0, 2, 3, 1).cpu().numpy() * 255).astype('uint8')
+                    if i == 50 and local_rank == 0:
+                            imgs = np.concatenate((gt_1[0], pred_1[0]), 1)[:, :, ::-1]
+                            writer_val.add_image(name+str(j) + '/img', imgs.copy(), step, dataformats='HWC')
+            eval_time_interval = time.time() - time_stamp
+            if local_rank != 0:
+                return
+            psnr_score_mine, ssim_score_mine, msssim_score_mine, lpips_score_mine = psnr_score_mine/num, ssim_score_mine/num, msssim_score_mine/num, lpips_score_mine/num
+            for i in range(5):
+                logger.info('%d             '%(nr_eval)+name+'  psnr_%d     '%(i)+'%.4f'%(sum(psnr_score_mine[:(i+1)])/(i+1))+'  ssim_%d     '%(i)+'%.4f'%(sum(ssim_score_mine[:(i+1)])/(i+1))+'  ms_ssim_%d     '%(i)+
+                '%.4f'%(sum(msssim_score_mine[:(i+1)])/(i+1))+'  lpips_%d     '%(i)+'%.4f'%(sum(lpips_score_mine[:(i+1)])/(i+1)))
+
+                writer_val.add_scalar(name+' psnr_%d'%(i),  psnr_score_mine[i], step)
+                writer_val.add_scalar(name+' ssim_%d'%(i),  ssim_score_mine[i], step)
+                writer_val.add_scalar(name+' ms_ssim_%d'%(i),  msssim_score_mine[i], step)
+                writer_val.add_scalar(name+' lpips_%d'%(i),  lpips_score_mine[i], step)
+
     if name == "CityValDataset" or name == "KittiValDataset" or name == "DavisValDataset":
         with torch.no_grad():
             lpips_score_mine, psnr_score_mine, msssim_score_mine, ssim_score_mine = np.zeros(5), np.zeros(5), np.zeros(5), np.zeros(5)
