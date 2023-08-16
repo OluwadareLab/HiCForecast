@@ -8,7 +8,8 @@ torchrun --nproc_per_node=1 \
 --batch_size 8 \
 --train_dataset hic \
 --val_datasets hic \
+--data_val_path ./..data/data_64/val/data_val_chr19_64.npy \
 --data_train_path ./../data/data_96/train/ \
 --resume_path ./../models/hic_train_log/20230717-164102/dmvfn_54.pkl \
 --resume_epoch 55 \
---no_code_test
+--code_test
