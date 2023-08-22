@@ -1,15 +1,18 @@
 torchrun --nproc_per_node=1 \
 --master_port=4321 ./train_1d.py \
---epoch 300 \
---max_HiC 255 \
+--epoch 1 \
+--max_HiC 100 \
+--patch_size 96 \
 --num_gpu 1 \
 --device_number 1 \
 --num_workers 1 \
 --batch_size 8 \
 --train_dataset hic \
 --val_datasets hic \
---data_val_path ./..data/data_64/val/data_val_chr19_64.npy \
+--data_val_path ./../data/data_96/val/data_val_chr19_96.npy \
 --data_train_path ./../data/data_96/train/ \
---resume_path ./../models/hic_train_log/20230717-164102/dmvfn_54.pkl \
---resume_epoch 55 \
---code_test
+--resume_epoch 0 \
+--early_stoppage_epochs 10 \
+--loss single_channel_default_VGG \
+--cut_off \
+--code_test 
