@@ -15,7 +15,7 @@ from utils.util import *
 from model.model_1d import Model
 
 #from torchsummary import summary
-
+print("Executing predict.py")
 
 device = torch.device("cuda")
 seed = 1234
@@ -33,6 +33,8 @@ parser.add_argument('--output_dir', type=str, help='output path')
 parser.add_argument('--rgb', action="store_true")
 parser.add_argument('--single_channel', dest='rgb', action='store_false')
 parser.add_argument('--max_HiC', type=int)
+parser.add_argument('--cut_off', action='store_true')
+parser.add_argument('--no_cut_off', dest='cut_off', action='store_false')
 args = parser.parse_args()
 
 rgb = args.rgb
@@ -42,7 +44,9 @@ def evaluate(model, args):
 
     with torch.no_grad():
         dat_test = np.load(args.data_path).astype(np.float32)
-        print("Cut off implementation turned off")
+        if args.cut_off == True:
+            dat_test[dat_test > max_HiC] = max_HiC
+            print("Performed cut off for prediction")
         dat_test = dat_test / max_HiC
         #dat_test = dat_test / 225.
         #print("dat_test.shape: ", dat_test.shape)

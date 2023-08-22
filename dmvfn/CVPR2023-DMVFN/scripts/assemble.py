@@ -1,9 +1,13 @@
+import os
 import numpy as np
 
+def get_predictions(file_predict, num_bins, sub_mat_n):
+    if not os.path.exists(file_predict):
+        os.makedirs(file_predict)
 
-def get_predictions(file_predict, file_index, num_bins, sub_mat_n):
-    
-    dat_predict = np.load(file_predict)
+    dim = sub_mat_n
+    file_index = "./../data/data_{}/val/data_val_index_chr19_{}.npy".format(dim, dim)
+    dat_predict = np.load(file_predict + "pred_chr19.npy")
     dat_index = np.load(file_index)
     
     predictions = []
@@ -20,31 +24,23 @@ def get_predictions(file_predict, file_index, num_bins, sub_mat_n):
         mat_chr2 = np.divide(mat_chr, mat_n, out=np.zeros_like(mat_chr), where=mat_n!=0)
         predictions.append(mat_chr2)
     
+    print(np.array(predictions).shape)
+    np.save(file_predict + "pred_chr19_final.npy", np.array(predictions))
     return predictions
 
-dim = 96
-max_HiC = 255
-epoch=86
-batch = 8
+#dim = 96
+#max_HiC = 255
+#epoch = 49
+#batch = 8
 #max_HiC = "255_cut_off"
-loss = "single_channel_no_vgg"
+#loss = "single_channel_no_vgg"
 #loss = "single_channel_default_VGG"
 #loss = "single_channel_L1_no_vgg"
 #loss = "single_channel_MSE_no_vgg"
 #loss = "single_channel_MSE_VGG"
 #loss = "single_channel_L1_VGG"
 #loss = "HiC4D"
-file_predict = "./../data/data_{}/predictions/{}_{}/norm_{}/batch_{}/epoch_{}/pred_chr19.npy".format(dim, loss, dim, max_HiC, batch, epoch)
-file_index = "./../data/data_{}/val/data_val_index_chr19_{}.npy".format(dim, dim)
-file_out = "./../data/data_{}/predictions/{}_{}/norm_{}/batch_{}/epoch_{}/pred_chr19_final.npy".format(dim, loss, dim, max_HiC, batch, epoch)
-#Different file structure for HiC4D
-'''
-file_predict = "./../data/data_{}/predictions/{}_{}/norm_{}/chr19_predicted.npy".format(dim, loss, dim, max_HiC, batch, epoch)
-file_index = "./../data/data_{}/val/data_val_index_chr19_{}.npy".format(dim, dim)
-file_out = "./../data/data_{}/predictions/{}_{}/norm_{}/chr19_predicted_final.npy".format(dim, loss, dim, max_HiC, batch, epoch)
-'''
-predict_mat = get_predictions(file_predict, file_index, 1534, dim)
-
+#predict_mat = get_predictions(file_predict, file_index, 1534, dim)
 # for t4, t5, and t6
-print(np.array(predict_mat).shape)
-np.save(file_out, np.array(predict_mat))
+#print(np.array(predict_mat).shape)
+#np.save(file_out + "pred_chr19_final.npy", np.array(predict_mat))

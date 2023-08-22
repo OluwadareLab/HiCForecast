@@ -1,0 +1,41 @@
+INFO: Default loss without VGG
+INFO: No cutoff
+INFO: 2023-08-21 20:03:54 Argument batch_size: 8
+INFO: 2023-08-21 20:03:54 Argument code_test: True
+INFO: 2023-08-21 20:03:54 Argument data_train_path: ./../data/data_96/train/
+INFO: 2023-08-21 20:03:54 Argument data_val_path: ./../data/data_96/val/data_val_chr19_96.npy
+INFO: 2023-08-21 20:03:54 Argument device_number: 1
+INFO: 2023-08-21 20:03:54 Argument epoch: 2
+INFO: 2023-08-21 20:03:54 Argument local_rank: 0
+INFO: 2023-08-21 20:03:54 Argument loss: single_channel_no_vgg
+INFO: 2023-08-21 20:03:54 Argument max_HiC: 255
+INFO: 2023-08-21 20:03:54 Argument num_gpu: 1
+INFO: 2023-08-21 20:03:54 Argument num_workers: 1
+INFO: 2023-08-21 20:03:54 Argument patch_size: 96
+INFO: 2023-08-21 20:03:54 Argument resume_epoch: 0
+INFO: 2023-08-21 20:03:54 Argument resume_path: None
+INFO: 2023-08-21 20:03:54 Argument rgb: False
+INFO: 2023-08-21 20:03:54 Argument train_dataset: hic
+INFO: 2023-08-21 20:03:54 Argument val_datasets: ['hic']
+INFO: 2023-08-21 20:03:58 epoch:0 dataset: 1/17 step: 0/155 time:0.60+2.14 loss_avg:2.2300e-01
+INFO: 2023-08-21 20:03:59 epoch:0 dataset: 1/17 step: 1/155 time:0.00+0.66 loss_avg:1.8877e-01
+INFO: Training on data_train_chr7_96.npy complete.
+INFO: 2023-08-21 20:04:00 epoch:0 dataset: 2/17 step: 0/90 time:0.54+0.85 loss_avg:2.5133e-01
+INFO: 2023-08-21 20:04:01 epoch:0 dataset: 2/17 step: 1/90 time:0.00+0.82 loss_avg:2.4228e-01
+INFO: Validation scores: [0.70192409 0.51270967 0.50363036]
+INFO: 2023-08-21 20:04:24 epoch:1 dataset: 1/17 step: 0/155 time:21.56+0.84 loss_avg:1.6286e-01
+INFO: 2023-08-21 20:04:24 epoch:1 dataset: 1/17 step: 1/155 time:0.00+0.84 loss_avg:2.2839e-01
+INFO: Training on data_train_chr7_96.npy complete.
+INFO: 2023-08-21 20:04:26 epoch:1 dataset: 2/17 step: 0/90 time:0.58+0.88 loss_avg:2.3389e-01
+INFO: 2023-08-21 20:04:27 epoch:1 dataset: 2/17 step: 1/90 time:0.00+0.85 loss_avg:2.4020e-01
+INFO: Validation scores: [0.70162655 0.51258048 0.50283473]
+INFO: Traceback:
+INFO: Traceback (most recent call last):
+  File "./train_1d.py", line 334, in <module>
+    train(model, args)
+  File "./train_1d.py", line 212, in train
+    loggerl.info("Training module complete due to early stoppage")
+NameError: name 'loggerl' is not defined
+
+INFO: Sys.exc_info()[2]:
+INFO: <traceback object at 0x7f049300aa40>

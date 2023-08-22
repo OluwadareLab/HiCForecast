@@ -12,6 +12,8 @@ import importlib
 import traceback
 import numpy as np
 import torch.distributed as dist
+from hicrep import *
+from assemble import *
 from pytorch_msssim import ssim, ms_ssim
 from torch.utils.data import DataLoader, Dataset
 from torch.utils.tensorboard import SummaryWriter
@@ -47,15 +49,17 @@ parser.add_argument('--train_dataset', required=True, type=str, help='CityTrainD
 parser.add_argument('--val_datasets', type=str, nargs='+', default=['hic'], help='[CityValDataset,KittiValDataset,VimeoValDataset,DavisValDataset]')
 parser.add_argument('--resume_path', default=None, type=str, help='continue to train, model path')
 parser.add_argument('--resume_epoch', default=0, type=int, help='continue to train, epoch')
-#parser.add_argument('--code_test_mode', action="store_false", help='code_test_mode=True for testing training module')
 parser.add_argument('--code_test', action='store_true')
 parser.add_argument('--no_code_test', dest='code_test', action='store_false')
 parser.add_argument('--rgb', action='store_true')
 parser.add_argument('--no_rgb', dest='rgb', action='store_false')
 parser.add_argument('--data_train_path', required=True, type=str)
 parser.add_argument('--data_val_path', required=True, type=str)
-parser.add_argument('--loss', required=True, type=str)
+parser.add_argument('--loss', required=True, type=str, help=['single_channel_no_vgg'])
+parser.add_argument('--early_stoppage_epochs', type=int)
 parser.add_argument('--patch_size', required=True, type=int)
+parser.add_argument('--cut_off', action='store_true')
+parser.add_argument('--no_cut_off', dest='cut_off', action='store_false')
 parser.set_defaults(code_test=False)
 args = parser.parse_args()
 print("args parsed.")
@@ -79,8 +83,11 @@ loss_fn_alex = lpips.LPIPS(net='alex').to(device)
 
 max_HiC = args.max_HiC
 rgb = args.rgb
-patch_size = args.path_size
+patch_size = args.patch_size
 batch_size = args.batch_size
+loss = args.loss
+val_dataset = args.val_datasets[0]
+data_val_path = args.data_val_path
 
 current_time = get_timestamp()
 code_test = args.code_test
@@ -120,9 +127,6 @@ def get_learning_rate(step):
 
 logger = logging.getLogger('base')
 #logger.info("Argument rgb: {}".format(rgb))
-logger.info("Default loss without VGG")
-logger.info("No cutoff")
-#logger.info("Discounted L1 loss with VGG")
 
 for arg, value in sorted(vars(args).items()):
     logger.info("{} Argument {}: {}".format(get_formatted_timestamp(), arg, value))
@@ -131,6 +135,11 @@ def train(model, args):
     step = 0
     nr_eval = args.resume_epoch
    
+
+    old_val = []
+    for i in range(args.early_stoppage_epochs):
+        old_val.append(np.array([0., 0., 0.]))
+
     data_val_path = args.data_val_path
     train_path = args.data_train_path
     train_list = os.listdir(train_path)
@@ -147,13 +156,16 @@ def train(model, args):
     step = 0 + args.step_per_epoch * args.resume_epoch
     if local_rank == 0:
         print('training...')
+    val_hicrep = np.array([-1, -1, -1])
     time_stamp = time.time()
     for epoch in range(args.resume_epoch, args.epoch):
         print("Epoch: ", epoch)
         set_number = 0 
         for chr_file in train_list:
             dataset = np.load(train_path + chr_file)
-            #dataset[dataset > max_HiC] = max_HiC
+            if args.cut_off == True:
+                dataset[dataset > max_HiC] = max_HiC
+                print("Performed cut off")
             dataset = dataset / max_HiC
             #print("dataset[200][1][40]: ", dataset[200][1][40])
             sampler = DistributedSampler(dataset)
@@ -195,70 +207,46 @@ def train(model, args):
         nr_eval += 1
         if local_rank <= 0:    
             model.save_model(save_model_path_cache, epoch, local_rank)   
+            print("Model saved to cache")
             if (epoch == (args.epoch - 1)) or ((epoch + 1) % 50 == 0):
                 model.save_model(save_model_path, epoch, local_rank)   
         if epoch % 1 == 0:
-            val_dataset = np.load(data_val_path)
-            val_data = DataLoader(val_dataset, batch_size=1, pin_memory=True, num_workers=1)
-            evaluate(model, val_data, dataset_name, epoch, step)
+            #val_dataset = np.load(data_val_path)
+            #val_data = DataLoader(val_dataset, batch_size=1, pin_memory=True, num_workers=1)
+            val_hicrep_old = old_val.pop(0)
+            val_hicrep = evaluate(model, data_val_path, val_dataset, epoch, step)
+            old_val.append(val_hicrep)
+            if val_hicrep[0] - val_hicrep_old[0] < 0.0001 or val_hicrep[1] - val_hicrep_old[1] < 0.0001 or val_hicrep[2] - val_hicrep_old[2]<0.0001:
+                logger.info("Training module complete due to early stoppage")
+                quit()
         dist.barrier()
     logger.info('{} Training module completed.'.format(get_formatted_timestamp()))
 
-def evaluate(model, val_data, name, nr_eval, step):
-    if name == "HiC":
-        with torch.no_grad():
-            #lpips_score_mine, psnr_score_mine, msssim_score_mine, ssim_score_mine = np.zeros(5), np.zeros(5), np.zeros(5), np.zeros(5)
-            hicrep = np.zeros(3)
-            time_stamp = time.time()
-            num = val_data.__len__()
-            os.system("python3 ./predict.py \
-            --data_path {} \
-            --load_path ./../models/hic_train_log_cache/{}/dmvfn_{}.pkl \
-            --output_dir ./../data/data_{}/predictions/{}_{}/norm_{}/batch_{}/epoch_{}/pred_chr19.npy \
-            --single_channel \
-            --max_HiC {}".format(data_val_path, current_time, epoch, patch_size, loss, patch_size, max_HiC, batch_size, epoch, max_HiC)
+def evaluate(model, data_val_path, name, epoch, step):
+    with torch.no_grad():
+        #lpips_score_mine, psnr_score_mine, msssim_score_mine, ssim_score_mine = np.zeros(5), np.zeros(5), np.zeros(5), np.zeros(5)
+        hicrep = np.zeros(3)
+        time_stamp = time.time()
+        #num = val_data.__len__()
+        val_save_path = "./../data/data_{}/train_val/{}/epoch_{}/".format(patch_size,current_time, epoch)  
+        load_path = save_model_path_cache + "/dmvfn_{}.pkl".format( epoch) 
+        if not os.path.exists(val_save_path):
+            os.makedirs(val_save_path)
+        print("Calling predict.py")
+        os.system("python3 ./predict.py \
+        --data_path {} \
+        --load_path {} \
+        --output_dir {} \
+        --single_channel \
+        --max_HiC {}".format(data_val_path, load_path, val_save_path + "pred_chr19.npy", max_HiC))
+        print("Calling assemble.py")
+        get_predictions(val_save_path, 1534, patch_size) #assemble into one big matrix
+        val_hicrep = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 400000)
+        logger.info("Validation scores: {}".format(val_hicrep))
+        writer_val.add_scalar(name+' hicrep: %d %d %d',  val_hicrep[0], val_hicrep[1], val_hicrep[2], epoch)
+        return val_hicrep
 
-
-
-            for i, data in enumerate(val_data):
-                data_gpu, _ = data
-                data_gpu = data_gpu.to(device, non_blocking=True) / 255.
-                preds = model.eval(data_gpu, name)
-
-                b,n,c,h,w = preds.shape
-                assert b==1 and n==5
-
-                gt, pred = data_gpu[0], preds[0]
-                for j in range(5):
-                    psnr = -10 * math.log10(torch.mean((gt[j+4] - pred[j]) * (gt[j+4] - pred[j])).cpu().data)
-                    ssim_val = ssim( gt[j+4:j+5], pred[j:j+1], data_range=1.0, size_average=False) # return (N,)
-                    ms_ssim_val = ms_ssim( gt[j+4:j+5], pred[j:j+1], data_range=1.0, size_average=False ) #(N,)
-                    x, y = ((gt[j+4:j+5]-0.5)*2.0).clone(), ((pred[j:j+1]-0.5)*2.0).clone()
-                    lpips_val = loss_fn_alex(x, y)
-
-                    lpips_score_mine[j] += lpips_val
-                    ssim_score_mine[j] += ssim_val
-                    msssim_score_mine[j] += ms_ssim_val
-                    psnr_score_mine[j] += psnr
-                    
-                    gt_1 = (gt[j+4:j+5].permute(0, 2, 3, 1).cpu().numpy() * 255).astype('uint8')
-                    pred_1 = (pred[j:j+1].permute(0, 2, 3, 1).cpu().numpy() * 255).astype('uint8')
-                    if i == 50 and local_rank == 0:
-                            imgs = np.concatenate((gt_1[0], pred_1[0]), 1)[:, :, ::-1]
-                            writer_val.add_image(name+str(j) + '/img', imgs.copy(), step, dataformats='HWC')
-            eval_time_interval = time.time() - time_stamp
-            if local_rank != 0:
-                return
-            psnr_score_mine, ssim_score_mine, msssim_score_mine, lpips_score_mine = psnr_score_mine/num, ssim_score_mine/num, msssim_score_mine/num, lpips_score_mine/num
-            for i in range(5):
-                logger.info('%d             '%(nr_eval)+name+'  psnr_%d     '%(i)+'%.4f'%(sum(psnr_score_mine[:(i+1)])/(i+1))+'  ssim_%d     '%(i)+'%.4f'%(sum(ssim_score_mine[:(i+1)])/(i+1))+'  ms_ssim_%d     '%(i)+
-                '%.4f'%(sum(msssim_score_mine[:(i+1)])/(i+1))+'  lpips_%d     '%(i)+'%.4f'%(sum(lpips_score_mine[:(i+1)])/(i+1)))
-
-                writer_val.add_scalar(name+' psnr_%d'%(i),  psnr_score_mine[i], step)
-                writer_val.add_scalar(name+' ssim_%d'%(i),  ssim_score_mine[i], step)
-                writer_val.add_scalar(name+' ms_ssim_%d'%(i),  msssim_score_mine[i], step)
-                writer_val.add_scalar(name+' lpips_%d'%(i),  lpips_score_mine[i], step)
-
+'''
     if name == "CityValDataset" or name == "KittiValDataset" or name == "DavisValDataset":
         with torch.no_grad():
             lpips_score_mine, psnr_score_mine, msssim_score_mine, ssim_score_mine = np.zeros(5), np.zeros(5), np.zeros(5), np.zeros(5)
@@ -345,10 +333,11 @@ def evaluate(model, val_data, name, nr_eval, step):
                 writer_val.add_scalar(name+' ssim_%d'%(i),  ssim_score_mine[i], step)
                 writer_val.add_scalar(name+' ms_ssim_%d'%(i),  msssim_score_mine[i], step)
                 writer_val.add_scalar(name+' lpips_%d'%(i),  lpips_score_mine[i], step)
+'''
         
 if __name__ == "__main__":    
     try:
-        model = Model(local_rank=device_number, resume_path=args.resume_path, resume_epoch=args.resume_epoch)
+        model = Model(local_rank=device_number, resume_path=args.resume_path, resume_epoch=args.resume_epoch, loss=loss)
         #model = nn.parallel.DistributedDataParallel
         train(model, args)
     except Exception:
@@ -358,3 +347,44 @@ if __name__ == "__main__":
         logger.info("Sys.exc_info()[2]:")
         logger.info(sys.exc_info()[2])
         exit()
+        
+'''
+            for i, data in enumerate(val_data):
+                data_gpu, _ = data
+                data_gpu = data_gpu.to(device, non_blocking=True) / 255.
+                preds = model.eval(data_gpu, name)
+
+                b,n,c,h,w = preds.shape
+                assert b==1 and n==5
+
+                gt, pred = data_gpu[0], preds[0]
+                for j in range(5):
+                    psnr = -10 * math.log10(torch.mean((gt[j+4] - pred[j]) * (gt[j+4] - pred[j])).cpu().data)
+                    ssim_val = ssim( gt[j+4:j+5], pred[j:j+1], data_range=1.0, size_average=False) # return (N,)
+                    ms_ssim_val = ms_ssim( gt[j+4:j+5], pred[j:j+1], data_range=1.0, size_average=False ) #(N,)
+                    x, y = ((gt[j+4:j+5]-0.5)*2.0).clone(), ((pred[j:j+1]-0.5)*2.0).clone()
+                    lpips_val = loss_fn_alex(x, y)
+
+                    lpips_score_mine[j] += lpips_val
+                    ssim_score_mine[j] += ssim_val
+                    msssim_score_mine[j] += ms_ssim_val
+                    psnr_score_mine[j] += psnr
+                    
+                    gt_1 = (gt[j+4:j+5].permute(0, 2, 3, 1).cpu().numpy() * 255).astype('uint8')
+                    pred_1 = (pred[j:j+1].permute(0, 2, 3, 1).cpu().numpy() * 255).astype('uint8')
+                    if i == 50 and local_rank == 0:
+                            imgs = np.concatenate((gt_1[0], pred_1[0]), 1)[:, :, ::-1]
+                            writer_val.add_image(name+str(j) + '/img', imgs.copy(), step, dataformats='HWC')
+            eval_time_interval = time.time() - time_stamp
+            if local_rank != 0:
+                return
+            psnr_score_mine, ssim_score_mine, msssim_score_mine, lpips_score_mine = psnr_score_mine/num, ssim_score_mine/num, msssim_score_mine/num, lpips_score_mine/num
+            for i in range(5):
+                logger.info('%d             '%(nr_eval)+name+'  psnr_%d     '%(i)+'%.4f'%(sum(psnr_score_mine[:(i+1)])/(i+1))+'  ssim_%d     '%(i)+'%.4f'%(sum(ssim_score_mine[:(i+1)])/(i+1))+'  ms_ssim_%d     '%(i)+
+                '%.4f'%(sum(msssim_score_mine[:(i+1)])/(i+1))+'  lpips_%d     '%(i)+'%.4f'%(sum(lpips_score_mine[:(i+1)])/(i+1)))
+
+                writer_val.add_scalar(name+' psnr_%d'%(i),  psnr_score_mine[i], step)
+                writer_val.add_scalar(name+' ssim_%d'%(i),  ssim_score_mine[i], step)
+                writer_val.add_scalar(name+' ms_ssim_%d'%(i),  msssim_score_mine[i], step)
+                writer_val.add_scalar(name+' lpips_%d'%(i),  lpips_score_mine[i], step)
+'''

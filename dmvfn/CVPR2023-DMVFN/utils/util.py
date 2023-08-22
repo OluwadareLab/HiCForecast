@@ -4,13 +4,13 @@ import os
 import datetime
 
 def get_timestamp():
-    desired_timezone = datetime.timezone(datetime.timedelta(hours=-6))
+    desired_timezone = datetime.timezone(datetime.timedelta(hours=-5))
     current_time = datetime.datetime.now(desired_timezone)
     formatted_time = current_time.strftime('%Y%m%d-%H%M%S')
     return formatted_time
 
 def get_formatted_timestamp():
-    desired_timezone = datetime.timezone(datetime.timedelta(hours=-6))
+    desired_timezone = datetime.timezone(datetime.timedelta(hours=-5))
     current_time = datetime.datetime.now(desired_timezone)
     formatted_time = current_time.strftime('%Y-%m-%d %H:%M:%S')
     return formatted_time

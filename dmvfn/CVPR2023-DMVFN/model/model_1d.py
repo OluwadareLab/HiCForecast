@@ -18,10 +18,11 @@ from loss.loss import *
 device = torch.device("cuda")
     
 class Model:
-    def __init__(self, local_rank=-1, resume_path=None, resume_epoch=0, load_path=None, training=True, rgb=False):
+    def __init__(self, local_rank=-1, resume_path=None, resume_epoch=0, load_path=None, training=True, rgb=False, loss='single_chanel_no_vgg'):
         self.dmvfn = DMVFN(rgb=rgb)
-        self.optimG = AdamW(self.dmvfn.parameters(), lr=1e-6, weight_decay=1e-3)
+        self.optimG = AdamW(self.dmvfn.parameters(), lr=1e-3, weight_decay=1e-3)
         self.rgb = rgb
+        self.loss = loss
         if rgb == True:
             input_chan = 3
         else:
@@ -52,8 +53,8 @@ class Model:
 
     def train(self, imgs, learning_rate=0):
         self.dmvfn.train()
-        for param_group in self.optimG.param_groups:
-            param_group['lr'] = learning_rate
+        #for param_group in self.optimG.param_groups:
+        #    param_group['lr'] = learning_rate
         b, n, c, h, w = imgs.shape
         loss_avg = 0
         for i in range(n-2):
@@ -66,24 +67,29 @@ class Model:
             loss_mse = 0
             l1_loss = 0
             for i in range(9):
-                loss_l1 +=  (self.lap(merged[i], gt)).mean()*(0.8**(8-i))
-                #loss_mse += (self.MSELoss(merged[i], gt)).mean()*(0.8**(8-i)) 
-                #loss_l1 += (self.l1_loss(merged[i], gt)).mean()*(0.8**(8-i)) 
+                if self.loss == 'single_channel_no_vgg' or self.loss == 'single_channel_default_VGG':
+                    loss_l1 +=  (self.lap(merged[i], gt)).mean()*(0.8**(8-i))
+                if self.loss == 'single_channel_MSE_no_vgg':
+                    loss_mse += (self.MSELoss(merged[i], gt)).mean()*(0.8**(8-i)) 
+                if self.loss == 'single_channel_L1_no_vgg':
+                    loss_l1 += (self.l1_loss(merged[i], gt)).mean()*(0.8**(8-i)) 
 
-            ''' 
-            merged_sq = torch.squeeze(merged[-1])
-            merged_rgb = torch.stack((merged_sq, merged_sq, merged_sq))
-            merged_rgb = torch.permute(merged_rgb, (1,0,2,3))
-            gt_sq = torch.squeeze(gt)
-            gt_rgb = torch.stack((gt_sq, gt_sq, gt_sq))
-            gt_rgb = torch.permute(gt_rgb, (1,0,2,3))
-            loss_vgg = (self.vggloss(merged_rgb, gt_rgb)).mean()
-            #loss_vgg = (self.vggloss(merged[-1], gt)).mean()
-            '''
-            
+            if self.loss == 'single_channel_default_VGG':
+                merged_sq = torch.squeeze(merged[-1])
+                merged_rgb = torch.stack((merged_sq, merged_sq, merged_sq))
+                merged_rgb = torch.permute(merged_rgb, (1,0,2,3))
+                gt_sq = torch.squeeze(gt)
+                gt_rgb = torch.stack((gt_sq, gt_sq, gt_sq))
+                gt_rgb = torch.permute(gt_rgb, (1,0,2,3))
+                loss_vgg = (self.vggloss(merged_rgb, gt_rgb)).mean()
+                #loss_vgg = (self.vggloss(merged[-1], gt)).mean()
+                loss_G = loss_mse + loss_vgg * 0.5
+
             self.optimG.zero_grad()
-            loss_G =  loss_l1 #+ loss_vgg * 0.5
-            #loss_G = loss_mse + loss_vgg * 0.5
+            if self.loss == 'single_channel_no_vgg' or self.loss == 'single_channel_L1_no_vgg':
+                loss_G =  loss_l1 
+            if self.loss == 'single_channel_MSE_no_vgg':
+                loss_G = loss_mse
             loss_avg += loss_G
             loss_G.backward()
             self.optimG.step()
