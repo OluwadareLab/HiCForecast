@@ -41,9 +41,10 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--epoch', default=1, type=int)
 parser.add_argument('--max_HiC', type=int)
 parser.add_argument('--num_gpu', default=1, type=int) # or 8
-parser.add_argument('--device_number', type=int)
+parser.add_argument('--device_id', type=int)
 parser.add_argument('--num_workers', default=0, type=int)
 parser.add_argument('--batch_size', default=8, type=int, help='minibatch size')
+parser.add_argument('--learning_rate', type=float)
 parser.add_argument('--local_rank', default=0, type=int, help='local rank')
 parser.add_argument('--train_dataset', required=True, type=str, help='CityTrainDataset, KittiTrainDataset, VimeoTrainDataset')
 parser.add_argument('--val_datasets', type=str, nargs='+', default=['hic'], help='[CityValDataset,KittiValDataset,VimeoValDataset,DavisValDataset]')
@@ -67,7 +68,7 @@ print("args parsed.")
 torch.distributed.init_process_group(backend="nccl", world_size=args.num_gpu)
 print("distributed.")
 local_rank = torch.distributed.get_rank()
-device_number = args.device_number
+device_number = args.device_id
 print("got rank")
 torch.cuda.set_device(device_number)
 device = torch.device("cuda", device_number)
@@ -88,6 +89,7 @@ batch_size = args.batch_size
 loss = args.loss
 val_dataset = args.val_datasets[0]
 data_val_path = args.data_val_path
+lr = args.learning_rate
 
 current_time = get_timestamp()
 code_test = args.code_test
@@ -337,7 +339,7 @@ def evaluate(model, data_val_path, name, epoch, step):
         
 if __name__ == "__main__":    
     try:
-        model = Model(local_rank=device_number, resume_path=args.resume_path, resume_epoch=args.resume_epoch, loss=loss)
+        model = Model(local_rank=device_number, resume_path=args.resume_path, resume_epoch=args.resume_epoch, lr=lr, loss=loss)
         #model = nn.parallel.DistributedDataParallel
         train(model, args)
     except Exception:
