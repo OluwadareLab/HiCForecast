@@ -1,8 +1,0 @@
-23-07-12 20:36:09.971 - INFO: Argument batch_size: 8
-23-07-12 20:36:09.971 - INFO: Argument epoch: 2
-23-07-12 20:36:09.972 - INFO: Argument local_rank: 0
-23-07-12 20:36:09.972 - INFO: Argument num_gpu: 2
-23-07-12 20:36:09.972 - INFO: Argument resume_epoch: 1
-23-07-12 20:36:09.972 - INFO: Argument resume_path: './../pretrained_models/dmvfn_city.pkl'
-23-07-12 20:36:09.972 - INFO: Argument train_dataset: 'hic'
-23-07-12 20:36:09.973 - INFO: Argument val_datasets: ['hic']
