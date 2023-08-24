@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # A Dynamic Multi-Scale Voxel Flow Network for Video Prediction
 ## [HomePage](https://huxiaotaostasy.github.io/DMVFN) | [Colab](https://colab.research.google.com/github/megvii-research/CVPR2023-DMVFN/blob/main/colab_demo.ipynb) | [arXiv](https://arxiv.org/abs/2303.09875) | [YouTube](https://youtu.be/rlghCGbAqUo)
 This project is the implementation of our Paper: [A Dynamic Multi-Scale Voxel Flow Network for Video Prediction](https://arxiv.org/abs/2303.09875), which is accepted by **CVPR2023 (highlight✨, 10% of accepted papers).** We proposed a SOTA model for Video Prediction.
@@ -238,3 +239,7 @@ If you think this project is helpful, please feel free to leave a star or cite o
   year={2023}
 }
 ```
+=======
+# HiCForecast
+HiCForecast: Dynamic Network Optical Flow Estimation Algorithm for Spatiotemporal Hi-C Data Forecasting
+>>>>>>> 3c75018e8c8b8c9a71f5418f89e8acb296858b26
