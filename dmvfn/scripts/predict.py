@@ -25,6 +25,7 @@ torch.manual_seed(seed)
 torch.cuda.manual_seed_all(seed)
 torch.backends.cudnn.benchmark = True
 
+'''
 parser = argparse.ArgumentParser()
 parser.add_argument('--data_path', required=True, type=str, help='data path')
 #parser.add_argument('--image_1_path', required=True, type=str, help='image 1 path')
@@ -39,6 +40,7 @@ args = parser.parse_args()
 
 rgb = args.rgb
 max_HiC = args.max_HiC
+'''
 
 def evaluate(model, args):
 

@@ -96,6 +96,11 @@ class Model:
 
         return loss_avg/(n-2)
 
+
+    def get_lr(self):
+        lr = self.optimG.param_groups[-1]['lr']
+        return lr
+
     def eval(self, imgs, name='city', scale_list = [4,4,4,2,2,2,1,1,1]):
         self.dmvfn.eval()
         b, n, c, h, w = imgs.shape 

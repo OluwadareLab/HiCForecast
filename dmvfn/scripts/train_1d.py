@@ -12,8 +12,6 @@ import importlib
 import traceback
 import numpy as np
 import torch.distributed as dist
-from hicrep import *
-from assemble import *
 from pytorch_msssim import ssim, ms_ssim
 from torch.utils.data import DataLoader, Dataset
 from torch.utils.tensorboard import SummaryWriter
@@ -30,8 +28,12 @@ root_path = os.path.abspath(__file__)
 root_path = '/'.join(root_path.split('/')[:-2])
 sys.path.append(root_path)
 
+from hicrep import *
+from predict import *
+from assemble import *
 from utils.util import *
 from model.model_1d import Model
+
 
 def base_build_dataset(name):
     return getattr(importlib.import_module('dataset.dataset', package=None), name)()
@@ -58,6 +60,7 @@ parser.add_argument('--data_train_path', required=True, type=str)
 parser.add_argument('--data_val_path', required=True, type=str)
 parser.add_argument('--loss', required=True, type=str, help=['single_channel_no_vgg'])
 parser.add_argument('--early_stoppage_epochs', type=int)
+parser.add_argument('--early_stoppage_start', type=int)
 parser.add_argument('--patch_size', required=True, type=int)
 parser.add_argument('--cut_off', action='store_true')
 parser.add_argument('--no_cut_off', dest='cut_off', action='store_false')
@@ -90,6 +93,8 @@ loss = args.loss
 val_dataset = args.val_datasets[0]
 data_val_path = args.data_val_path
 lr = args.learning_rate
+es_start = args.early_stoppage_start
+cut_off = args.cut_off
 
 current_time = get_timestamp()
 code_test = args.code_test
@@ -187,14 +192,15 @@ def train(model, args):
                 #data_gpu = torch.from_numpy(data)
                 data_gpu = data.to(device, dtype=torch.float32, non_blocking=True)  #B,3,C,H,W
                 
-                learning_rate = get_learning_rate(step)
+                #learning_rate = get_learning_rate(step)
 
-                loss_avg = model.train(data_gpu, learning_rate)
+                loss_avg = model.train(data_gpu) #,learning_rate)
                 
                 train_time_interval = time.time() - time_stamp
+                lr_current = model.get_lr()
                 time_stamp = time.time()
                 if step % 200 == 1 and local_rank == 0:
-                    writer.add_scalar('learning_rate', learning_rate, step)
+                    writer.add_scalar('learning_rate', lr_current, step)
                     writer.add_scalar('loss/loss_l1', loss_avg, step)
                     writer.flush()
                 if local_rank == 0:
@@ -218,9 +224,15 @@ def train(model, args):
             val_hicrep_old = old_val.pop(0)
             val_hicrep = evaluate(model, data_val_path, val_dataset, epoch, step)
             old_val.append(val_hicrep)
-            if val_hicrep[0] - val_hicrep_old[0] < 0.0001 or val_hicrep[1] - val_hicrep_old[1] < 0.0001 or val_hicrep[2] - val_hicrep_old[2]<0.0001:
-                logger.info("Training module complete due to early stoppage")
-                quit()
+            if epoch >= es_start:
+                if val_hicrep[0] - val_hicrep_old[0] < 0.0001 or val_hicrep[1] - val_hicrep_old[1] < 0.0001 or val_hicrep[2] - val_hicrep_old[2]<0.0001:
+                    logger.info("Training module complete due to early stoppage")
+                    logger.info("es_start: {}".format(es_start))
+                    logger.info("epoch: {}".format(epoch))
+                    for i in range(3):
+                        logger.info("val_hicrep[{}]: {}".format(i, val_hicrep[i]))
+                        logger.info("val_hicrep_old[{}]: {}".format(i, val_hicrep_old[i]))
+                    quit()
         dist.barrier()
     logger.info('{} Training module completed.'.format(get_formatted_timestamp()))
 
@@ -235,17 +247,21 @@ def evaluate(model, data_val_path, name, epoch, step):
         if not os.path.exists(val_save_path):
             os.makedirs(val_save_path)
         print("Calling predict.py")
+        '''
         os.system("python3 ./predict.py \
         --data_path {} \
         --load_path {} \
         --output_dir {} \
         --single_channel \
         --max_HiC {}".format(data_val_path, load_path, val_save_path + "pred_chr19.npy", max_HiC))
+        '''
+        predict(model, data_val_path, val_save_path + "pred_chr19.npy", cut_off) 
         print("Calling assemble.py")
         get_predictions(val_save_path, 1534, patch_size) #assemble into one big matrix
         val_hicrep = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 400000)
         logger.info("Validation scores: {}".format(val_hicrep))
-        writer_val.add_scalar(name+' hicrep: %d %d %d',  val_hicrep[0], val_hicrep[1], val_hicrep[2], epoch)
+        for i in range(3):
+            writer_val.add_scalar(name+' hicrep_%d'%(i),  val_hicrep[i], epoch)
         return val_hicrep
 
 '''
@@ -336,7 +352,69 @@ def evaluate(model, data_val_path, name, epoch, step):
                 writer_val.add_scalar(name+' ms_ssim_%d'%(i),  msssim_score_mine[i], step)
                 writer_val.add_scalar(name+' lpips_%d'%(i),  lpips_score_mine[i], step)
 '''
+
+def predict(model, data_path, output_dir, cut_off):
+    with torch.no_grad():
+        dat_test = np.load(data_path).astype(np.float32)
+        if cut_off == True:
+            dat_test[dat_test > max_HiC] = max_HiC
+            print("Performed cut off for prediction")
+        dat_test = dat_test / max_HiC
+        #dat_test = dat_test / 225.
+        #print("dat_test.shape: ", dat_test.shape)
+        #print("dat_test[:10,1:3].shape: ", dat_test[:10, 1:3].shape)
+
+        test_loader = torch.utils.data.DataLoader(dat_test[:,1:3], batch_size=1, shuffle=False)
+        print("dat_test.shape: ", dat_test.shape)
         
+        '''
+        image_0 = dat_test[600][1]
+        image_1 = dat_test[600][2]
+        img_0 = np.repeat(image_0[np.newaxis, :], 3, axis=0).astype('float32')
+        print("img_0.shape: ", img_0.shape)
+        
+        img_1 = np.repeat(image_1[np.newaxis, :], 3, axis=0).astype('float32')
+
+        print("img_0.shape: ", img_0.shape)#me
+        print("img_1.shape: ", img_1.shape)#ME
+
+        if img_0 is None or img_1 is None:
+            raise Exception("Images not found.")
+
+        img = torch.stack((torch.tensor(img_0), torch.tensor(img_1)), 0)
+        print("img.shape: ", img.shape)
+        img = img.unsqueeze(0).to(device, non_blocking=True) #BNCHW
+        img = img.to(device, non_blocking=True) / 255.
+        print("img.shape: ", img.shape)
+        '''
+        predictions = []
+        for i, X in enumerate(tqdm(test_loader)):
+            # X = X.unsqueeze(0).to(device, non_blocking=True)
+            if rgb == True:
+                #untested
+                X = torch.stack((X, X, X), dim=0)
+                X = torch.permute(X, (1, 2, 0, 3, 4))
+            else:
+            #print("X.shape: ", X.shape)
+                X = torch.unsqueeze(X, 2)
+
+            X = X.to(device, dtype=torch.float32, non_blocking=True)
+
+            pred = model.eval(X, 'hic') # BNCHW
+            #print("pred.shape: ", pred.shape)
+            #pred = torch.cat(pred)
+            #print("pred.shape after concat: ", pred.shape)
+            if rgb == True:
+                pred = pred[:,:,0,:,:]
+            #print("pred.shape: ", pred.shape)
+            pred = torch.squeeze(pred, dim=2)
+            pred = np.array(pred.cpu() * max_HiC)
+            predictions.append(pred)
+
+        predictions = np.concatenate(predictions, axis=0)
+        print("predictions.shape: ", predictions.shape)
+        np.save(output_dir, predictions)
+
 if __name__ == "__main__":    
     try:
         model = Model(local_rank=device_number, resume_path=args.resume_path, resume_epoch=args.resume_epoch, lr=lr, loss=loss)
@@ -346,8 +424,6 @@ if __name__ == "__main__":
         print("Exception caught.")
         logger.info("Traceback:")
         logger.info(traceback.format_exc())
-        logger.info("Sys.exc_info()[2]:")
-        logger.info(sys.exc_info()[2])
         exit()
         
 '''
