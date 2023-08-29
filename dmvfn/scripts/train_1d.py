@@ -46,7 +46,7 @@ parser.add_argument('--num_gpu', default=1, type=int) # or 8
 parser.add_argument('--device_id', type=int)
 parser.add_argument('--num_workers', default=0, type=int)
 parser.add_argument('--batch_size', default=8, type=int, help='minibatch size')
-parser.add_argument('--learning_rate', type=float)
+parser.add_argument('--learning_rate',required=False, type=float)
 parser.add_argument('--local_rank', default=0, type=int, help='local rank')
 parser.add_argument('--train_dataset', required=True, type=str, help='CityTrainDataset, KittiTrainDataset, VimeoTrainDataset')
 parser.add_argument('--val_datasets', type=str, nargs='+', default=['hic'], help='[CityValDataset,KittiValDataset,VimeoValDataset,DavisValDataset]')
@@ -192,15 +192,15 @@ def train(model, args):
                 #data_gpu = torch.from_numpy(data)
                 data_gpu = data.to(device, dtype=torch.float32, non_blocking=True)  #B,3,C,H,W
                 
-                #learning_rate = get_learning_rate(step)
+                learning_rate = get_learning_rate(step)
 
-                loss_avg = model.train(data_gpu) #,learning_rate)
+                loss_avg = model.train(data_gpu,learning_rate)
                 
                 train_time_interval = time.time() - time_stamp
-                lr_current = model.get_lr()
+                #lr_current = model.get_lr()
                 time_stamp = time.time()
                 if step % 200 == 1 and local_rank == 0:
-                    writer.add_scalar('learning_rate', lr_current, step)
+                    writer.add_scalar('learning_rate', learning_rate, step)
                     writer.add_scalar('loss/loss_l1', loss_avg, step)
                     writer.flush()
                 if local_rank == 0:
@@ -417,7 +417,7 @@ def predict(model, data_path, output_dir, cut_off):
 
 if __name__ == "__main__":    
     try:
-        model = Model(local_rank=device_number, resume_path=args.resume_path, resume_epoch=args.resume_epoch, lr=lr, loss=loss)
+        model = Model(local_rank=device_number, resume_path=args.resume_path, resume_epoch=args.resume_epoch, loss=loss)
         #model = nn.parallel.DistributedDataParallel
         train(model, args)
     except Exception:
