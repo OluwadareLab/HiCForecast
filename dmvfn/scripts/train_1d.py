@@ -192,7 +192,10 @@ def train(model, args):
                 #data_gpu = torch.from_numpy(data)
                 data_gpu = data.to(device, dtype=torch.float32, non_blocking=True)  #B,3,C,H,W
                 
-                learning_rate = get_learning_rate(step)
+                if lr == None:
+                    learning_rate = get_learning_rate(step)
+                else:
+                    learning_rate = lr
 
                 loss_avg = model.train(data_gpu,learning_rate)
                 
