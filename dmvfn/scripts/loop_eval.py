@@ -29,16 +29,26 @@ from assemble import *
 from utils.util import *
 from model.model_1d import Model
 
-model_path = ""
+patch_size = 96
+max_HiC = 200
+cutoff = True
+last_epoch = 2
+model_id = "20230920-213115"
+
+data_val_path = "./../data/data_{}/val/data_val_chr19_{}.npy".format(patch_size, patch_size)
+model_cache_path = "./../models/hic_train_log_cache/"
+model_path = model_cache_path + model_id + "/"
+log_path = "./../logs/validation/" + model_id
+writer_val = SummaryWriter(log_path + "_p" + '/validate')
 
 
-def evaluate(model, data_val_path, name, epoch, step):
+def evaluate(model, data_val_path, name, epoch):
     with torch.no_grad():
         #lpips_score_mine, psnr_score_mine, msssim_score_mine, ssim_score_mine = np.zeros(5), np.zeros(5), np.zeros(5), np.zeros(5)
         hicrep = np.zeros(3)
         time_stamp = time.time()
         #num = val_data.__len__()
-        val_save_path = "./../data/data_{}/train_val/{}/epoch_{}/".format(patch_size,current_time, epoch)  
+        val_save_path = "./../data/data_{}/posthoc_val/{}/epoch_{}/".format(patch_size, model_id, epoch)  
         load_path = save_model_path_cache + "/dmvfn_{}.pkl".format( epoch) 
         if not os.path.exists(val_save_path):
             os.makedirs(val_save_path)
@@ -56,7 +66,7 @@ def evaluate(model, data_val_path, name, epoch, step):
         get_predictions(val_save_path, 1534, patch_size) #assemble into one big matrix
         val_hicrep = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 400000)
         val_hicrep_40k = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 40000)
-        logger.info("Validation scores: {}".format(val_hicrep))
+        #logger.info("Validation scores: {}".format(val_hicrep))
         for i in range(3):
             writer_val.add_scalar(name+' hicrep_%d'%(i),  val_hicrep[i], epoch)
             writer_val.add_scalar(name+' hicrep_40k_%d'%(i),  val_hicrep_40k[i], epoch)
@@ -103,3 +113,16 @@ def predict(model, data_path, output_dir, cut_off):
         predictions = np.concatenate(predictions, axis=0)
         print("predictions.shape: ", predictions.shape)
         np.save(output_dir, predictions)
+
+dir_list = os.listdir(model_path)
+hic_rep = []
+for epoch in range(last_epoch + 1):
+    load_path = model_path + "dmvfn_{}.pkl".format(epoch)
+    print("load_path: ", load_path)
+    model = Model(load_path=load_path, training=False, rgb=False)
+    hic_rep_current = evaluate(model, data_val_path, epoch)
+    hic_rep.append(hic_rep_current)
+print("hicrep: ", hic_rep)
+
+
+

@@ -1,4 +1,5 @@
 /HiC4D_package/ResConvLSTMNet.pt 
+/HiC4D_package/ResConvLSTM.pt 
 /dmvfn/scripts/train.sh
 /dmvfn/scripts/core*
 /HiC4D_package/data/
