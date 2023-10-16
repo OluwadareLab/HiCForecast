@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import cooler
 
@@ -12,10 +13,23 @@ chrs_val = ['chr19']
 
 #resolution = 31250  #31250 for 64  #8928 for 224? #used to be 40000
 #sub_mat_n = int(2_000_000 // resolution)
-sub_mat_n = 96
+sub_mat_n = 160
 dir_data = "./data/data_{}/".format(sub_mat_n)
 dir_data_dmvfn = "./../dmvfn/data/data_{}/".format(sub_mat_n)
 num_bins_all = []
+
+
+if not os.path.exists(dir_data + "train"):
+    os.makedirs(dir_data + "train")
+
+if not os.path.exists(dir_data + "val"):
+    os.makedirs(dir_data + "val")
+
+if not os.path.exists(dir_data_dmvfn + "train"):
+    os.makedirs(dir_data_dmvfn + "train")
+
+if not os.path.exists(dir_data_dmvfn + "val"):
+    os.makedirs(dir_data_dmvfn + "val")
 
 #chr2: num_bins_all[0] = 4544 with 224
 #chr6: num_bins_all[0] = 3738 with 224

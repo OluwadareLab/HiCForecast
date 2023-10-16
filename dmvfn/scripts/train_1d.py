@@ -266,10 +266,13 @@ def evaluate(model, data_val_path, name, epoch, step):
         get_predictions(val_save_path, 1534, patch_size) #assemble into one big matrix
         val_hicrep = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 400000)
         val_hicrep_40k = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 40000)
+        val_hicrep_0k =  get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 0)
+
         logger.info("Validation scores: {}".format(val_hicrep))
         for i in range(3):
             writer_val.add_scalar(name+' hicrep_%d'%(i),  val_hicrep[i], epoch)
             writer_val.add_scalar(name+' hicrep_40k_%d'%(i),  val_hicrep_40k[i], epoch)
+            writer_val.add_scalar(name+' hicrep_0k_%d'%(i),  val_hicrep_0k[i], epoch)
         return val_hicrep
 
 
