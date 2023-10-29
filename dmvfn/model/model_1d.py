@@ -99,7 +99,7 @@ class Model:
         lr = self.optimG.param_groups[-1]['lr']
         return lr
 
-    def eval(self, imgs, name='city', scale_list = [4,4,4,2,2,2,1,1,1]):
+    def eval(self, imgs, name='city', scale_list = [4,4,4,2,2,2,1,1,1], num_predictions=3):
         self.dmvfn.eval()
         b, n, c, h, w = imgs.shape 
         preds = []
@@ -152,7 +152,7 @@ class Model:
             return pred
         elif name == 'hic':
             img0, img1 = imgs[:, 0], imgs[:, 1]
-            for i in range(3):
+            for i in range(num_predictions):
                 merged = self.dmvfn(torch.cat((img0, img1), 1), scale=scale_list, training=False)
                 length = len(merged)
                 if length == 0:

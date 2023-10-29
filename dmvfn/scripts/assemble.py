@@ -1,7 +1,7 @@
 import os
 import numpy as np
 
-def get_predictions(file_predict, num_bins, sub_mat_n):
+def get_predictions(file_predict, num_bins, sub_mat_n, num_predictions=3):
     if not os.path.exists(file_predict):
         os.makedirs(file_predict)
 
@@ -9,9 +9,10 @@ def get_predictions(file_predict, num_bins, sub_mat_n):
     file_index = "./../data/data_{}/val/data_val_index_chr19_{}.npy".format(dim, dim)
     dat_predict = np.load(file_predict + "pred_chr19.npy")
     dat_index = np.load(file_index)
+    #print("dat_index.shape: ", dat_index.shape)
     
     predictions = []
-    for i in range(-3,0):
+    for i in range(-num_predictions,0):
         tid = "t"+str(i+7)
         mat_chr = np.zeros((num_bins, num_bins))
         mat_n = np.zeros((num_bins, num_bins))

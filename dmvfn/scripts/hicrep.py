@@ -20,7 +20,7 @@ hicrep = importr("hicrep")
 #loss = "single_channel_L1_VGG"
 #loss = "HiC4D"
 
-def get_hicrep(file_predict, dim, lower_bound):
+def get_hicrep(file_predict, dim, lower_bound, num_predictions=3):
     #lower_bound = 40000
     GT = np.load("./../data/data_{}/data_gt_chr19_{}.npy".format(dim, dim))
     B = np.load(file_predict)
@@ -46,10 +46,10 @@ def get_hicrep(file_predict, dim, lower_bound):
     print("nr: ", nr)
     print("nc: ", nc)
 
-    scores = np.zeros(3)
-    for i in range(3):
+    scores = np.zeros(num_predictions)
+    for i in range(num_predictions):
         PredR = ro.r.matrix(B[i], nrow=nr, ncol=nc)
-        GTR = ro.r.matrix(GT[i + 3], nrow=nr, ncol=nc)
+        GTR = ro.r.matrix(GT[i + 6 - num_predictions], nrow=nr, ncol=nc)
 
         get_scc = ro.r['get.scc']
         scc_score = get_scc(GTR, PredR , resol = 40000, h = 5, lbr = lower_bound, ubr = 1600000)
