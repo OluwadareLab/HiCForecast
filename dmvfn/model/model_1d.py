@@ -35,6 +35,8 @@ class Model:
         self.MSELoss = torch.nn.MSELoss()
         self.l1_loss = torch.nn.L1Loss()
         self.device()
+        if block_num == 6:
+            self.scale = [4,4,2,2,1,1]
         if block_num == 9:
             self.scale = [4,4,4,2,2,2,1,1,1]
         if block_num == 12:

@@ -103,6 +103,14 @@ class DMVFN(nn.Module):
             input_chan = 3
         self.input_chan = input_chan
         
+        if self.block_num == 6:
+            self.block0 = MVFB(input_dim, num_feature=160)
+            self.block1 = MVFB(input_dim, num_feature=160)
+            self.block2 = MVFB(input_dim, num_feature=80)
+            self.block3 = MVFB(input_dim, num_feature=80)
+            self.block4 = MVFB(input_dim, num_feature=44)
+            self.block5 = MVFB(input_dim, num_feature=44)
+
         if self.block_num == 9:
             self.block0 = MVFB(input_dim, num_feature=160)
             self.block1 = MVFB(input_dim, num_feature=160)
@@ -158,6 +166,8 @@ class DMVFN(nn.Module):
         flow = Variable(torch.zeros(batch_size, 4, height, width)).cuda()
         mask = Variable(torch.zeros(batch_size, 1, height, width)).cuda()
 
+        if block_num == 6:
+            stu = [self.block0, self.block1, self.block2, self.block3, self.block4, self.block5]
         if block_num == 9:
             stu = [self.block0, self.block1, self.block2, self.block3, self.block4, self.block5, self.block6, self.block7,
                self.block8]
