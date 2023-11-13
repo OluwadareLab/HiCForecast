@@ -91,9 +91,9 @@ class MVFB(nn.Module):
 
 
 class DMVFN(nn.Module):
-    def __init__(self, rgb=False):
+    def __init__(self, rgb=False, block_num=9):
         super(DMVFN, self).__init__()
-
+        self.block_num = block_num
         self.rgb = rgb
         if rgb == False:
             input_dim = 9
@@ -102,16 +102,31 @@ class DMVFN(nn.Module):
             input_dim = 13+4
             input_chan = 3
         self.input_chan = input_chan
+        
+        if self.block_num == 9:
+            self.block0 = MVFB(input_dim, num_feature=160)
+            self.block1 = MVFB(input_dim, num_feature=160)
+            self.block2 = MVFB(input_dim, num_feature=160)
+            self.block3 = MVFB(input_dim, num_feature=80)
+            self.block4 = MVFB(input_dim, num_feature=80)
+            self.block5 = MVFB(input_dim, num_feature=80)
+            self.block6 = MVFB(input_dim, num_feature=44)
+            self.block7 = MVFB(input_dim, num_feature=44)
+            self.block8 = MVFB(input_dim, num_feature=44)
 
-        self.block0 = MVFB(input_dim, num_feature=160)
-        self.block1 = MVFB(input_dim, num_feature=160)
-        self.block2 = MVFB(input_dim, num_feature=160)
-        self.block3 = MVFB(input_dim, num_feature=80)
-        self.block4 = MVFB(input_dim, num_feature=80)
-        self.block5 = MVFB(input_dim, num_feature=80)
-        self.block6 = MVFB(input_dim, num_feature=44)
-        self.block7 = MVFB(input_dim, num_feature=44)
-        self.block8 = MVFB(input_dim, num_feature=44)
+        if self.block_num == 12:
+            self.block0 = MVFB(input_dim, num_feature=160)
+            self.block1 = MVFB(input_dim, num_feature=160)
+            self.block2 = MVFB(input_dim, num_feature=160)
+            self.block3 = MVFB(input_dim, num_feature=160)
+            self.block4 = MVFB(input_dim, num_feature=80)
+            self.block5 = MVFB(input_dim, num_feature=80)
+            self.block6 = MVFB(input_dim, num_feature=80)
+            self.block7 = MVFB(input_dim, num_feature=80)
+            self.block8 = MVFB(input_dim, num_feature=44)
+            self.block9 = MVFB(input_dim, num_feature=44)
+            self.block10 = MVFB(input_dim, num_feature=44)
+            self.block11 = MVFB(input_dim, num_feature=44)
 
         self.routing = nn.Sequential(
             nn.Conv2d(2 * input_chan, 32, 3, 1, 1),
@@ -119,10 +134,11 @@ class DMVFN(nn.Module):
             nn.Conv2d(32, 32, 3, 1, 1),
             nn.AdaptiveAvgPool2d((1, 1)),
         )
-        self.l1 = nn.Linear(32, 9)
+        self.l1 = nn.Linear(32, self.block_num)
 
     def forward(self, x, scale, training=True):
         input_chan = self.input_chan
+        block_num = self.block_num
 
         batch_size, _, height, width = x.shape
         routing_vector = self.routing(x[:, :2*input_chan]).reshape(batch_size, -1)
@@ -142,11 +158,15 @@ class DMVFN(nn.Module):
         flow = Variable(torch.zeros(batch_size, 4, height, width)).cuda()
         mask = Variable(torch.zeros(batch_size, 1, height, width)).cuda()
 
-        stu = [self.block0, self.block1, self.block2, self.block3, self.block4, self.block5, self.block6, self.block7,
+        if block_num == 9:
+            stu = [self.block0, self.block1, self.block2, self.block3, self.block4, self.block5, self.block6, self.block7,
                self.block8]
+        if block_num == 12:
+            stu = [self.block0, self.block1, self.block2, self.block3, self.block4, self.block5, self.block6, self.block7,
+               self.block8, self.block9, self.block10, self.block11]
 
         if training:
-            for i in range(9):
+            for i in range(block_num):
                 flow_d, mask_d = stu[i](torch.cat((img0, img1, warped_img0, warped_img1, mask), 1), flow,
                                         scale=scale[i])
 
@@ -163,7 +183,7 @@ class DMVFN(nn.Module):
                 warped_img0_right_now = warp(img0, flow_right_now[:, :2])
                 warped_img1_right_now = warp(img1, flow_right_now[:, 2:4])
 
-                if i < 8:
+                if i < block_num - 1:
                     mask_final.append(torch.sigmoid(mask_right_now))
                     merged_student_right_now = (warped_img0_right_now, warped_img1_right_now)
                     merged_final.append(merged_student_right_now)
@@ -172,12 +192,12 @@ class DMVFN(nn.Module):
                     merged_student = (warped_img0, warped_img1)
                     merged_final.append(merged_student)
 
-            for i in range(9):
+            for i in range(block_num):
                 merged_final[i] = merged_final[i][0] * mask_final[i] + merged_final[i][1] * (1 - mask_final[i])
                 merged_final[i] = torch.clamp(merged_final[i], 0, 1)
             return merged_final
         else:
-            for i in range(9):
+            for i in range(block_num):
                 if ref[0, i]:
                     flow_d, mask_d = stu[i](torch.cat((img0, img1, warped_img0, warped_img1, mask), 1), flow,
                                             scale=scale[i])

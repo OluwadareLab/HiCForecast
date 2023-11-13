@@ -18,11 +18,13 @@ from loss.loss import *
 device = torch.device("cuda")
     
 class Model:
-    def __init__(self, local_rank=-1, resume_path=None, resume_epoch=0, load_path=None, training=True, rgb=False, loss='single_chanel_no_vgg'):
-        self.dmvfn = DMVFN(rgb=rgb)
+    def __init__(self, local_rank=-1, resume_path=None, resume_epoch=0, load_path=None, 
+            training=True, rgb=False, loss='single_chanel_no_vgg', block_num = 9):
+        self.dmvfn = DMVFN(rgb=rgb, block_num=block_num)
         self.optimG = AdamW(self.dmvfn.parameters(), lr=1e-3, weight_decay=1e-3)
         self.rgb = rgb
         self.loss = loss
+        self.block_num = block_num
         if rgb == True:
             input_chan = 3
         else:
@@ -33,6 +35,10 @@ class Model:
         self.MSELoss = torch.nn.MSELoss()
         self.l1_loss = torch.nn.L1Loss()
         self.device()
+        if block_num == 9:
+            self.scale = [4,4,4,2,2,2,1,1,1]
+        if block_num == 12:
+            self.scale = [4,4,4,4,2,2,2,2,1,1,1,1]
 
         if training:
             if local_rank != -1:
@@ -53,6 +59,7 @@ class Model:
 
     def train(self, imgs, learning_rate=0):
         self.dmvfn.train()
+        block_num = self.block_num
         for param_group in self.optimG.param_groups:
             param_group['lr'] = learning_rate
         b, n, c, h, w = imgs.shape
@@ -60,18 +67,18 @@ class Model:
         for i in range(n-2):
             img0, img1, gt = imgs[:, i], imgs[:, i+1], imgs[:, i+2]
             
-            merged =  self.dmvfn(torch.cat((img0, img1, gt), 1), scale=[4,4,4,2,2,2,1,1,1])
+            merged =  self.dmvfn(torch.cat((img0, img1, gt), 1), scale=self.scale)
             loss_G = 0.0
 
             loss_l1, loss_vgg = 0, 0
             loss_mse = 0
-            for i in range(9):
+            for i in range(block_num):
                 if self.loss == 'single_channel_no_vgg' or self.loss == 'single_channel_default_VGG':
-                    loss_l1 +=  (self.lap(merged[i], gt)).mean()*(0.8**(8-i))
+                    loss_l1 +=  (self.lap(merged[i], gt)).mean()*(0.8**(block_num - 1 - i))
                 if self.loss == 'single_channel_MSE_no_vgg' or self.loss == 'single_channel_MSE_VGG':
-                    loss_mse += (self.MSELoss(merged[i], gt)).mean()*(0.8**(8-i)) 
+                    loss_mse += (self.MSELoss(merged[i], gt)).mean()*(0.8**(block_num - 1 - i)) 
                 if self.loss == 'single_channel_L1_no_vgg' or 'single_channel_L1_VGG':
-                    loss_l1 += (self.l1_loss(merged[i], gt)).mean()*(0.8**(8-i)) 
+                    loss_l1 += (self.l1_loss(merged[i], gt)).mean()*(0.8**(block_num - 1 - i)) 
             if self.loss == 'single_channel_default_VGG' or self.loss == 'single_channel_MSE_VGG' or self.loss == 'single_channel_L1_VGG':
                 merged_sq = torch.squeeze(merged[-1])
                 merged_rgb = torch.stack((merged_sq, merged_sq, merged_sq))
@@ -99,50 +106,12 @@ class Model:
         lr = self.optimG.param_groups[-1]['lr']
         return lr
 
-    def eval(self, imgs, name='city', scale_list = [4,4,4,2,2,2,1,1,1], num_predictions=3):
+    def eval(self, imgs, name='hic', num_predictions=3):
         self.dmvfn.eval()
+        scale_list = self.scale
         b, n, c, h, w = imgs.shape 
         preds = []
-        if name == 'CityValDataset':
-            assert n == 14
-            img0, img1 = imgs[:, 2], imgs[:, 3]
-            for i in range(5):
-                merged= self.dmvfn(torch.cat((img0, img1), 1), scale=scale_list, training=False)
-                length = len(merged)
-                if length == 0:
-                    pred = img0
-                else:
-                    pred = merged[-1]
-
-                preds.append(pred)
-                img0 = img1
-                img1 = pred
-            assert len(preds) == 5
-        elif name == 'KittiValDataset' or name == 'DavisValDataset':
-            assert n == 9
-            img0, img1 = imgs[:, 2], imgs[:, 3]
-            for i in range(5):
-                merged = self.dmvfn(torch.cat((img0, img1), 1), scale=scale_list, training=False)
-                length = len(merged)
-                if length == 0:
-                    pred = img0
-                else:
-                    pred = merged[-1]
-                preds.append(pred)
-                img0 = img1
-                img1 = pred
-            assert len(preds) == 5
-        elif name == 'VimeoValDataset':
-            assert n == 3
-            merged = self.dmvfn(torch.cat((imgs[:, 0], imgs[:, 1]), 1), scale=scale_list, training=False)
-            length = len(merged)
-            if length == 0:
-                pred = imgs[:, 0]
-            else:
-                pred = merged[-1]
-            preds.append(pred)
-            assert len(preds) == 1
-        elif name == 'single_test': # 1, C, H, W
+        if name == 'single_test': # 1, C, H, W
             merged = self.dmvfn(imgs[0], scale=scale_list, training=False) # 1, 3, H, W
             length = len(merged)
             if length == 0:

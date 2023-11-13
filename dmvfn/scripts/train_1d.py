@@ -46,6 +46,7 @@ parser.add_argument('--num_gpu', default=1, type=int) # or 8
 parser.add_argument('--device_id', type=int)
 parser.add_argument('--num_workers', default=0, type=int)
 parser.add_argument('--batch_size', default=8, type=int, help='minibatch size')
+parser.add_argument('--block_num', default=9, type=int)
 parser.add_argument('--learning_rate',required=False, type=float)
 parser.add_argument('--local_rank', default=0, type=int, help='local rank')
 parser.add_argument('--train_dataset', required=True, type=str, help='CityTrainDataset, KittiTrainDataset, VimeoTrainDataset')
@@ -95,6 +96,7 @@ data_val_path = args.data_val_path
 lr = args.learning_rate
 es_start = args.early_stoppage_start
 cut_off = args.cut_off
+block_num = args.block_num
 
 current_time = get_timestamp()
 code_test = args.code_test
@@ -320,7 +322,7 @@ def predict(model, data_path, output_dir, cut_off):
 
 if __name__ == "__main__":    
     try:
-        model = Model(local_rank=device_number, resume_path=args.resume_path, resume_epoch=args.resume_epoch, loss=loss)
+        model = Model(local_rank=device_number, resume_path=args.resume_path, resume_epoch=args.resume_epoch, loss=loss, block_num=block_num)
         #model = nn.parallel.DistributedDataParallel
         train(model, args)
     except Exception:
