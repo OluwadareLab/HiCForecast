@@ -19,8 +19,8 @@ device = torch.device("cuda")
     
 class Model:
     def __init__(self, local_rank=-1, resume_path=None, resume_epoch=0, load_path=None, 
-            training=True, rgb=False, loss='single_chanel_no_vgg', block_num = 9):
-        self.dmvfn = DMVFN(rgb=rgb, block_num=block_num)
+            training=True, rgb=False, loss='single_chanel_no_vgg', block_num = 9, dynamics=True):
+        self.dmvfn = DMVFN(rgb=rgb, block_num=block_num, dynamics=dynamics)
         self.optimG = AdamW(self.dmvfn.parameters(), lr=1e-3, weight_decay=1e-3)
         self.rgb = rgb
         self.loss = loss

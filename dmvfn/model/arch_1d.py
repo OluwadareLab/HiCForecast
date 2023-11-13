@@ -91,10 +91,11 @@ class MVFB(nn.Module):
 
 
 class DMVFN(nn.Module):
-    def __init__(self, rgb=False, block_num=9):
+    def __init__(self, rgb=False, block_num=9, dynamics=True):
         super(DMVFN, self).__init__()
         self.block_num = block_num
         self.rgb = rgb
+        self.dynamics = dynamics
         if rgb == False:
             input_dim = 9
             input_chan = 1
@@ -149,11 +150,14 @@ class DMVFN(nn.Module):
         block_num = self.block_num
 
         batch_size, _, height, width = x.shape
-        routing_vector = self.routing(x[:, :2*input_chan]).reshape(batch_size, -1)
-        routing_vector = torch.sigmoid(self.l1(routing_vector))
-        routing_vector = routing_vector / (routing_vector.sum(1, True) + 1e-6) * 4.5
-        routing_vector = torch.clamp(routing_vector, 0, 1)
-        ref = RoundSTE.apply(routing_vector)
+        if self.dynamics == True:
+            routing_vector = self.routing(x[:, :2*input_chan]).reshape(batch_size, -1)
+            routing_vector = torch.sigmoid(self.l1(routing_vector))
+            routing_vector = routing_vector / (routing_vector.sum(1, True) + 1e-6) * 4.5
+            routing_vector = torch.clamp(routing_vector, 0, 1)
+            ref = RoundSTE.apply(routing_vector)
+        else:
+            ref = torch.ones(batch_size, block_num, device=device)
 
         img0 = x[:, :input_chan]
         img1 = x[:, input_chan:2*input_chan]
@@ -180,13 +184,15 @@ class DMVFN(nn.Module):
                 flow_d, mask_d = stu[i](torch.cat((img0, img1, warped_img0, warped_img1, mask), 1), flow,
                                         scale=scale[i])
 
+
                 flow_right_now = flow + flow_d
                 mask_right_now = mask + mask_d
 
                 flow = flow + (flow_d) * ref[:, i].reshape(batch_size, 1, 1, 1)
                 mask = mask + (mask_d) * ref[:, i].reshape(batch_size, 1, 1, 1)
                 flow_list.append(flow)
-
+                
+                
                 warped_img0 = warp(img0, flow[:, :2])
                 warped_img1 = warp(img1, flow[:, 2:4])
 

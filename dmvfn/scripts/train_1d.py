@@ -65,6 +65,8 @@ parser.add_argument('--early_stoppage_start', type=int)
 parser.add_argument('--patch_size', required=True, type=int)
 parser.add_argument('--cut_off', action='store_true')
 parser.add_argument('--no_cut_off', dest='cut_off', action='store_false')
+parser.add_argument('--dynamics', action='store_true')
+parser.add_argument('--no_dynamics', dest='dynamics', action='store_false')
 parser.set_defaults(code_test=False)
 args = parser.parse_args()
 print("args parsed.")
@@ -97,6 +99,7 @@ lr = args.learning_rate
 es_start = args.early_stoppage_start
 cut_off = args.cut_off
 block_num = args.block_num
+dynamics = args.dynamics
 
 current_time = get_timestamp()
 code_test = args.code_test
@@ -322,7 +325,8 @@ def predict(model, data_path, output_dir, cut_off):
 
 if __name__ == "__main__":    
     try:
-        model = Model(local_rank=device_number, resume_path=args.resume_path, resume_epoch=args.resume_epoch, loss=loss, block_num=block_num)
+        model = Model(local_rank=device_number, resume_path=args.resume_path, resume_epoch=args.resume_epoch, 
+                loss=loss, block_num=block_num, dynamics = dynamics)
         #model = nn.parallel.DistributedDataParallel
         train(model, args)
     except Exception:
