@@ -1,5 +1,5 @@
 python3 ./assemble.py \
---dim 96 \
+--dim 50 \
 --max_HiC 255 \
 --epoch 49 \
 --batch 8 \

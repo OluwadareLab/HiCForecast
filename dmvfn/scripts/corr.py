@@ -10,7 +10,7 @@ def _clear_max_min(x, y):
     return x[inter_idx], y[inter_idx]
 
 
-def diagcorr(mat1, mat2, rtype='pearson', min_shift=10, max_shift=30, percentile=100, clearmaxmin=False, symmetric=False):
+def diagcorr(mat1, mat2, rtype='pearson', min_shift=0, max_shift=49, percentile=100, clearmaxmin=False, symmetric=False):
     """
     Function for calculating pearson correlation along with distance genome.
     """

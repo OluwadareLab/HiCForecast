@@ -31,7 +31,7 @@ from model.model_1d import Model
 
 start_epoch = 100
 last_epoch = 149
-num_predictions = 4
+num_predictions = 3
 #num_predictions = 3
 patch_size = 96
 max_HiC = 250
@@ -43,7 +43,8 @@ model_id = "20230930-190101"
 data_val_path = "./../data/data_{}/val/data_val_chr19_{}.npy".format(patch_size, patch_size)
 model_cache_path = "./../models/hic_train_log_cache/"
 model_path = model_cache_path + model_id + "/"
-log_path = "./../logs/validation/" + model_id
+name_add = "_a"
+log_path = "./../logs/validation/" + model_id + name_add
 if num_predictions == 3:
     writer_val = SummaryWriter(log_path + "_p" + '/validate')
 if num_predictions == 4:
@@ -64,16 +65,32 @@ def evaluate(model, data_val_path, epoch):
         predict(model, data_val_path, val_save_path + "pred_chr19.npy", cutoff) 
         print("Calling assemble.py")
         get_predictions(val_save_path, 1534, patch_size, num_predictions=num_predictions) #assemble into one big matrix
-        val_hicrep = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 400000, num_predictions=num_predictions)
-        val_hicrep_40k = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 40000, num_predictions=num_predictions)
-        val_hicrep_0k = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 0, num_predictions=num_predictions)
+        #val_hicrep = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 400000, num_predictions=num_predictions)
+        #val_hicrep_40k = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 40000, num_predictions=num_predictions)
+        #val_hicrep_0k = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 0, num_predictions=num_predictions)
+        #val_hicrep_0_400 =  get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 0, ubr=400000, num_predictions=num_predictions)
+        #val_hicrep_10_400 =  get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 40000, ubr=400000, num_predictions=num_predictions)
+        val_hicrep_0_50 =  get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 0, ubr=47*40000, num_predictions=num_predictions)
+
         #logger.info("Validation scores: {}".format(val_hicrep))
-        for i in range(num_predictions):
-            writer_val.add_scalar('hic hicrep_%d'%(i-1),  val_hicrep[i], epoch)
-            writer_val.add_scalar('hic hicrep_%d'%(i-1),  val_hicrep[i], epoch)
-            writer_val.add_scalar('hic hicrep_40k_%d'%(i-1),  val_hicrep_40k[i], epoch)
-            writer_val.add_scalar('hic hicrep_0k_%d'%(i-1),  val_hicrep_0k[i], epoch)
-        return val_hicrep
+        if num_predictions == 3:
+            #for i in range(num_predictions):
+                #writer_val.add_scalar('hic hicrep_%d'%(i),  val_hicrep[i], epoch)
+                #writer_val.add_scalar('hic hicrep_%d'%(i),  val_hicrep[i], epoch)
+                #writer_val.add_scalar('hic hicrep_40k_%d'%(i),  val_hicrep_40k[i], epoch)
+                #writer_val.add_scalar('hic hicrep_0k_%d'%(i),  val_hicrep_0k[i], epoch)
+                #writer_val.add_scalar('hic hicrep_0_400_%d'%(i),  val_hicrep_0_400[i], epoch)
+                #writer_val.add_scalar('hic hicrep_10_400_%d'%(i),  val_hicrep_10_400[i], epoch)
+                #writer_val.add_scalar('hic hicrep_10_400_%d'%(i),  val_hicrep_10_400[i], epoch)
+            return val_hicrep_0_50
+        if num_predictions == 4:
+            for i in range(num_predictions):
+                writer_val.add_scalar('hic hicrep_%d'%(i-1),  val_hicrep[i], epoch)
+                writer_val.add_scalar('hic hicrep_%d'%(i-1),  val_hicrep[i], epoch)
+                writer_val.add_scalar('hic hicrep_40k_%d'%(i-1),  val_hicrep_40k[i], epoch)
+                writer_val.add_scalar('hic hicrep_0k_%d'%(i-1),  val_hicrep_0k[i], epoch)
+                writer_val.add_scalar('hic hicrep_0_400_%d'%(i-1),  val_hicrep_0_400[i], epoch)
+            return val_hicrep
 
 def predict(model, data_path, output_dir, cut_off):
     with torch.no_grad():
