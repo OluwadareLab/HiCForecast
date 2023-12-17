@@ -269,16 +269,12 @@ def evaluate(model, data_val_path, name, epoch, step):
         predict(model, data_val_path, val_save_path + "pred_chr19.npy", cut_off) 
         print("Calling assemble.py")
         get_predictions(val_save_path, 1534, patch_size) #assemble into one big matrix
-        val_hicrep = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 400000)
-        val_hicrep_40k = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 40000)
-        val_hicrep_0k =  get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 0)
+        val_hicrep_47 = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 0, ubr = 40000*47)
 
-        logger.info("Validation scores: {}".format(val_hicrep))
+        logger.info("Validation scores: {}".format(val_hicrep_47))
         for i in range(3):
-            writer_val.add_scalar(name+' hicrep_%d'%(i),  val_hicrep[i], epoch)
-            writer_val.add_scalar(name+' hicrep_40k_%d'%(i),  val_hicrep_40k[i], epoch)
-            writer_val.add_scalar(name+' hicrep_0k_%d'%(i),  val_hicrep_0k[i], epoch)
-        return val_hicrep
+            writer_val.add_scalar(name+' hicrep_47%d'%(i),  val_hicrep_47[i], epoch)
+        return val_hicrep_47
 
 
 def predict(model, data_path, output_dir, cut_off):

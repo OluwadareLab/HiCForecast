@@ -13,7 +13,7 @@ chrs_val = ['chr19']
 
 #resolution = 31250  #31250 for 64  #8928 for 224? #used to be 40000
 #sub_mat_n = int(2_000_000 // resolution)
-sub_mat_n = 160
+sub_mat_n = 64
 dir_data = "./data/data_{}/".format(sub_mat_n)
 dir_data_dmvfn = "./../dmvfn/data/data_{}/".format(sub_mat_n)
 num_bins_all = []
