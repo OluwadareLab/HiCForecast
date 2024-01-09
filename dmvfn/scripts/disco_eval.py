@@ -5,8 +5,8 @@ from GenomeDISCO import *
 #pred_path = "./../data/data_96/190101_predictions/149/pred_chr19_final.npy"
 pred_path = "./../data/data_50/predictions/norm_100/pred_chr19_final.npy"
 gt_path = "./../data/data_96/data_gt_chr19_96.npy"
-#csv_file_path = "./../results/190101/190101_disco.csv"
-csv_file_path = "./../results/hic4d/hic4d_disco.csv"
+#csv_file_path = "./../results/190101/190101_disco_39_43.csv"
+csv_file_path = "./../results/hic4d/hic4d_disco_39_43.csv"
 
 pred_mx = np.load(pred_path)
 gt_mx = np.load(gt_path)
@@ -28,7 +28,7 @@ def compute_disco_avg(pred_mx, gt_mx, transition, ps):
     return disco_avg
 
 ps_list = []
-for ps in range(47, 9, -3):
+for ps in range(43, 38, -1):
     davg = compute_disco_avg(pred_mx, gt_mx, True, ps)
     ps_list.append(davg)
     print("ps: {} disco_avg: {}".format(ps, davg))
@@ -40,5 +40,5 @@ with open (csv_file_path, 'w', newline='') as f:
     
     for i in range(len(ps_list)):
         row = ps_list[i]
-        row.insert(0, 47 - 3*i)
+        row.insert(0, 43 - i)
         writer.writerow(row)
