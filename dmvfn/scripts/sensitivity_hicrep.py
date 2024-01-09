@@ -49,11 +49,11 @@ model_path = model_log_path + model_id + "/"
 #dir_list = os.listdir(model_path)
 #hic_rep = []
 #csv_file_path = "./../results/190101/hicrep_190101.csv"
-csv_file_path = "./../results/hic4d/hicrep_hic4d.csv"
+csv_file_path = "./../results/hic4d/hicrep_hic4d_45_46.csv"
 epochs = [99, 149]
 hicrep_range = []
 if hic4d == True:
-    for u in range(47, 7, -3):
+    for u in range(46, 44, -1):
         print("u: ", u)
         val_save_path = "./../data/data_50/predictions/norm_100/"
         get_predictions(val_save_path, 1534, patch_size, num_predictions=num_predictions, hic4d=hic4d) #assemble into one big matrix
@@ -83,7 +83,7 @@ if hic4d == True:
         for i in range(hicrep_list.shape[0]):
             row = hicrep_list[i]
             row = row.tolist()
-            row.insert(0, 47 - 3*i)
+            row.insert(0, 46 - i)
             writer.writerow(row)
 else: 
     with open (csv_file_path, 'w', newline='') as f:

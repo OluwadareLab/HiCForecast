@@ -45,58 +45,12 @@ data_val_path = "./../data/data_{}/val/data_val_chr19_{}.npy".format(patch_size,
 model_log_path = "./../models/hic_train_log/"
 model_path = model_log_path + model_id + "/"
 
-def predict(model, data_path, output_dir, cut_off):
-    with torch.no_grad():
-        dat_test = np.load(data_path).astype(np.float32)
-        if cut_off == True:
-            dat_test[dat_test > max_HiC] = max_HiC
-            print("Performed cut off for prediction")
-        dat_test = dat_test / max_HiC
-        #dat_test = dat_test / 225.
-        print("dat_test.shape: ", dat_test.shape)
-        #print("dat_test[:10,1:3].shape: ", dat_test[:10, 1:3].shape)
-
-        if num_predictions == 3:
-            test_loader = torch.utils.data.DataLoader(dat_test[:,1:3], batch_size=1, shuffle=False)
-        elif num_predictions == 4:
-            test_loader = torch.utils.data.DataLoader(dat_test[:,0:2], batch_size=1, shuffle=False)
-        print("dat_test.shape: ", dat_test.shape)
-        
-        predictions = []
-        for i, X in enumerate(tqdm(test_loader)):
-            # X = X.unsqueeze(0).to(device, non_blocking=True)
-            if rgb == True:
-                #untested
-                X = torch.stack((X, X, X), dim=0)
-                X = torch.permute(X, (1, 2, 0, 3, 4))
-            else:
-            #print("X.shape: ", X.shape)
-                X = torch.unsqueeze(X, 2)
-
-            X = X.to(device, dtype=torch.float32, non_blocking=True)
-
-            pred = model.eval(X, 'hic', num_predictions=num_predictions) # BNCHW
-            #print("pred.shape: ", pred.shape)
-            #pred = torch.cat(pred)
-            #print("pred.shape after concat: ", pred.shape)
-            if rgb == True:
-                pred = pred[:,:,0,:,:]
-            #print("pred.shape: ", pred.shape)
-            pred = torch.squeeze(pred, dim=2)
-            pred = np.array(pred.cpu() * max_HiC)
-            predictions.append(pred)
-
-        predictions = np.concatenate(predictions, axis=0)
-        print("predictions.shape: ", predictions.shape)
-        np.save(output_dir, predictions)
-
 #dir_list = os.listdir(model_path)
 #hic_rep = []
-csv_file_path = "./../results/190101/hicrep_190101.csv"
-csv_file_path_max = "./../results/190101/hicrep_190101_max.csv"
+csv_file_path = "./../results/190101/hicrep_190101_45_46.csv"
 epochs = [99, 149]
 hicrep_list = []
-for u in range(47, 7, -3):
+for u in range(46, 44, -1):
     hicrep_range = []
     for epoch in epochs: 
         load_path = model_path + "dmvfn_{}.pkl".format(epoch)
@@ -118,7 +72,7 @@ with open (csv_file_path, 'w', newline='') as f:
     for i in range(hicrep_list.shape[0]):
         row = np.hstack(hicrep_list[i])
         row = row.tolist()
-        row.insert(0, 47 - 3*i)
+        row.insert(0, 46 - i)
         writer.writerow(row)
 
 
