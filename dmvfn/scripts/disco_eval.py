@@ -2,12 +2,13 @@ import csv
 import numpy as np
 from GenomeDISCO import *
 
-#pred_path = "./../data/data_96/190101_predictions/149/pred_chr19_final.npy"
-pred_path = "./../data/data_50/predictions/norm_100/pred_chr19_final.npy"
+pred_path = "./../data/data_96/190101_predictions/149/pred_chr19_final.npy"
+#pred_path = "./../data/data_50/predictions/norm_100/pred_chr19_final.npy"
 gt_path = "./../data/data_96/data_gt_chr19_96.npy"
-#csv_file_path = "./../results/190101/190101_disco_39_43.csv"
-csv_file_path = "./../results/hic4d/hic4d_disco_39_43.csv"
-
+csv_file_path = "./../results/190101/190101_disco_49_95.csv"
+#csv_file_path = "./../results/hic4d/hic4d_disco_6_48.csv"
+ubd = 95 #inclusive
+lbd = 48 #not inclusive
 pred_mx = np.load(pred_path)
 gt_mx = np.load(gt_path)
 
@@ -16,9 +17,11 @@ print("gt_mx.shape: ", gt_mx.shape)
 def compute_disco_avg(pred_mx, gt_mx, transition, ps):
     disco_list = [[],[],[]]
     for j in range(3):
-        for i in range(100, 1534 - ps, 1):
+        for i in range(1, 1534 - ps, 1):
             pred_patch = pred_mx[j][i:ps+i, i:ps+i]
             gt_patch = gt_mx[j+3][i:ps+i, i:ps+i]
+            if np.sum(gt_patch) == 0:
+                continue
             disco = compute_reproducibility(pred_patch, gt_patch, transition, tmax=3, tmin=3)
             disco_list[j].append(disco)
             #print("j: {} i: {} disco: {}".format(j, i, disco))
@@ -28,7 +31,7 @@ def compute_disco_avg(pred_mx, gt_mx, transition, ps):
     return disco_avg
 
 ps_list = []
-for ps in range(43, 38, -1):
+for ps in range(ubd, lbd, -1):
     davg = compute_disco_avg(pred_mx, gt_mx, True, ps)
     ps_list.append(davg)
     print("ps: {} disco_avg: {}".format(ps, davg))
@@ -40,5 +43,5 @@ with open (csv_file_path, 'w', newline='') as f:
     
     for i in range(len(ps_list)):
         row = ps_list[i]
-        row.insert(0, 43 - i)
+        row.insert(0, ubd - i)
         writer.writerow(row)
