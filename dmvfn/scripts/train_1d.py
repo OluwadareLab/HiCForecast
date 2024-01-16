@@ -33,6 +33,10 @@ from predict import *
 from assemble import *
 from utils.util import *
 from model.model_1d import Model
+from disco_eval import *
+from pearson_eval import *
+from ssim_eval import * 
+from psnr_eval import *
 
 
 def base_build_dataset(name):
@@ -227,7 +231,7 @@ def train(model, args):
         if local_rank <= 0:    
             model.save_model(save_model_path_cache, epoch, local_rank)   
             print("Model saved to cache")
-            if (epoch == (args.epoch - 1)) or ((epoch + 1) % 50 == 0):
+            if (epoch == (args.epoch - 1)) or (((epoch + 1) % 5 == 0) and (epoch > 100)):
                 model.save_model(save_model_path, epoch, local_rank)   
         if epoch % 1 == 0:
             #val_dataset = np.load(data_val_path)
@@ -269,12 +273,16 @@ def evaluate(model, data_val_path, name, epoch, step):
         predict(model, data_val_path, val_save_path + "pred_chr19.npy", cut_off) 
         print("Calling assemble.py")
         get_predictions(val_save_path, 1534, patch_size) #assemble into one big matrix
-        val_hicrep_47 = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 0, ubr = 40000*47)
+        val_hicrep_34 = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 0, ubr = 40000*34)
+        pred_mx = np.load(val_save_path + "pred_chr19_final.npy")
+        gt_mx = np.load(data_val_path)
+        ps = 35
+        disco_35 = compute_disco_avg(pred_mx, gt_mx, True, ps)
 
-        logger.info("Validation scores: {}".format(val_hicrep_47))
+        logger.info("Validation scores: {}".format(val_hicrep_34))
         for i in range(3):
-            writer_val.add_scalar(name+' hicrep_47%d'%(i),  val_hicrep_47[i], epoch)
-        return val_hicrep_47
+            writer_val.add_scalar(name+' hicrep_34%d'%(i),  val_hicrep_34[i], epoch)
+        return val_hicrep_34
 
 
 def predict(model, data_path, output_dir, cut_off):
