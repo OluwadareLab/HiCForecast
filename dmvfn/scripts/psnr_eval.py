@@ -5,7 +5,7 @@ from skimage.metrics import structural_similarity, peak_signal_noise_ratio
 #https://scikit-image.org/docs/stable/api/skimage.metrics.html#skimage.metrics.structural_similarity
 
 
-def compute_psnr_avg(pred_mx, gt_mx, ps):
+def compute_psnr_avg(pred_mx, gt_mx, ps, m):
     psnr_list = [[],[],[]]
     for j in range(3):
         for i in range(0, 1534 - ps, 1):
@@ -24,7 +24,7 @@ def compute_psnr_avg(pred_mx, gt_mx, ps):
         psnr_avg[j] = sum(psnr_list[j]) / len(psnr_list[j]) 
     return psnr_avg
 
-def compute_ssim_avg(pred_mx, gt_mx, ps):
+def compute_ssim_avg(pred_mx, gt_mx, ps, m):
     ssim_list = [[],[],[]]
     for j in range(3):
         for i in range(0, 1534 - ps, 1):

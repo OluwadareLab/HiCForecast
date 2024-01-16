@@ -5,7 +5,7 @@ from skimage.metrics import structural_similarity
 #https://scikit-image.org/docs/stable/api/skimage.metrics.html#skimage.metrics.structural_similarity
 
 
-def compute_ssim_avg(pred_mx, gt_mx, ps):
+def compute_ssim_avg(pred_mx, gt_mx, ps, m):
     ssim_list = [[],[],[]]
     for j in range(3):
         for i in range(0, 1534 - ps, 1):
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
     val_avg_list = []
     for ps in range(ubd, lbd, -1*step):
-        val_avg = compute_ssim_avg(pred_mx, gt_mx, ps)
+        val_avg = compute_ssim_avg(pred_mx, gt_mx, ps, m)
         val_avg_list.append(val_avg)
         print("patch size: {} val_avg: {}".format(ps,val_avg))
     print("val_avg_list: ", val_avg_list)

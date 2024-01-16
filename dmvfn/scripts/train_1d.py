@@ -236,7 +236,7 @@ def train(model, args):
         if epoch % 1 == 0:
             #val_dataset = np.load(data_val_path)
             #val_data = DataLoader(val_dataset, batch_size=1, pin_memory=True, num_workers=1)
-            val_hicrep_old = old_val.pop(0)
+            val_disco_old = old_val.pop(0)
             val_hicrep = evaluate(model, data_val_path, val_dataset, epoch, step)
             old_val.append(val_hicrep)
             if epoch >= es_start:
@@ -262,27 +262,27 @@ def evaluate(model, data_val_path, name, epoch, step):
         if not os.path.exists(val_save_path):
             os.makedirs(val_save_path)
         print("Calling predict.py")
-        '''
-        os.system("python3 ./predict.py \
-        --data_path {} \
-        --load_path {} \
-        --output_dir {} \
-        --single_channel \
-        --max_HiC {}".format(data_val_path, load_path, val_save_path + "pred_chr19.npy", max_HiC))
-        '''
         predict(model, data_val_path, val_save_path + "pred_chr19.npy", cut_off) 
         print("Calling assemble.py")
         get_predictions(val_save_path, 1534, patch_size) #assemble into one big matrix
         val_hicrep_34 = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 0, ubr = 40000*34)
-        pred_mx = np.load(val_save_path + "pred_chr19_final.npy")
-        gt_mx = np.load(data_val_path)
+        pred_mx = np.load(val_save_path + "pred_chr19_final.npy") 
+        gt_mx = np.load("./../data/data_{}/data_gt_chr19_{}.npy".format(patch_size, patch_size))
         ps = 35
+        m = np.max(gt_mx)
         disco_35 = compute_disco_avg(pred_mx, gt_mx, True, ps)
+        pearson_35 = compute_pearson_avg(pred_mx, gt_mx, ps)
+        ssim_35 = compute_ssim_avg(pred_mx, gt_mx, ps, m)
+        psnr_35 = compute_psnr_avg(pred_mx, gt_mx, ps, m)
 
-        logger.info("Validation scores: {}".format(val_hicrep_34))
+        logger.info("Validation disco scores: {}".format(disco_35))
         for i in range(3):
-            writer_val.add_scalar(name+' hicrep_34%d'%(i),  val_hicrep_34[i], epoch)
-        return val_hicrep_34
+            writer_val.add_scalar(name+' hicrep_34_%d'%(i),  val_hicrep_34[i], epoch)
+            writer_val.add_scalar(name+' disco_35_%d'%(i),  disco_35[i], epoch)
+            writer_val.add_scalar(name+' pearson_35_%d'%(i),  pearson_35[i], epoch)
+            writer_val.add_scalar(name+' ssim_35_%d'%(i),  ssim_35[i], epoch)
+            writer_val.add_scalar(name+' psnr_35_%d'%(i),  psnr_35[i], epoch)
+        return disco_35
 
 
 def predict(model, data_path, output_dir, cut_off):
