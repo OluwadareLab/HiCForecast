@@ -1,0 +1,237 @@
+INFO: 2024-01-17 23:34:21 Argument batch_size: 8
+INFO: 2024-01-17 23:34:21 Argument block_num: 9
+INFO: 2024-01-17 23:34:21 Argument code_test: False
+INFO: 2024-01-17 23:34:21 Argument cut_off: True
+INFO: 2024-01-17 23:34:21 Argument data_train_path: ./../data/data_96/train/
+INFO: 2024-01-17 23:34:21 Argument data_val_path: ./../data/data_96/val/data_val_chr19_96.npy
+INFO: 2024-01-17 23:34:21 Argument device_id: 0
+INFO: 2024-01-17 23:34:21 Argument dynamics: True
+INFO: 2024-01-17 23:34:21 Argument early_stoppage_epochs: 5
+INFO: 2024-01-17 23:34:21 Argument early_stoppage_start: 400
+INFO: 2024-01-17 23:34:21 Argument epoch: 150
+INFO: 2024-01-17 23:34:21 Argument learning_rate: None
+INFO: 2024-01-17 23:34:21 Argument local_rank: 0
+INFO: 2024-01-17 23:34:21 Argument loss: single_channel_no_vgg
+INFO: 2024-01-17 23:34:21 Argument max_HiC: 250
+INFO: 2024-01-17 23:34:21 Argument num_gpu: 1
+INFO: 2024-01-17 23:34:21 Argument num_workers: 1
+INFO: 2024-01-17 23:34:21 Argument patch_size: 96
+INFO: 2024-01-17 23:34:21 Argument resume_epoch: 0
+INFO: 2024-01-17 23:34:21 Argument resume_path: None
+INFO: 2024-01-17 23:34:21 Argument rgb: False
+INFO: 2024-01-17 23:34:21 Argument train_dataset: hic
+INFO: 2024-01-17 23:34:21 Argument val_datasets: ['hic']
+INFO: Defualt learning rate schedule
+INFO: 2024-01-17 23:34:44 epoch:0 dataset: 1/17 step: 0/125 time:1.39+14.55 loss_avg:3.4852e-01
+INFO: 2024-01-17 23:34:48 epoch:0 dataset: 1/17 step: 1/125 time:0.01+3.53 loss_avg:3.5188e-01
+INFO: 2024-01-17 23:34:51 epoch:0 dataset: 1/17 step: 2/125 time:0.01+3.60 loss_avg:3.5998e-01
+INFO: 2024-01-17 23:34:55 epoch:0 dataset: 1/17 step: 3/125 time:0.01+3.59 loss_avg:3.4632e-01
+INFO: 2024-01-17 23:34:58 epoch:0 dataset: 1/17 step: 4/125 time:0.01+3.34 loss_avg:3.5621e-01
+INFO: 2024-01-17 23:35:02 epoch:0 dataset: 1/17 step: 5/125 time:0.01+3.54 loss_avg:3.5167e-01
+INFO: 2024-01-17 23:35:05 epoch:0 dataset: 1/17 step: 6/125 time:0.02+3.42 loss_avg:3.5939e-01
+INFO: 2024-01-17 23:35:09 epoch:0 dataset: 1/17 step: 7/125 time:0.01+3.51 loss_avg:3.5125e-01
+INFO: 2024-01-17 23:35:12 epoch:0 dataset: 1/17 step: 8/125 time:0.02+3.40 loss_avg:3.5977e-01
+INFO: 2024-01-17 23:35:16 epoch:0 dataset: 1/17 step: 9/125 time:0.01+3.68 loss_avg:2.8984e-01
+INFO: 2024-01-17 23:35:19 epoch:0 dataset: 1/17 step: 10/125 time:0.01+3.46 loss_avg:3.3236e-01
+INFO: 2024-01-17 23:35:23 epoch:0 dataset: 1/17 step: 11/125 time:0.02+3.52 loss_avg:3.5698e-01
+INFO: 2024-01-17 23:35:26 epoch:0 dataset: 1/17 step: 12/125 time:0.01+3.56 loss_avg:3.4633e-01
+INFO: 2024-01-17 23:35:30 epoch:0 dataset: 1/17 step: 13/125 time:0.02+3.65 loss_avg:3.6255e-01
+INFO: 2024-01-17 23:35:34 epoch:0 dataset: 1/17 step: 14/125 time:0.00+3.52 loss_avg:3.5651e-01
+INFO: 2024-01-17 23:35:37 epoch:0 dataset: 1/17 step: 15/125 time:0.01+3.52 loss_avg:3.6720e-01
+INFO: 2024-01-17 23:35:41 epoch:0 dataset: 1/17 step: 16/125 time:0.02+3.50 loss_avg:3.6823e-01
+INFO: 2024-01-17 23:35:44 epoch:0 dataset: 1/17 step: 17/125 time:0.01+3.33 loss_avg:3.5458e-01
+INFO: 2024-01-17 23:35:47 epoch:0 dataset: 1/17 step: 18/125 time:0.02+3.22 loss_avg:3.4494e-01
+INFO: 2024-01-17 23:35:51 epoch:0 dataset: 1/17 step: 19/125 time:0.01+3.54 loss_avg:3.4279e-01
+INFO: 2024-01-17 23:35:54 epoch:0 dataset: 1/17 step: 20/125 time:0.02+3.51 loss_avg:3.4535e-01
+INFO: 2024-01-17 23:35:58 epoch:0 dataset: 1/17 step: 21/125 time:0.01+3.51 loss_avg:3.5132e-01
+INFO: 2024-01-17 23:36:01 epoch:0 dataset: 1/17 step: 22/125 time:0.01+3.41 loss_avg:3.5492e-01
+INFO: 2024-01-17 23:36:05 epoch:0 dataset: 1/17 step: 23/125 time:0.02+3.17 loss_avg:3.5243e-01
+INFO: 2024-01-17 23:36:08 epoch:0 dataset: 1/17 step: 24/125 time:0.01+3.35 loss_avg:3.6724e-01
+INFO: 2024-01-17 23:36:11 epoch:0 dataset: 1/17 step: 25/125 time:0.03+3.07 loss_avg:3.5406e-01
+INFO: 2024-01-17 23:36:14 epoch:0 dataset: 1/17 step: 26/125 time:0.01+3.31 loss_avg:3.5158e-01
+INFO: 2024-01-17 23:36:17 epoch:0 dataset: 1/17 step: 27/125 time:0.01+3.06 loss_avg:3.6204e-01
+INFO: 2024-01-17 23:36:21 epoch:0 dataset: 1/17 step: 28/125 time:0.01+3.19 loss_avg:3.4002e-01
+INFO: 2024-01-17 23:36:24 epoch:0 dataset: 1/17 step: 29/125 time:0.01+3.25 loss_avg:3.3741e-01
+INFO: 2024-01-17 23:36:27 epoch:0 dataset: 1/17 step: 30/125 time:0.01+3.07 loss_avg:3.4884e-01
+INFO: 2024-01-17 23:36:30 epoch:0 dataset: 1/17 step: 31/125 time:0.01+3.35 loss_avg:3.5932e-01
+INFO: 2024-01-17 23:36:34 epoch:0 dataset: 1/17 step: 32/125 time:0.01+3.23 loss_avg:3.5078e-01
+INFO: 2024-01-17 23:36:37 epoch:0 dataset: 1/17 step: 33/125 time:0.02+3.31 loss_avg:3.5782e-01
+INFO: 2024-01-17 23:36:40 epoch:0 dataset: 1/17 step: 34/125 time:0.03+3.08 loss_avg:3.4237e-01
+INFO: 2024-01-17 23:36:43 epoch:0 dataset: 1/17 step: 35/125 time:0.02+3.20 loss_avg:3.4495e-01
+INFO: 2024-01-17 23:36:46 epoch:0 dataset: 1/17 step: 36/125 time:0.02+2.98 loss_avg:3.5193e-01
+INFO: 2024-01-17 23:36:49 epoch:0 dataset: 1/17 step: 37/125 time:0.01+3.21 loss_avg:3.2885e-01
+INFO: 2024-01-17 23:36:53 epoch:0 dataset: 1/17 step: 38/125 time:0.01+3.17 loss_avg:3.5938e-01
+INFO: 2024-01-17 23:36:56 epoch:0 dataset: 1/17 step: 39/125 time:0.02+3.79 loss_avg:3.4281e-01
+INFO: 2024-01-17 23:36:59 epoch:0 dataset: 1/17 step: 40/125 time:0.01+2.98 loss_avg:3.4686e-01
+INFO: 2024-01-17 23:37:03 epoch:0 dataset: 1/17 step: 41/125 time:0.02+3.22 loss_avg:3.6314e-01
+INFO: 2024-01-17 23:37:06 epoch:0 dataset: 1/17 step: 42/125 time:0.01+2.98 loss_avg:3.4901e-01
+INFO: 2024-01-17 23:37:09 epoch:0 dataset: 1/17 step: 43/125 time:0.02+3.02 loss_avg:3.3398e-01
+INFO: 2024-01-17 23:37:12 epoch:0 dataset: 1/17 step: 44/125 time:0.02+3.07 loss_avg:3.4342e-01
+INFO: 2024-01-17 23:37:15 epoch:0 dataset: 1/17 step: 45/125 time:0.02+3.05 loss_avg:3.5730e-01
+INFO: 2024-01-17 23:37:18 epoch:0 dataset: 1/17 step: 46/125 time:0.01+2.85 loss_avg:3.5307e-01
+INFO: 2024-01-17 23:37:21 epoch:0 dataset: 1/17 step: 47/125 time:0.02+2.97 loss_avg:3.0519e-01
+INFO: 2024-01-17 23:37:24 epoch:0 dataset: 1/17 step: 48/125 time:0.02+3.22 loss_avg:3.2984e-01
+INFO: 2024-01-17 23:37:27 epoch:0 dataset: 1/17 step: 49/125 time:0.02+3.20 loss_avg:3.4426e-01
+INFO: 2024-01-17 23:37:30 epoch:0 dataset: 1/17 step: 50/125 time:0.02+2.96 loss_avg:3.3330e-01
+INFO: 2024-01-17 23:37:33 epoch:0 dataset: 1/17 step: 51/125 time:0.01+2.78 loss_avg:3.4568e-01
+INFO: 2024-01-17 23:37:36 epoch:0 dataset: 1/17 step: 52/125 time:0.01+2.68 loss_avg:3.1084e-01
+INFO: 2024-01-17 23:37:38 epoch:0 dataset: 1/17 step: 53/125 time:0.02+2.81 loss_avg:3.6354e-01
+INFO: 2024-01-17 23:37:41 epoch:0 dataset: 1/17 step: 54/125 time:0.01+3.00 loss_avg:3.2918e-01
+INFO: 2024-01-17 23:37:45 epoch:0 dataset: 1/17 step: 55/125 time:0.01+3.06 loss_avg:3.6471e-01
+INFO: 2024-01-17 23:37:48 epoch:0 dataset: 1/17 step: 56/125 time:0.01+3.23 loss_avg:3.3929e-01
+INFO: 2024-01-17 23:37:51 epoch:0 dataset: 1/17 step: 57/125 time:0.03+3.04 loss_avg:3.4662e-01
+INFO: 2024-01-17 23:37:54 epoch:0 dataset: 1/17 step: 58/125 time:0.02+2.92 loss_avg:3.4021e-01
+INFO: 2024-01-17 23:37:57 epoch:0 dataset: 1/17 step: 59/125 time:0.01+2.91 loss_avg:3.1272e-01
+INFO: 2024-01-17 23:38:00 epoch:0 dataset: 1/17 step: 60/125 time:0.01+3.49 loss_avg:3.5235e-01
+INFO: 2024-01-17 23:38:04 epoch:0 dataset: 1/17 step: 61/125 time:0.01+3.57 loss_avg:3.5375e-01
+INFO: 2024-01-17 23:38:08 epoch:0 dataset: 1/17 step: 62/125 time:0.02+3.75 loss_avg:3.3550e-01
+INFO: 2024-01-17 23:38:11 epoch:0 dataset: 1/17 step: 63/125 time:0.01+3.60 loss_avg:3.5348e-01
+INFO: 2024-01-17 23:38:15 epoch:0 dataset: 1/17 step: 64/125 time:0.01+3.75 loss_avg:3.4325e-01
+INFO: 2024-01-17 23:38:19 epoch:0 dataset: 1/17 step: 65/125 time:0.01+4.09 loss_avg:3.1961e-01
+INFO: 2024-01-17 23:38:23 epoch:0 dataset: 1/17 step: 66/125 time:0.01+3.56 loss_avg:3.3530e-01
+INFO: 2024-01-17 23:38:26 epoch:0 dataset: 1/17 step: 67/125 time:0.01+3.43 loss_avg:3.4230e-01
+INFO: 2024-01-17 23:38:30 epoch:0 dataset: 1/17 step: 68/125 time:0.02+3.69 loss_avg:3.3041e-01
+INFO: 2024-01-17 23:38:34 epoch:0 dataset: 1/17 step: 69/125 time:0.01+3.96 loss_avg:3.4849e-01
+INFO: 2024-01-17 23:38:37 epoch:0 dataset: 1/17 step: 70/125 time:0.01+3.69 loss_avg:3.3425e-01
+INFO: 2024-01-17 23:38:41 epoch:0 dataset: 1/17 step: 71/125 time:0.01+3.66 loss_avg:3.3518e-01
+INFO: 2024-01-17 23:38:45 epoch:0 dataset: 1/17 step: 72/125 time:0.01+3.60 loss_avg:3.3091e-01
+INFO: 2024-01-17 23:38:48 epoch:0 dataset: 1/17 step: 73/125 time:0.02+3.45 loss_avg:3.4492e-01
+INFO: 2024-01-17 23:38:52 epoch:0 dataset: 1/17 step: 74/125 time:0.03+3.62 loss_avg:2.9967e-01
+INFO: 2024-01-17 23:38:55 epoch:0 dataset: 1/17 step: 75/125 time:0.01+3.42 loss_avg:3.3498e-01
+INFO: 2024-01-17 23:38:59 epoch:0 dataset: 1/17 step: 76/125 time:0.01+3.50 loss_avg:3.3302e-01
+INFO: 2024-01-17 23:39:02 epoch:0 dataset: 1/17 step: 77/125 time:0.01+3.64 loss_avg:3.3082e-01
+INFO: 2024-01-17 23:39:06 epoch:0 dataset: 1/17 step: 78/125 time:0.01+3.80 loss_avg:3.4586e-01
+INFO: 2024-01-17 23:39:10 epoch:0 dataset: 1/17 step: 79/125 time:0.02+3.64 loss_avg:3.4811e-01
+INFO: 2024-01-17 23:39:13 epoch:0 dataset: 1/17 step: 80/125 time:0.03+3.53 loss_avg:2.9990e-01
+INFO: 2024-01-17 23:39:17 epoch:0 dataset: 1/17 step: 81/125 time:0.01+3.65 loss_avg:3.4458e-01
+INFO: 2024-01-17 23:39:21 epoch:0 dataset: 1/17 step: 82/125 time:0.01+3.69 loss_avg:3.2890e-01
+INFO: 2024-01-17 23:39:24 epoch:0 dataset: 1/17 step: 83/125 time:0.01+3.58 loss_avg:3.3671e-01
+INFO: 2024-01-17 23:39:28 epoch:0 dataset: 1/17 step: 84/125 time:0.01+3.71 loss_avg:3.4208e-01
+INFO: 2024-01-17 23:39:32 epoch:0 dataset: 1/17 step: 85/125 time:0.01+3.73 loss_avg:3.4022e-01
+INFO: 2024-01-17 23:39:35 epoch:0 dataset: 1/17 step: 86/125 time:0.01+3.51 loss_avg:3.3819e-01
+INFO: 2024-01-17 23:39:39 epoch:0 dataset: 1/17 step: 87/125 time:0.01+3.70 loss_avg:3.2235e-01
+INFO: 2024-01-17 23:39:43 epoch:0 dataset: 1/17 step: 88/125 time:0.01+3.64 loss_avg:3.4035e-01
+INFO: 2024-01-17 23:39:46 epoch:0 dataset: 1/17 step: 89/125 time:0.01+3.40 loss_avg:3.5757e-01
+INFO: 2024-01-17 23:39:49 epoch:0 dataset: 1/17 step: 90/125 time:0.01+3.14 loss_avg:3.4445e-01
+INFO: 2024-01-17 23:39:53 epoch:0 dataset: 1/17 step: 91/125 time:0.03+3.21 loss_avg:3.5362e-01
+INFO: 2024-01-17 23:39:56 epoch:0 dataset: 1/17 step: 92/125 time:0.01+3.58 loss_avg:3.4836e-01
+INFO: 2024-01-17 23:40:00 epoch:0 dataset: 1/17 step: 93/125 time:0.01+3.61 loss_avg:3.4565e-01
+INFO: 2024-01-17 23:40:03 epoch:0 dataset: 1/17 step: 94/125 time:0.01+3.43 loss_avg:2.8823e-01
+INFO: 2024-01-17 23:40:07 epoch:0 dataset: 1/17 step: 95/125 time:0.01+3.58 loss_avg:3.2658e-01
+INFO: 2024-01-17 23:40:10 epoch:0 dataset: 1/17 step: 96/125 time:0.03+3.54 loss_avg:3.4689e-01
+INFO: 2024-01-17 23:40:14 epoch:0 dataset: 1/17 step: 97/125 time:0.01+3.80 loss_avg:3.5985e-01
+INFO: 2024-01-17 23:40:18 epoch:0 dataset: 1/17 step: 98/125 time:0.01+3.50 loss_avg:3.4078e-01
+INFO: 2024-01-17 23:40:21 epoch:0 dataset: 1/17 step: 99/125 time:0.01+3.37 loss_avg:3.2826e-01
+INFO: 2024-01-17 23:40:25 epoch:0 dataset: 1/17 step: 100/125 time:0.02+3.70 loss_avg:3.2136e-01
+INFO: 2024-01-17 23:40:28 epoch:0 dataset: 1/17 step: 101/125 time:0.01+3.45 loss_avg:3.4090e-01
+INFO: 2024-01-17 23:40:32 epoch:0 dataset: 1/17 step: 102/125 time:0.01+3.73 loss_avg:3.3276e-01
+INFO: 2024-01-17 23:40:35 epoch:0 dataset: 1/17 step: 103/125 time:0.02+3.50 loss_avg:3.5603e-01
+INFO: 2024-01-17 23:40:39 epoch:0 dataset: 1/17 step: 104/125 time:0.02+3.44 loss_avg:3.4386e-01
+INFO: 2024-01-17 23:40:43 epoch:0 dataset: 1/17 step: 105/125 time:0.01+3.84 loss_avg:3.3909e-01
+INFO: 2024-01-17 23:40:46 epoch:0 dataset: 1/17 step: 106/125 time:0.02+3.53 loss_avg:3.3151e-01
+INFO: 2024-01-17 23:40:50 epoch:0 dataset: 1/17 step: 107/125 time:0.01+3.35 loss_avg:3.2911e-01
+INFO: 2024-01-17 23:40:53 epoch:0 dataset: 1/17 step: 108/125 time:0.03+3.45 loss_avg:3.4321e-01
+INFO: 2024-01-17 23:40:57 epoch:0 dataset: 1/17 step: 109/125 time:0.02+3.53 loss_avg:3.3602e-01
+INFO: 2024-01-17 23:41:00 epoch:0 dataset: 1/17 step: 110/125 time:0.01+3.50 loss_avg:3.1267e-01
+INFO: 2024-01-17 23:41:04 epoch:0 dataset: 1/17 step: 111/125 time:0.02+3.54 loss_avg:3.2516e-01
+INFO: 2024-01-17 23:41:07 epoch:0 dataset: 1/17 step: 112/125 time:0.02+3.36 loss_avg:3.3958e-01
+INFO: 2024-01-17 23:41:11 epoch:0 dataset: 1/17 step: 113/125 time:0.02+3.46 loss_avg:3.4450e-01
+INFO: 2024-01-17 23:41:14 epoch:0 dataset: 1/17 step: 114/125 time:0.02+3.37 loss_avg:3.3104e-01
+INFO: 2024-01-17 23:41:17 epoch:0 dataset: 1/17 step: 115/125 time:0.02+3.38 loss_avg:3.4531e-01
+INFO: 2024-01-17 23:41:21 epoch:0 dataset: 1/17 step: 116/125 time:0.01+3.62 loss_avg:3.4189e-01
+INFO: 2024-01-17 23:41:24 epoch:0 dataset: 1/17 step: 117/125 time:0.01+3.27 loss_avg:3.2857e-01
+INFO: 2024-01-17 23:41:28 epoch:0 dataset: 1/17 step: 118/125 time:0.01+3.32 loss_avg:3.2980e-01
+INFO: 2024-01-17 23:41:31 epoch:0 dataset: 1/17 step: 119/125 time:0.01+3.62 loss_avg:3.3553e-01
+INFO: 2024-01-17 23:41:35 epoch:0 dataset: 1/17 step: 120/125 time:0.01+3.27 loss_avg:3.4016e-01
+INFO: 2024-01-17 23:41:38 epoch:0 dataset: 1/17 step: 121/125 time:0.01+3.56 loss_avg:3.0061e-01
+INFO: 2024-01-17 23:41:42 epoch:0 dataset: 1/17 step: 122/125 time:0.01+3.56 loss_avg:3.2283e-01
+INFO: 2024-01-17 23:41:45 epoch:0 dataset: 1/17 step: 123/125 time:0.00+3.41 loss_avg:3.3882e-01
+INFO: 2024-01-17 23:41:49 epoch:0 dataset: 1/17 step: 124/125 time:0.00+3.56 loss_avg:3.1614e-01
+INFO: Training on data_train_chr9_96.npy complete.
+INFO: 2024-01-17 23:41:54 epoch:0 dataset: 2/17 step: 0/103 time:1.24+4.18 loss_avg:3.2136e-01
+INFO: 2024-01-17 23:41:58 epoch:0 dataset: 2/17 step: 1/103 time:0.00+3.91 loss_avg:3.2506e-01
+INFO: 2024-01-17 23:42:02 epoch:0 dataset: 2/17 step: 2/103 time:0.01+4.13 loss_avg:3.1060e-01
+INFO: 2024-01-17 23:42:06 epoch:0 dataset: 2/17 step: 3/103 time:0.00+4.22 loss_avg:2.5890e-01
+INFO: 2024-01-17 23:42:11 epoch:0 dataset: 2/17 step: 4/103 time:0.01+4.21 loss_avg:3.2375e-01
+INFO: 2024-01-17 23:42:15 epoch:0 dataset: 2/17 step: 5/103 time:0.02+4.34 loss_avg:3.1702e-01
+INFO: 2024-01-17 23:42:19 epoch:0 dataset: 2/17 step: 6/103 time:0.01+3.96 loss_avg:3.1131e-01
+INFO: 2024-01-17 23:42:23 epoch:0 dataset: 2/17 step: 7/103 time:0.01+3.88 loss_avg:3.0796e-01
+INFO: 2024-01-17 23:42:27 epoch:0 dataset: 2/17 step: 8/103 time:0.01+4.08 loss_avg:3.2047e-01
+INFO: 2024-01-17 23:42:30 epoch:0 dataset: 2/17 step: 9/103 time:0.01+3.45 loss_avg:3.1549e-01
+INFO: 2024-01-17 23:42:34 epoch:0 dataset: 2/17 step: 10/103 time:0.01+3.75 loss_avg:3.1611e-01
+INFO: 2024-01-17 23:42:38 epoch:0 dataset: 2/17 step: 11/103 time:0.03+3.36 loss_avg:2.8442e-01
+INFO: 2024-01-17 23:42:41 epoch:0 dataset: 2/17 step: 12/103 time:0.01+3.63 loss_avg:3.1467e-01
+INFO: 2024-01-17 23:42:44 epoch:0 dataset: 2/17 step: 13/103 time:0.02+3.25 loss_avg:3.0466e-01
+INFO: 2024-01-17 23:42:48 epoch:0 dataset: 2/17 step: 14/103 time:0.01+3.28 loss_avg:3.1347e-01
+INFO: 2024-01-17 23:42:51 epoch:0 dataset: 2/17 step: 15/103 time:0.01+3.39 loss_avg:3.1912e-01
+INFO: 2024-01-17 23:42:55 epoch:0 dataset: 2/17 step: 16/103 time:0.02+3.43 loss_avg:3.2958e-01
+INFO: 2024-01-17 23:42:58 epoch:0 dataset: 2/17 step: 17/103 time:0.03+3.35 loss_avg:3.1421e-01
+INFO: 2024-01-17 23:43:02 epoch:0 dataset: 2/17 step: 18/103 time:0.03+3.67 loss_avg:3.2297e-01
+INFO: 2024-01-17 23:43:05 epoch:0 dataset: 2/17 step: 19/103 time:0.01+3.69 loss_avg:3.1517e-01
+INFO: 2024-01-17 23:43:09 epoch:0 dataset: 2/17 step: 20/103 time:0.01+3.98 loss_avg:3.2358e-01
+INFO: 2024-01-17 23:43:13 epoch:0 dataset: 2/17 step: 21/103 time:0.02+3.40 loss_avg:3.2101e-01
+INFO: 2024-01-17 23:43:16 epoch:0 dataset: 2/17 step: 22/103 time:0.01+3.42 loss_avg:3.2504e-01
+INFO: 2024-01-17 23:43:20 epoch:0 dataset: 2/17 step: 23/103 time:0.03+3.49 loss_avg:3.2827e-01
+INFO: 2024-01-17 23:43:23 epoch:0 dataset: 2/17 step: 24/103 time:0.01+3.48 loss_avg:3.2458e-01
+INFO: 2024-01-17 23:43:27 epoch:0 dataset: 2/17 step: 25/103 time:0.02+3.52 loss_avg:2.6711e-01
+INFO: 2024-01-17 23:43:31 epoch:0 dataset: 2/17 step: 26/103 time:0.00+3.86 loss_avg:2.8174e-01
+INFO: 2024-01-17 23:43:34 epoch:0 dataset: 2/17 step: 27/103 time:0.00+3.83 loss_avg:3.1886e-01
+INFO: 2024-01-17 23:43:38 epoch:0 dataset: 2/17 step: 28/103 time:0.02+3.89 loss_avg:3.2555e-01
+INFO: 2024-01-17 23:43:42 epoch:0 dataset: 2/17 step: 29/103 time:0.01+3.74 loss_avg:3.3273e-01
+INFO: 2024-01-17 23:43:46 epoch:0 dataset: 2/17 step: 30/103 time:0.00+3.46 loss_avg:3.1902e-01
+INFO: 2024-01-17 23:43:49 epoch:0 dataset: 2/17 step: 31/103 time:0.02+3.67 loss_avg:3.2617e-01
+INFO: 2024-01-17 23:43:53 epoch:0 dataset: 2/17 step: 32/103 time:0.02+3.44 loss_avg:3.1987e-01
+INFO: 2024-01-17 23:43:56 epoch:0 dataset: 2/17 step: 33/103 time:0.01+3.57 loss_avg:3.1801e-01
+INFO: 2024-01-17 23:44:00 epoch:0 dataset: 2/17 step: 34/103 time:0.02+3.73 loss_avg:3.1973e-01
+INFO: 2024-01-17 23:44:04 epoch:0 dataset: 2/17 step: 35/103 time:0.03+3.66 loss_avg:3.1455e-01
+INFO: 2024-01-17 23:44:07 epoch:0 dataset: 2/17 step: 36/103 time:0.02+3.45 loss_avg:3.3572e-01
+INFO: 2024-01-17 23:44:11 epoch:0 dataset: 2/17 step: 37/103 time:0.01+3.66 loss_avg:3.1425e-01
+INFO: 2024-01-17 23:44:14 epoch:0 dataset: 2/17 step: 38/103 time:0.01+3.45 loss_avg:3.0610e-01
+INFO: 2024-01-17 23:44:18 epoch:0 dataset: 2/17 step: 39/103 time:0.03+3.45 loss_avg:3.1772e-01
+INFO: 2024-01-17 23:44:21 epoch:0 dataset: 2/17 step: 40/103 time:0.01+3.61 loss_avg:3.2715e-01
+INFO: 2024-01-17 23:44:25 epoch:0 dataset: 2/17 step: 41/103 time:0.01+3.51 loss_avg:3.1484e-01
+INFO: 2024-01-17 23:44:29 epoch:0 dataset: 2/17 step: 42/103 time:0.01+3.72 loss_avg:3.1431e-01
+INFO: 2024-01-17 23:44:33 epoch:0 dataset: 2/17 step: 43/103 time:0.01+4.12 loss_avg:3.1488e-01
+INFO: 2024-01-17 23:44:38 epoch:0 dataset: 2/17 step: 44/103 time:0.01+4.85 loss_avg:3.1455e-01
+INFO: 2024-01-17 23:44:43 epoch:0 dataset: 2/17 step: 45/103 time:0.03+5.19 loss_avg:3.2778e-01
+INFO: 2024-01-17 23:44:48 epoch:0 dataset: 2/17 step: 46/103 time:0.02+5.41 loss_avg:3.2388e-01
+INFO: 2024-01-17 23:44:54 epoch:0 dataset: 2/17 step: 47/103 time:0.02+5.64 loss_avg:3.0357e-01
+INFO: 2024-01-17 23:44:59 epoch:0 dataset: 2/17 step: 48/103 time:0.03+5.40 loss_avg:3.2430e-01
+INFO: 2024-01-17 23:45:04 epoch:0 dataset: 2/17 step: 49/103 time:0.02+5.03 loss_avg:3.2694e-01
+INFO: 2024-01-17 23:45:10 epoch:0 dataset: 2/17 step: 50/103 time:0.01+5.18 loss_avg:3.2163e-01
+INFO: 2024-01-17 23:45:16 epoch:0 dataset: 2/17 step: 51/103 time:0.02+5.88 loss_avg:3.1517e-01
+INFO: 2024-01-17 23:45:21 epoch:0 dataset: 2/17 step: 52/103 time:0.01+5.41 loss_avg:3.2875e-01
+INFO: 2024-01-17 23:45:27 epoch:0 dataset: 2/17 step: 53/103 time:0.01+5.76 loss_avg:2.8718e-01
+INFO: 2024-01-17 23:45:31 epoch:0 dataset: 2/17 step: 54/103 time:0.01+4.64 loss_avg:2.9248e-01
+INFO: 2024-01-17 23:45:37 epoch:0 dataset: 2/17 step: 55/103 time:0.01+5.89 loss_avg:3.1387e-01
+INFO: 2024-01-17 23:45:43 epoch:0 dataset: 2/17 step: 56/103 time:0.03+5.20 loss_avg:3.1274e-01
+INFO: 2024-01-17 23:45:47 epoch:0 dataset: 2/17 step: 57/103 time:0.03+4.72 loss_avg:3.1193e-01
+INFO: 2024-01-17 23:45:53 epoch:0 dataset: 2/17 step: 58/103 time:0.01+5.61 loss_avg:3.2462e-01
+INFO: 2024-01-17 23:45:59 epoch:0 dataset: 2/17 step: 59/103 time:0.01+5.65 loss_avg:3.2447e-01
+INFO: 2024-01-17 23:46:04 epoch:0 dataset: 2/17 step: 60/103 time:0.02+5.51 loss_avg:3.0394e-01
+INFO: 2024-01-17 23:46:09 epoch:0 dataset: 2/17 step: 61/103 time:0.02+4.59 loss_avg:2.9754e-01
+INFO: 2024-01-17 23:46:13 epoch:0 dataset: 2/17 step: 62/103 time:0.01+4.53 loss_avg:3.1973e-01
+INFO: 2024-01-17 23:46:18 epoch:0 dataset: 2/17 step: 63/103 time:0.02+4.93 loss_avg:3.2562e-01
+INFO: 2024-01-17 23:46:23 epoch:0 dataset: 2/17 step: 64/103 time:0.02+5.13 loss_avg:3.1034e-01
+INFO: 2024-01-17 23:46:29 epoch:0 dataset: 2/17 step: 65/103 time:0.01+5.16 loss_avg:3.2190e-01
+INFO: 2024-01-17 23:46:33 epoch:0 dataset: 2/17 step: 66/103 time:0.01+4.87 loss_avg:3.1959e-01
+INFO: 2024-01-17 23:46:39 epoch:0 dataset: 2/17 step: 67/103 time:0.02+5.63 loss_avg:2.9270e-01
+INFO: 2024-01-17 23:46:45 epoch:0 dataset: 2/17 step: 68/103 time:0.01+5.90 loss_avg:3.3388e-01
+INFO: 2024-01-17 23:46:50 epoch:0 dataset: 2/17 step: 69/103 time:0.02+5.14 loss_avg:3.2187e-01
+INFO: 2024-01-17 23:46:55 epoch:0 dataset: 2/17 step: 70/103 time:0.02+5.01 loss_avg:3.2766e-01
+INFO: 2024-01-17 23:47:01 epoch:0 dataset: 2/17 step: 71/103 time:0.01+5.54 loss_avg:3.1061e-01
+INFO: 2024-01-17 23:47:06 epoch:0 dataset: 2/17 step: 72/103 time:0.01+5.72 loss_avg:3.1227e-01
+INFO: 2024-01-17 23:47:12 epoch:0 dataset: 2/17 step: 73/103 time:0.03+5.93 loss_avg:3.2106e-01
+INFO: 2024-01-17 23:47:18 epoch:0 dataset: 2/17 step: 74/103 time:0.00+5.35 loss_avg:3.1923e-01
+INFO: 2024-01-17 23:47:23 epoch:0 dataset: 2/17 step: 75/103 time:0.01+5.44 loss_avg:3.1819e-01
+INFO: 2024-01-17 23:47:29 epoch:0 dataset: 2/17 step: 76/103 time:0.02+5.55 loss_avg:3.1381e-01
+INFO: 2024-01-17 23:47:35 epoch:0 dataset: 2/17 step: 77/103 time:0.01+5.77 loss_avg:2.9558e-01
+INFO: 2024-01-17 23:47:40 epoch:0 dataset: 2/17 step: 78/103 time:0.02+5.80 loss_avg:3.0478e-01
+INFO: 2024-01-17 23:47:46 epoch:0 dataset: 2/17 step: 79/103 time:0.01+5.68 loss_avg:3.1972e-01
+INFO: 2024-01-17 23:47:52 epoch:0 dataset: 2/17 step: 80/103 time:0.01+5.50 loss_avg:3.2318e-01
+INFO: 2024-01-17 23:47:57 epoch:0 dataset: 2/17 step: 81/103 time:0.03+5.38 loss_avg:3.2663e-01
+INFO: 2024-01-17 23:48:03 epoch:0 dataset: 2/17 step: 82/103 time:0.00+5.56 loss_avg:3.1427e-01
+INFO: 2024-01-17 23:48:08 epoch:0 dataset: 2/17 step: 83/103 time:0.00+5.14 loss_avg:3.0967e-01
+INFO: 2024-01-17 23:48:13 epoch:0 dataset: 2/17 step: 84/103 time:0.01+5.52 loss_avg:3.2283e-01
+INFO: 2024-01-17 23:48:19 epoch:0 dataset: 2/17 step: 85/103 time:0.01+5.84 loss_avg:3.1843e-01
+INFO: 2024-01-17 23:48:24 epoch:0 dataset: 2/17 step: 86/103 time:0.02+5.02 loss_avg:2.8876e-01
