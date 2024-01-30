@@ -71,6 +71,8 @@ parser.add_argument('--cut_off', action='store_true')
 parser.add_argument('--no_cut_off', dest='cut_off', action='store_false')
 parser.add_argument('--dynamics', action='store_true')
 parser.add_argument('--no_dynamics', dest='dynamics', action='store_false')
+parser.add_argument('--max_cut_off', action='store_true')
+parser.add_argument('--no_max_cut_off', dest='max_cut_off', action='store_false')
 parser.set_defaults(code_test=False)
 args = parser.parse_args()
 print("args parsed.")
@@ -93,6 +95,7 @@ torch.backends.cudnn.benchmark = True
 loss_fn_alex = lpips.LPIPS(net='alex').to(device)
 
 max_HiC = args.max_HiC
+max_cut_off = args.max_cut_off
 rgb = args.rgb
 patch_size = args.patch_size
 batch_size = args.batch_size
@@ -182,6 +185,13 @@ def train(model, args):
         set_number = 0 
         for chr_file in train_list:
             dataset = np.load(train_path + chr_file)
+            if max_cut_off == True:
+                print("max_cut_off True")
+                print("dataset.shape: ", dataset.shape)
+                max_HiC = np.max(dataset[:,0:3, :, :])
+                print("max_HiC: ", max_HiC)
+            else:
+                max_HiC = args.max_HiC
             if args.cut_off == True:
                 dataset[dataset > max_HiC] = max_HiC
                 print("Performed cut off")
@@ -237,7 +247,7 @@ def train(model, args):
             #val_dataset = np.load(data_val_path)
             #val_data = DataLoader(val_dataset, batch_size=1, pin_memory=True, num_workers=1)
             val_disco_old = old_val.pop(0)
-            val_hicrep = evaluate(model, data_val_path, val_dataset, epoch, step)
+            val_hicrep = evaluate(model, data_val_path, val_dataset, epoch, step, args)
             old_val.append(val_hicrep)
             if epoch >= es_start:
                 if val_hicrep[0] - val_hicrep_old[0] < 0.0001 or val_hicrep[1] - val_hicrep_old[1] < 0.0001 or val_hicrep[2] - val_hicrep_old[2]<0.0001:
@@ -251,7 +261,7 @@ def train(model, args):
         dist.barrier()
     logger.info('{} Training module completed.'.format(get_formatted_timestamp()))
 
-def evaluate(model, data_val_path, name, epoch, step):
+def evaluate(model, data_val_path, name, epoch, step, args):
     with torch.no_grad():
         #lpips_score_mine, psnr_score_mine, msssim_score_mine, ssim_score_mine = np.zeros(5), np.zeros(5), np.zeros(5), np.zeros(5)
         hicrep = np.zeros(3)
@@ -262,7 +272,7 @@ def evaluate(model, data_val_path, name, epoch, step):
         if not os.path.exists(val_save_path):
             os.makedirs(val_save_path)
         print("Calling predict.py")
-        predict(model, data_val_path, val_save_path + "pred_chr19.npy", cut_off) 
+        predict(model, data_val_path, val_save_path + "pred_chr19.npy", cut_off, args) 
         print("Calling assemble.py")
         get_predictions(val_save_path, 1534, patch_size) #assemble into one big matrix
         val_hicrep_34 = get_hicrep(val_save_path + "pred_chr19_final.npy", patch_size, 0, ubr = 40000*34)
@@ -285,9 +295,15 @@ def evaluate(model, data_val_path, name, epoch, step):
         return disco_35
 
 
-def predict(model, data_path, output_dir, cut_off):
+def predict(model, data_path, output_dir, cut_off, args):
     with torch.no_grad():
         dat_test = np.load(data_path).astype(np.float32)
+        if max_cut_off == True:
+            max_HiC = np.max(dat_test[:, 0:3, :, :])
+            print("predict dat_test.shape: ", dat_test.shape)
+            print("predict max_HiC: ", max_HiC)
+        else:
+            max_HiC = args.max_HiC
         if cut_off == True:
             dat_test[dat_test > max_HiC] = max_HiC
             print("Performed cut off for prediction")
