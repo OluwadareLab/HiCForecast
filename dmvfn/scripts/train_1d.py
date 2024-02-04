@@ -52,6 +52,9 @@ parser.add_argument('--num_workers', default=0, type=int)
 parser.add_argument('--batch_size', default=8, type=int, help='minibatch size')
 parser.add_argument('--block_num', default=9, type=int)
 parser.add_argument('--learning_rate',required=False, type=float)
+parser.add_argument('--lr_scale', required=True, type=float)
+parser.add_argument('--lr_max', required=False, default=1e-4, type=float)
+parser.add_argument('--lr_min', required=True, default=1e-5, type=float)
 parser.add_argument('--local_rank', default=0, type=int, help='local rank')
 parser.add_argument('--train_dataset', required=True, type=str, help='CityTrainDataset, KittiTrainDataset, VimeoTrainDataset')
 parser.add_argument('--val_datasets', type=str, nargs='+', default=['hic'], help='[CityValDataset,KittiValDataset,VimeoValDataset,DavisValDataset]')
@@ -107,6 +110,13 @@ es_start = args.early_stoppage_start
 cut_off = args.cut_off
 block_num = args.block_num
 dynamics = args.dynamics
+lr_scale = args.lr_scale
+lr_max = args.lr_max
+lr_min = args.lr_min
+if lr_max == None:
+    lr_max = 1e-4
+if lr_min == None:
+    lr_min = 1e-5
 
 current_time = get_timestamp()
 code_test = args.code_test
@@ -142,7 +152,7 @@ def get_learning_rate(step):
         mul = step / 2000.
     else:
         mul = np.cos((step - 2000) / (args.epoch * args.step_per_epoch - 2000.) * math.pi) * 0.5 + 0.5
-    return (1e-4 - 1e-5) * mul + 1e-5
+    return (lr_max - lr_min) * mul + lr_min
 
 logger = logging.getLogger('base')
 #logger.info("Argument rgb: {}".format(rgb))
@@ -218,6 +228,8 @@ def train(model, args):
                     learning_rate = get_learning_rate(step)
                 else:
                     learning_rate = lr
+
+                learning_rate = learning_rate * lr_scale
 
                 loss_avg = model.train(data_gpu,learning_rate)
                 
