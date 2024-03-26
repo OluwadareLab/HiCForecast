@@ -10,4 +10,5 @@
 /dmvfn/model/__pycache__/
 /dmvfn/logs/test/
 /dmvfn/logs/test_log/
+/dmvfn/final_prediction/
 *.pyc

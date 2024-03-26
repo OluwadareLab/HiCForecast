@@ -29,16 +29,16 @@ from assemble import *
 from utils.util import *
 from model.model_1d import Model
 
-start_epoch = 100
-last_epoch = 149
+start_epoch = 99
+last_epoch = 99
 num_predictions = 3
 #num_predictions = 3
-patch_size = 96
-max_HiC = 250
+patch_size = 64
+max_HiC = 400
 cutoff = True
 rgb = False
 #model_id = "20230920-213115"
-model_id = "20230930-190101"
+model_id = "20240304-001515"
 
 data_val_path = "./../data/data_{}/val/data_val_chr19_{}.npy".format(patch_size, patch_size)
 model_cache_path = "./../models/hic_train_log_cache/"

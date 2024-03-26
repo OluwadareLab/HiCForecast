@@ -1,5 +1,13 @@
 import os
 import numpy as np
+
+mx1 = np.load("./../final_prediction/chr19/pred_chr19_final.npy")
+mx2 = np.load("./../final_prediction/chr19/pred_chr19_final_test.npy")
+max_diff = np.max(np.abs(mx1 - mx2))
+print("max diff: ", max_diff)
+
+
+quit()
 train_folder = "/scratch/dpinchuk_scratch/HiCForecast/dmvfn/data/data_64/train/"
 
 train_list = os.listdir(train_folder)
