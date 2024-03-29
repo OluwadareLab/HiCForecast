@@ -4,18 +4,42 @@ import cooler
 
 ##### get testing input data
 
+dataset_num = 7
 
 # time point ids
-ids = ["PN5","early_2cell","late_2cell","8cell","ICM","mESC_500"]
-
+if dataset_num == 1:
+    ids = ["PN5","early_2cell","late_2cell","8cell","ICM","mESC_500"]
+    ficool_dir = "./data/cool_40kb_downsample/"
+if dataset_num == 2:
+    ids = ["zygote", "2-cell", "4-cell", "8-cell", "E3.5", "E7.5" ]
+    ficool_dir = "./data/HiC4D_datasets2-8/{}/".format(dataset_num)
+if dataset_num == 3:
+    ids = ["12hpa", "Early-2-cell", "Late-2-cell", "8-cell", "ICM", "TE" ]
+    ficool_dir = "./data/HiC4D_datasets2-8/{}/".format(dataset_num)
+if dataset_num == 4:
+    ids = [ "2-cell", "8-cell", "morula", "blastocyst", "6-week", "hESC" ]
+    ficool_dir = "./data/HiC4D_datasets2-8/{}/".format(dataset_num)
+if dataset_num == 5:
+    ids = ["st11", "st12", "st13", "st14", "st18", "st27"]
+    ficool_dir = "./data/HiC4D_datasets2-8/{}/".format(dataset_num)
+if dataset_num == 6:
+    ids = ["s8", "s9", "s10", "s12", "s15", "s23"]
+    ficool_dir = "./data/HiC4D_datasets2-8/{}/".format(dataset_num)
+if dataset_num == 7:
+    ids = ["hESC", "MES", "CP", "CM", "Fetal"]
+    ficool_dir = "./data/HiC4D_datasets2-8/{}/".format(dataset_num)
+if dataset_num == 8:
+    ids = [ "B", "Ba", "D2", "D4", "D6", "D8" ]
+    ficool_dir = "./data/HiC4D_datasets2-8/{}/".format(dataset_num)
+    
 chrs_test = ['chr2','chr6']
 chrs_val = ['chr19']
 
 #resolution = 31250  #31250 for 64  #8928 for 224? #used to be 40000
 #sub_mat_n = int(2_000_000 // resolution)
-sub_mat_n = 128
-dir_data = "./data/data_{}/".format(sub_mat_n)
-dir_data_dmvfn = "./../dmvfn/data/data_{}/".format(sub_mat_n)
+sub_mat_n = 64
+dir_data = "./data/dataset_{}/data_{}/".format(dataset_num, sub_mat_n)
+dir_data_dmvfn = "./../dmvfn/data/dataset_{}/data_{}/".format(dataset_num, sub_mat_n)
 num_bins_all = []
 
 
@@ -31,6 +55,12 @@ if not os.path.exists(dir_data_dmvfn + "train"):
 if not os.path.exists(dir_data_dmvfn + "val"):
     os.makedirs(dir_data_dmvfn + "val")
 
+if not os.path.exists(dir_data + "test"):
+    os.makedirs(dir_data + "test")
+
+if not os.path.exists(dir_data_dmvfn + "test"):
+    os.makedirs(dir_data_dmvfn + "test")
+
 #chr2: num_bins_all[0] = 4544 with 224
 #chr6: num_bins_all[0] = 3738 with 224
 #train data with 224 in order: [4930, 3990, 3891, 3814, 3814, 3294, 3102, 3250, 3047, 3032, 3008, 3130, 2588, 2458, 2382, 2270, 4167]
@@ -43,19 +73,19 @@ if not os.path.exists(dir_data_dmvfn + "val"):
 #train: [4930, 3990, 3891, 3814, 3814, 3294, 3102, 3250, 3047, 3032, 3008, 3130, 2588, 2458, 2382, 2270, 4167]
 
 def make_test_data():
-    for chr in range(1,21):
+    for chr in range(1,11):
 
         chrid = 'chr'+str(chr)
-        if chr == 20:
-            chrid = 'chrX'
-        if chrid not in chrs_test:
-            continue
+        #if chr == 20:
+        #    chrid = 'chrX'
+        #if chrid not in chrs_test:
+        #   continue
 
         dat_timePoints = []
         dat_index = []
         for idx, timePoint in enumerate(ids):
 
-            ficool = "./data/cool_40kb_downsample/"+timePoint + ".cool"
+            ficool = ficool_dir +timePoint + ".cool"
             clr = cooler.Cooler(ficool)
 
             chr_len = clr.chromsizes[chrid]
@@ -90,10 +120,10 @@ def make_test_data():
         print("num_bins_all[0]: ", num_bins_all[0])
         print("numb_bins_all ", num_bins_all)
         print(chrid, dat_timePoints.shape, dat_timePoints2.shape, dat_index.shape, dat_index2.shape)
-        np.save(dir_data+"data_test_"+chrid+"_"+str(sub_mat_n), dat_timePoints2)
-        np.save(dir_data+"data_test_index_"+chrid+"_"+str(sub_mat_n), dat_index2)
-        np.save(dir_data_dmvfn+"data_test_"+chrid+"_"+str(sub_mat_n), dat_timePoints2)
-        np.save(dir_data_dmvfn+"data_test_index_"+chrid+"_"+str(sub_mat_n), dat_index2)
+        np.save(dir_data +"test/"+"data_test_"+chrid+"_"+str(sub_mat_n), dat_timePoints2)
+        np.save(dir_data+"test/"+"data_test_index_"+chrid+"_"+str(sub_mat_n), dat_index2)
+        np.save(dir_data_dmvfn+"test/"+"data_test_"+chrid+"_"+str(sub_mat_n), dat_timePoints2)
+        np.save(dir_data_dmvfn+"test/"+"data_test_index_"+chrid+"_"+str(sub_mat_n), dat_index2)
         print("Chromosome saved.")
 
 
@@ -232,21 +262,19 @@ def get_predictions(file_predict, file_index, num_bins, sub_mat_n=50):
 
 
 def make_ground_truth():
- for chr in range(1,21):
+ for chr in range(1,11):
     chrid = 'chr'+str(chr)
-    if chr == 20:
-        chrid = 'chrX'
+    #if chr == 20:
+    #    chrid = 'chrX'
     #if chrid not in chrs_test:
     #    continue
-    if chrid not in chrs_val:
-        continue
 
     dat_timePoints = []
     dat_index = []
     ground_truth = []
     for idx, timePoint in enumerate(ids):
 
-        ficool = "./data/cool_40kb_downsample/"+timePoint + ".cool"
+        ficool = ficool_dir+timePoint + ".cool"
         clr = cooler.Cooler(ficool)
 
         chr_len = clr.chromsizes[chrid]
@@ -264,7 +292,6 @@ def make_ground_truth():
 
 
 if __name__ == "__main__":
-    make_val_data()
-    make_train_data()
     make_ground_truth()
+    make_test_data()
       

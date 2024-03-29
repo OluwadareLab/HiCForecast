@@ -1,4 +1,5 @@
 import csv
+import math
 import numpy as np
 from corr import *
 from scipy.stats import pearsonr
@@ -6,6 +7,7 @@ from scipy.stats import pearsonr
 
 def compute_pearson_avg(pred_mx, gt_mx, ps):
     pearson_list = [[],[],[]]
+    nan_num = 0
     for j in range(3):
         for i in range(0, 1534 - ps, 1):
             pred_patch = pred_mx[j][i:ps+i, i:ps+i]
@@ -13,6 +15,9 @@ def compute_pearson_avg(pred_mx, gt_mx, ps):
             if np.sum(gt_patch) == 0:
                 continue
             pearson = pearsonr(pred_patch.flatten(), gt_patch.flatten())
+            if math.isnan(pearson[0]):
+                nan_num = nan_num + 1
+                continue
             #print("pearson: ", pearson)
             #print("perason[0]: ", pearson[0])
             #print("pearson[1]: ", pearson[1])
@@ -21,6 +26,7 @@ def compute_pearson_avg(pred_mx, gt_mx, ps):
     pearson_avg = [[], [], []]
     for j in range(3):
         pearson_avg[j] = sum(pearson_list[j]) / len(pearson_list[j]) 
+    print("Nan_num: ", nan_num)
     return pearson_avg
 
 

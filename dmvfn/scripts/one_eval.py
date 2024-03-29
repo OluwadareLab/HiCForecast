@@ -1,7 +1,7 @@
 import numpy as np
 from GenomeDISCO import *
 
-chr19 = np.load("/scratch/dpinchuk_scratch/HiCForecast/dmvfn/data/data_64/data_gt_chr19_64.npy")
+pred_data = np.load("/scratch/dpinchuk_scratch/HiCForecast/dmvfn/data/data_64/data_gt_chr19_64.npy")
 out_name = "chr19_correlation_35"
 ps=35
 transition=True
@@ -18,8 +18,8 @@ def disco_avg_one(pred_mx, gt_mx, transition, ps):
 out_data = np.zeros((6,6))
 for i in range(6):
     for j in range(i,6):
-        pred_mx=chr19[i,:,:]
-        gt_mx = chr19[j,:,:]
+        pred_mx=pred_data[i,:,:]
+        gt_mx = pred_data[j,:,:]
         disco = disco_avg_one(pred_mx, gt_mx, transition, ps)
         out_data[i][j] = disco
         out_data[j][i] = disco

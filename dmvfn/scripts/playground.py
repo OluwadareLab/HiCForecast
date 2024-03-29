@@ -1,6 +1,9 @@
 import os
 import numpy as np
+A = np.load("./../data/dataset_5/data_64/test/data_test_chr20_64.npy")
+print(A.shape)
 
+quit()
 mx1 = np.load("./../final_prediction/chr19/pred_chr19_final.npy")
 mx2 = np.load("./../final_prediction/chr19/pred_chr19_final_test.npy")
 max_diff = np.max(np.abs(mx1 - mx2))

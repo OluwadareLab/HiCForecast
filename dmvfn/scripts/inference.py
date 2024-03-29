@@ -44,6 +44,7 @@ def predict(model, data_path, cut_off, max_HiC, rgb=False):
         #print("dat_test.shape: ", dat_test.shape)
         #print("dat_test[:10,1:3].shape: ", dat_test[:10, 1:3].shape)
 
+        #test_loader = torch.utils.data.DataLoader(dat_test[:,1:3], batch_size=1, shuffle=False)
         test_loader = torch.utils.data.DataLoader(dat_test[:,1:3], batch_size=1, shuffle=False)
         print("dat_test.shape: ", dat_test.shape)
         
@@ -76,12 +77,11 @@ def predict(model, data_path, cut_off, max_HiC, rgb=False):
         #np.save(output_dir, predictions)
         return predictions
 
-def my_assemble(dat_predict, output_path,  num_bins, sub_mat_n, num_predictions=3, hic4d=False):
+def my_assemble(dat_predict, output_path, file_index,  num_bins, sub_mat_n, num_predictions=3, hic4d=False):
     #if not os.path.exists(file_predict):
     #    os.makedirs(file_predict)
 
     dim = sub_mat_n
-    file_index = "./../data/data_{}/val/data_val_index_chr19_{}.npy".format(dim, dim)
     '''
     if hic4d == False:
         dat_predict = np.load(file_predict + "pred_chr19.npy")
@@ -112,15 +112,24 @@ def my_assemble(dat_predict, output_path,  num_bins, sub_mat_n, num_predictions=
 if __name__ == "__main__":    
     max_HiC = 400
     sub_mat_n = 64
-    num_bins = 1534
+    chr_num = 6
+    dataset_num = 7
+    #num_bins = 1534 #19
+    #num_bins = 4544 #2
+    #num_bins = 3738 #6
     cut_off = True
     model_path = "./../final_model/dmvfn_99.pkl"
-    data_path = "/scratch/dpinchuk_scratch/HiCForecast/dmvfn/data/data_64/val/data_val_chr19_64.npy"
-    output_path = "./../final_prediction/chr19/pred_chr19_final"
+    #data_path = "/scratch/dpinchuk_scratch/HiCForecast/dmvfn/data/data_64/val/data_val_chr19_64.npy"
+    data_path = "/scratch/dpinchuk_scratch/HiCForecast/dmvfn/data/data_64/test/data_test_chr{}_64.npy".format(chr_num)
+    output_path = "./../final_prediction/HiCForecast/dataset_{}/HiCForecast_d{}_pred_chr{}_final".format(dataset_num,dataset_num, chr_num)
+    file_index = "./../data/data_{}/test/data_test_index_chr{}_{}.npy".format(sub_mat_n, chr_num, sub_mat_n)
+    gt_path =  "./../data/dataset_{}/data_64/data_gt_chr{}_64.npy".format(dataset_num, chr_num)
+    gt_mx = np.load(gt_path)
+    num_bins = gt_mx.shape[1]
 
     model = Model(load_path=model_path, training=False, rgb=False)
     dat_predict = predict(model, data_path, cut_off, max_HiC)
-    my_assemble(dat_predict, output_path, num_bins, sub_mat_n) #assembles predicted outputs into one final matrix
+    my_assemble(dat_predict, output_path, file_index, num_bins, sub_mat_n) #assembles predicted outputs into one final matrix
 
 
 
