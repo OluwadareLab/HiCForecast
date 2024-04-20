@@ -76,6 +76,8 @@ parser.add_argument('--dynamics', action='store_true')
 parser.add_argument('--no_dynamics', dest='dynamics', action='store_false')
 parser.add_argument('--max_cut_off', action='store_true')
 parser.add_argument('--no_max_cut_off', dest='max_cut_off', action='store_false')
+parser.add_argument('--batch_max', action='store_true')
+parser.add_argument('--no_batch_max', dest='batch_max', action='store_false')
 parser.set_defaults(code_test=False)
 args = parser.parse_args()
 print("args parsed.")
@@ -113,6 +115,7 @@ dynamics = args.dynamics
 lr_scale = args.lr_scale
 lr_max = args.lr_max
 lr_min = args.lr_min
+batch_max = args.batch_max
 if lr_max == None:
     lr_max = 1e-4
 if lr_min == None:
@@ -200,12 +203,12 @@ def train(model, args):
                 print("dataset.shape: ", dataset.shape)
                 max_HiC = np.max(dataset[:,0:3, :, :])
                 print("max_HiC: ", max_HiC)
-            else:
                 max_HiC = args.max_HiC
+                dataset = dataset / max_HiC
             if args.cut_off == True:
                 dataset[dataset > max_HiC] = max_HiC
                 print("Performed cut off")
-            dataset = dataset / max_HiC
+                dataset = dataset / max_HiC
             #print("dataset[200][1][40]: ", dataset[200][1][40])
             sampler = DistributedSampler(dataset)
             train_data = DataLoader(dataset, batch_size=batch_size, num_workers=args.num_workers, pin_memory=True, drop_last=True, sampler=sampler)
@@ -222,6 +225,13 @@ def train(model, args):
                     data = torch.unsqueeze(data, 2)
 
                 #data_gpu = torch.from_numpy(data)
+                if batch_max == True:
+                    print("data.shape: ", data.shape)
+                    batch_max_val = torch.max(data[:, 1:3, :, :, :])
+                    if batch_max_val > 0:
+                        data[:, 1:3] = data[:, 1:3] / batch_max_val
+                    print("max overall: ", torch.max(data))
+                    print("max input: ", torch.max(data[:, 1:3]))
                 data_gpu = data.to(device, dtype=torch.float32, non_blocking=True)  #B,3,C,H,W
                 
                 if lr == None:
@@ -319,12 +329,12 @@ def predict(model, data_path, output_dir, cut_off, args):
         if cut_off == True:
             dat_test[dat_test > max_HiC] = max_HiC
             print("Performed cut off for prediction")
-        dat_test = dat_test / max_HiC
+            dat_test = dat_test / max_HiC
         #dat_test = dat_test / 225.
         #print("dat_test.shape: ", dat_test.shape)
         #print("dat_test[:10,1:3].shape: ", dat_test[:10, 1:3].shape)
 
-        test_loader = torch.utils.data.DataLoader(dat_test[:,1:3], batch_size=1, shuffle=False)
+        test_loader = torch.utils.data.DataLoader(dat_test[:,1:3], batch_size=args.batch_size, shuffle=False)
         print("dat_test.shape: ", dat_test.shape)
         
         predictions = []
@@ -337,6 +347,10 @@ def predict(model, data_path, output_dir, cut_off, args):
             else:
             #print("X.shape: ", X.shape)
                 X = torch.unsqueeze(X, 2)
+            if args.batch_max == True:
+                batch_max_val = torch.max(X)
+                if batch_max_val > 0:
+                    X = X / batch_max_val
 
             X = X.to(device, dtype=torch.float32, non_blocking=True)
 
@@ -348,7 +362,13 @@ def predict(model, data_path, output_dir, cut_off, args):
                 pred = pred[:,:,0,:,:]
             #print("pred.shape: ", pred.shape)
             pred = torch.squeeze(pred, dim=2)
-            pred = np.array(pred.cpu() * max_HiC)
+            if args.batch_max == True:
+                if batch_max_val > 0:
+                    pred = np.array(pred.cpu() * batch_max_val.item())
+                else:
+                    pred = np.array(pred.cpu())
+            else:
+                pred = np.array(pred.cpu() * max_HiC)
             predictions.append(pred)
 
         predictions = np.concatenate(predictions, axis=0)

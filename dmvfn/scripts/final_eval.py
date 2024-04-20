@@ -14,16 +14,23 @@ from psnr_eval import *
 
 patch_sizes = [35, 60]
 #patch_sizes = [35]
-dataset_num = 7
+dataset_num =8
 chr_num = 6
 model = "HiCForecast"
+batch_max = True
 #model = "HiC4D"
 if model == "HiCForecast":
-    pred_path = "./../final_prediction/{}/dataset_{}/HiCForecast_d{}_pred_chr{}_final.npy".format(model, dataset_num, dataset_num, chr_num)
+    if batch_max == True:
+        pred_path = "./../final_prediction/{}/batch_max/dataset_{}/HiCForecast_d{}_pred_chr{}_final.npy".format(model, dataset_num, dataset_num, chr_num)
+    else:
+        pred_path = "./../final_prediction/{}/dataset_{}/HiCForecast_d{}_pred_chr{}_final.npy".format(model, dataset_num, dataset_num, chr_num)
 elif model == "HiC4D":
     pred_path = "./../final_prediction/{}/dataset_{}/HiC4D_d{}_chr{}_predicted_final.npy".format(model, dataset_num, dataset_num, chr_num)
 gt_path =  "./../data/dataset_{}/data_64/data_gt_chr{}_64.npy".format(dataset_num, chr_num)
-csv_file_path = "./../final_results/{}/dataset_{}/{}_d{}_chr{}.csv".format(model, dataset_num, model, dataset_num, chr_num)
+if batch_max == True:
+    csv_file_path = "./../final_results/{}/batch_max/dataset_{}/{}_d{}_chr{}_bm.csv".format(model, dataset_num, model, dataset_num, chr_num)
+else:
+    csv_file_path = "./../final_results/{}/dataset_{}/{}_d{}_chr{}.csv".format(model, dataset_num, model, dataset_num, chr_num)
 gt_mx = np.load(gt_path)
 pred_mx = np.load(pred_path)
 
