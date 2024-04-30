@@ -99,6 +99,11 @@ torch.backends.cudnn.benchmark = True
 #exp = os.path.abspath('.').split('/')[-1]
 loss_fn_alex = lpips.LPIPS(net='alex').to(device)
 
+
+class lazyDataset(torch.utils.Dataset):
+    def __init__(self):
+
+
 max_HiC = args.max_HiC
 max_cut_off = args.max_cut_off
 rgb = args.rgb

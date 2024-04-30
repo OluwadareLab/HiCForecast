@@ -120,30 +120,36 @@ def my_assemble(dat_predict, output_path, file_index,  num_bins, sub_mat_n, num_
     return predictions
 
 if __name__ == "__main__":    
-    max_HiC = 400
-    batch_max = True
+    max_HiC = 300
+    batch_max = False
     sub_mat_n = 64
-    chr_num = 2
-    dataset_num = 3
-    cut_off = False
+    #chr_num = 2
+    #dataset_num = 8
+    cut_off = True
     model_path = "./../final_model/dmvfn_99.pkl"
-    #data_path = "/scratch/dpinchuk_scratch/HiCForecast/dmvfn/data/data_64/val/data_val_chr19_64.npy"
-    data_path = "/scratch/dpinchuk_scratch/HiCForecast/dmvfn/data/data_64/test/data_test_chr{}_64.npy".format(chr_num)
-    if batch_max == True and cut_off == False:
-        output_path = "./../final_prediction/HiCForecast/batch_max/dataset_{}/HiCForecast_d{}_pred_chr{}_final".format(dataset_num,dataset_num, chr_num)
-    elif batch_max == False and cut_off == True:
-        output_path = "./../final_prediction/HiCForecast/dataset_{}/HiCForecast_d{}_pred_chr{}_final".format(dataset_num,dataset_num, chr_num)
-    else:
-        print("File structue not created for these inputs.")
-        quit()
-    file_index = "./../data/data_{}/test/data_test_index_chr{}_{}.npy".format(sub_mat_n, chr_num, sub_mat_n)
-    gt_path =  "./../data/dataset_{}/data_64/data_gt_chr{}_64.npy".format(dataset_num, chr_num)
-    gt_mx = np.load(gt_path)
-    num_bins = gt_mx.shape[1]
-
     model = Model(load_path=model_path, training=False, rgb=False)
-    dat_predict = predict(model, data_path, cut_off, max_HiC, batch_max=batch_max)
-    my_assemble(dat_predict, output_path, file_index, num_bins, sub_mat_n) #assembles predicted outputs into one final matrix
+    for i in [2,3,4]:
+        dataset_num = i
+        print("dataset_num: ", dataset_num)
+        for chr_num in [2,6]:
+            print("chr_num: ", chr_num)
+            #model_path = "./../models/hic_train_log/20240414-233329/dmvfn_149.pkl" 
+            #data_path = "/scratch/dpinchuk_scratch/HiCForecast/dmvfn/data/data_64/val/data_val_chr19_64.npy"
+            data_path = "/scratch/dpinchuk_scratch/HiCForecast/dmvfn/data/dataset_{}/data_64/test/data_test_chr{}_64.npy".format(dataset_num, chr_num)
+            if batch_max == True and cut_off == False:
+                output_path = "./../final_prediction/HiCForecast/batch_max_trained/dataset_{}/HiCForecast_d{}_pred_chr{}_final".format(dataset_num,dataset_num, chr_num)
+            elif batch_max == False and cut_off == True:
+                output_path = "./../final_prediction/HiCForecast/dataset_{}/HiCForecast_d{}_pred_chr{}_final".format(dataset_num,dataset_num, chr_num)
+            else:
+                print("File structue not created for these inputs.")
+                quit()
+            file_index = "./../data/dataset_{}/data_{}/test/data_test_index_chr{}_{}.npy".format(dataset_num, sub_mat_n, chr_num, sub_mat_n)
+            gt_path =  "./../data/dataset_{}/data_64/data_gt_chr{}_64.npy".format(dataset_num, chr_num)
+            gt_mx = np.load(gt_path)
+            num_bins = gt_mx.shape[1]
+
+            dat_predict = predict(model, data_path, cut_off, max_HiC, batch_max=batch_max)
+            my_assemble(dat_predict, output_path, file_index, num_bins, sub_mat_n) #assembles predicted outputs into one final matrix
 
 
 
