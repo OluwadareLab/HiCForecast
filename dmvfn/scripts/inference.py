@@ -128,7 +128,7 @@ if __name__ == "__main__":
     cut_off = True
     model_path = "./../final_model/dmvfn_99.pkl"
     model = Model(load_path=model_path, training=False, rgb=False)
-    for i in [2,3,4]:
+    for i in [5,6]:
         dataset_num = i
         print("dataset_num: ", dataset_num)
         for chr_num in [2,6]:

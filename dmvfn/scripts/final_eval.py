@@ -12,14 +12,15 @@ from pearson_eval import *
 from ssim_eval import * 
 from psnr_eval import *
 
-patch_sizes = [35, 60]
-#patch_sizes = [35]
+#patch_sizes = [35, 60]
+patch_sizes = [35]
 #dataset_num =8
 #chr_num = 2
-model = "HiCForecast"
+#model = "HiCForecast"
 batch_max = False
-#model = "HiC4D"
-for i in [2,3,4]:
+model = "HiC4D"
+datasets = [6]
+for i in datasets:
     dataset_num = i
     print("dataset_num: ", dataset_num)
     for chr_num in [2,6]:
@@ -58,12 +59,14 @@ for i in [2,3,4]:
                 row = pearson
                 row.insert(0, "Pearson")
                 writer.writerow(row)
-
+                
+                '''
                 ssim = compute_ssim_avg(pred_mx, gt_mx, ps, m)
                 print("SSIM: ", np.round(ssim, 3))
                 row = ssim
                 row.insert(0, "SSIM")
                 writer.writerow(row)
+                '''
 
                 psnr = compute_psnr_avg(pred_mx, gt_mx, ps, m)
                 print("PSNR: ", np.round(psnr, 3))
