@@ -234,8 +234,13 @@ class DMVFN(nn.Module):
 
 
 if __name__ == '__main__':
-    net = DMVFN(rgb=True).cuda() #250 used to be 64
-    x = torch.randn((2, 6, 64, 64)).cuda() #250 used to be 64
-    y = net(x, scale=[4,4,4,2,2,2,1,1,1])
-    print("y.length: ", len(y))
-    print("y[0].shape: ", y[0].shape)
+    net = DMVFN(rgb=False).cuda() #250 used to be 64
+    #x = torch.randn((2, 6, 64, 64)).cuda() #250 used to be 64
+    #y = net(x, scale=[4,4,4,2,2,2,1,1,1], training=False)
+    imgs = torch.randn((1, 2, 1, 64, 64)).cuda()
+    img0, img1 = imgs[:, 0], imgs[:, 1]
+    my_input =  torch.cat((img0, img1), 1)
+    print("my_input.shape: ", my_input.shape)
+    merged = net(my_input, scale=[4,4,4,2,2,2,1,1,1], training=False)
+    #print("y.length: ", len(y))
+    #print("y[0].shape: ", y[0].shape)

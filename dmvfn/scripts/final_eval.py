@@ -12,16 +12,19 @@ from pearson_eval import *
 from ssim_eval import * 
 from psnr_eval import *
 
-#patch_sizes = [35, 60]
-patch_sizes = [35]
+patch_sizes = [35, 60]
+#patch_sizes = [35]
 #dataset_num =8
-#chr_num = 2
-#model = "HiCForecast"
+model = "HiCForecast"
 batch_max = False
-model = "HiC4D"
-datasets = [6]
+#model = "HiC4D"
+datasets = [4]
 for i in datasets:
     dataset_num = i
+    if dataset_num == 4 or dataset_num == 7:
+        num_pred = 2
+    else:
+        num_pred = 3
     print("dataset_num: ", dataset_num)
     for chr_num in [2,6]:
         print("chr_num: ", chr_num)
@@ -48,13 +51,13 @@ for i in datasets:
                 
                 m = np.max(gt_mx)
 
-                disco = compute_disco_avg(pred_mx, gt_mx, True, ps)
+                disco = compute_disco_avg(pred_mx, gt_mx, True, ps, num_pred = num_pred)
                 print("GenomeDISCO: ", np.round(disco, 3))
                 row = disco
                 row.insert(0, "GenomeDISCO")
                 writer.writerow(row)
 
-                pearson = compute_pearson_avg(pred_mx, gt_mx, ps)
+                pearson = compute_pearson_avg(pred_mx, gt_mx, ps, num_pred=num_pred)
                 print("Pearson: ", np.round(pearson, 3))
                 row = pearson
                 row.insert(0, "Pearson")
@@ -68,7 +71,7 @@ for i in datasets:
                 writer.writerow(row)
                 '''
 
-                psnr = compute_psnr_avg(pred_mx, gt_mx, ps, m)
+                psnr = compute_psnr_avg(pred_mx, gt_mx, ps, m, num_pred=num_pred)
                 print("PSNR: ", np.round(psnr, 3))
                 row = psnr 
                 row.insert(0, "PSNR")

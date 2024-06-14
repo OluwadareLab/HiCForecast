@@ -5,9 +5,9 @@ from skimage.metrics import structural_similarity, peak_signal_noise_ratio
 #https://scikit-image.org/docs/stable/api/skimage.metrics.html#skimage.metrics.structural_similarity
 
 
-def compute_psnr_avg(pred_mx, gt_mx, ps, m):
-    psnr_list = [[],[],[]]
-    for j in range(3):
+def compute_psnr_avg(pred_mx, gt_mx, ps, m, num_pred=3):
+    psnr_list = [[] for i in range(num_pred)]
+    for j in range(num_pred):
         for i in range(0, 1534 - ps, 1):
             pred_patch = pred_mx[j][i:ps+i, i:ps+i]
             gt_patch = gt_mx[j+3][i:ps+i, i:ps+i]
@@ -19,46 +19,11 @@ def compute_psnr_avg(pred_mx, gt_mx, ps, m):
             #print("pearson[1]: ", pearson[1])
             psnr_list[j].append(psnr)
             #print("j: {} i: {} disco: {}".format(j, i, disco))
-    psnr_avg = [[], [], []]
-    for j in range(3):
+    psnr_avg = [[] for i in range(num_pred)]
+    for j in range(num_pred):
         psnr_avg[j] = sum(psnr_list[j]) / len(psnr_list[j]) 
     return psnr_avg
 
-def compute_ssim_avg(pred_mx, gt_mx, ps, m):
-    ssim_list = [[],[],[]]
-    for j in range(3):
-        for i in range(0, 1534 - ps, 1):
-            pred_patch = pred_mx[j][i:ps+i, i:ps+i]
-            gt_patch = gt_mx[j+3][i:ps+i, i:ps+i]
-            ssim = structural_similarity(pred_patch, gt_patch, data_range=m)
-            #print("pearson: ", pearson)
-            #print("perason[0]: ", pearson[0])
-            #print("pearson[1]: ", pearson[1])
-            ssim_list[j].append(ssim)
-            #print("j: {} i: {} disco: {}".format(j, i, disco))
-    ssim_avg = [[], [], []]
-    for j in range(3):
-        ssim_avg[j] = sum(ssim_list[j]) / len(ssim_list[j]) 
-    return ssim_avg
-
-def compute_spearman_avg(pred_mx, gt_mx, ps):
-    spearman_list = [[],[],[]]
-    for j in range(3):
-        for i in range(0, 1534 - ps, 1):
-            pred_patch = pred_mx[j][i:ps+i, i:ps+i]
-            gt_patch = gt_mx[j+3][i:ps+i, i:ps+i]
-            if np.sum(gt_patch) == 0:
-                continue
-            spearman = spearmanr(pred_patch.flatten(), gt_patch.flatten())
-            #print("pearson: ", pearson)
-            #print("perason[0]: ", pearson[0])
-            #print("pearson[1]: ", pearson[1])
-            spearman_list[j].append(spearman[0])
-            #print("j: {} i: {} disco: {}".format(j, i, disco))
-    spearman_avg = [[], [], []]
-    for j in range(3):
-        spearman_avg[j] = sum(spearman_list[j]) / len(spearman_list[j]) 
-    return spearman_avg
 
 
 if __name__ == "__main__":    

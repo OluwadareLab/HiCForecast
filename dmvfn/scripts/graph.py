@@ -7,7 +7,7 @@ import cv2
 def heatmap(ax, mat, title=None, x_label=None, y_label=None, show_bar=True, close_ticks=False):
     cmap = "Reds"
     vmin, vmax = 0, 100 # 1 used to be 0.5
-    im = ax.matshow(mat, interpolation='nearest', cmap=cmap, aspect='auto', vmin=vmin, vmax=vmax)
+    im = ax.matshow(mat, interpolation='nearest', cmap=cmap, aspect='equal', vmin=vmin, vmax=vmax)#aspect used to be auto
     if show_bar:
         cbar = plt.colorbar(im, ax=ax, aspect=9, shrink=0.3, ticks=[vmin, vmax])
         cbar.ax.yaxis.set_ticks_position('none')
@@ -55,7 +55,7 @@ def hic_heatmap(data, dediag=0, ncols=1, titles=None, x_labels=None, y_labels=No
         im =  heatmap(ax, data, title=titles, x_label=x_labels, y_label=y_labels, show_bar=False)
     figure.tight_layout()
     if file is not None:
-        figure.savefig(file, format='png') #used to be svg
+        figure.savefig(file, bbox_inches='tight', pad_inches=0, format='pdf') #used to be svg
         #cv2.imwrite("./../images/heat_map.png", im)
 
 
@@ -74,7 +74,8 @@ def _clear_max_min(x, y):
     inter_idx = np.array(list(idx_setx.intersection(idx_sety)))
     return x[inter_idx], y[inter_idx]
 
-dat_test = np.load("./../data/data_test_chr6_224.npy").astype(np.float32)
-img = dat_test[600][1]
-
-hic_heatmap(img, dediag=1,  ncols=224, file="./../images/heat_224_v1.png")
+data = np.load("./../data/dataset_1/data_64/data_gt_chr19_64.npy").astype(np.float32)
+img = data[5][500:650, 500:650]
+#ncols=img.shape[0]
+ncols=1
+hic_heatmap(img, dediag=0,  ncols=ncols, file="./../results/plot_data/heat_map_ds1_chr19_t6_test_10.pdf")

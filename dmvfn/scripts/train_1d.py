@@ -100,8 +100,10 @@ torch.backends.cudnn.benchmark = True
 loss_fn_alex = lpips.LPIPS(net='alex').to(device)
 
 
+'''
 class lazyDataset(torch.utils.Dataset):
     def __init__(self):
+'''
 
 
 max_HiC = args.max_HiC
@@ -358,6 +360,7 @@ def predict(model, data_path, output_dir, cut_off, args):
                     X = X / batch_max_val
 
             X = X.to(device, dtype=torch.float32, non_blocking=True)
+            #print("X SHAPE: ", X.shape)
 
             pred = model.eval(X, 'hic') # BNCHW
             #print("pred.shape: ", pred.shape)

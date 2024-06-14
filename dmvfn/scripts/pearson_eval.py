@@ -5,10 +5,10 @@ from corr import *
 from scipy.stats import pearsonr
 
 
-def compute_pearson_avg(pred_mx, gt_mx, ps):
-    pearson_list = [[],[],[]]
+def compute_pearson_avg(pred_mx, gt_mx, ps, num_pred=3):
+    pearson_list = [[] for i in range(num_pred)]
     nan_num = 0
-    for j in range(3):
+    for j in range(num_pred):
         for i in range(0, 1534 - ps, 1):
             pred_patch = pred_mx[j][i:ps+i, i:ps+i]
             gt_patch = gt_mx[j+3][i:ps+i, i:ps+i]
@@ -23,8 +23,8 @@ def compute_pearson_avg(pred_mx, gt_mx, ps):
             #print("pearson[1]: ", pearson[1])
             pearson_list[j].append(pearson[0])
             #print("j: {} i: {} disco: {}".format(j, i, disco))
-    pearson_avg = [[], [], []]
-    for j in range(3):
+    pearson_avg = [[] for i in range(num_pred)]
+    for j in range(num_pred):
         pearson_avg[j] = sum(pearson_list[j]) / len(pearson_list[j]) 
     print("Nan_num: ", nan_num)
     return pearson_avg

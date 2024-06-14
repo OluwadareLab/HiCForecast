@@ -1,11 +1,7 @@
 import os
 import numpy as np
-A = np.load("./../data/dataset_2/data_64/test/data_test_chr2_64.npy")
-B =  np.load("./../data/dataset_3/data_64/test/data_test_chr2_64.npy")
+A = np.load("/scratch/dpinchuk_scratch/HiCForecast/dmvfn/data/dataset_7/data_64/data_gt_chr6_64.npy")
 print(A.shape)
-print(B.shape)
-max_diff = np.max(np.abs(A - B))
-print(max_diff)
 
 quit()
 mx1 = np.load("./../final_prediction/chr19/pred_chr19_final.npy")

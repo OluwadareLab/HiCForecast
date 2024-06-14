@@ -2,9 +2,9 @@ import csv
 import numpy as np
 from GenomeDISCO import *
 
-def compute_disco_avg(pred_mx, gt_mx, transition, ps):
-    disco_list = [[],[],[]]
-    for j in range(3):
+def compute_disco_avg(pred_mx, gt_mx, transition, ps, num_pred=3):
+    disco_list = [[] for i in range(num_pred)]
+    for j in range(num_pred):
         for i in range(1, 1534 - ps, 1):
             pred_patch = pred_mx[j][i:ps+i, i:ps+i]
             gt_patch = gt_mx[j+3][i:ps+i, i:ps+i]
@@ -13,8 +13,8 @@ def compute_disco_avg(pred_mx, gt_mx, transition, ps):
             disco = compute_reproducibility(pred_patch, gt_patch, transition, tmax=3, tmin=3)
             disco_list[j].append(disco)
             #print("j: {} i: {} disco: {}".format(j, i, disco))
-    disco_avg = [[], [], []]
-    for j in range(3):
+    disco_avg = [[] for i in range(num_pred)]
+    for j in range(num_pred):
         disco_avg[j] = sum(disco_list[j]) / len(disco_list[j]) 
     return disco_avg
 
