@@ -11,4 +11,5 @@
 /dmvfn/logs/test/
 /dmvfn/logs/test_log/
 /dmvfn/final_prediction/
+/dmvfn/final_matrices/
 *.pyc
