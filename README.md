@@ -1,7 +1,7 @@
 
 # HiCForecast: Dynamic Network Optical Flow Estimation Algorithm for Spatiotemporal Hi-C Data Forecasting
 ***
-#### OluwadareLab, University of Colorado, Colorado Springs
+#### [OluwadareLab, University of Colorado, Colorado Springs](https://uccs-bioinformatics.com/)
 ***
 #### Developers:
 
