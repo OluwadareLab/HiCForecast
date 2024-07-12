@@ -210,7 +210,7 @@ def train(model, args):
                 print("dataset.shape: ", dataset.shape)
                 max_HiC = np.max(dataset[:,0:3, :, :])
                 print("max_HiC: ", max_HiC)
-                max_HiC = args.max_HiC
+                #max_HiC = args.max_HiC
                 dataset = dataset / max_HiC
             if args.cut_off == True:
                 dataset[dataset > max_HiC] = max_HiC
