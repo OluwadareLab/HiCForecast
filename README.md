@@ -80,12 +80,29 @@ To train the HiCForecast model follow these steps
     * `--early_stoppage_epochs`: The number of epochs to wait before validation imporvement happens to terminate training with early stoppage.
     * `--early_stoppage_start`: Epoch from which to start applying early stoppage.
     * `--loss`: The loss function used in training. Choices include: `single_channel_L1_no_vgg`, `single_channel_default_VGG`, `single_channel_MSE_no_vgg`, `single_channel_MSE_VGG`, and `single_channel_L1_VGG`. 
-    * `--no_cut_off`: I don't remember.
+    * `--cut_off`: Indicates the presence of data normalization by cuting off all values obove max_HiC and then normalizing into the range [0, 1]. Switch the argument to `--no_cut_off` to turn off the this normalization feature.
     * `--dynamics`: Indicates the presence of the routing module and dynamic aspect of the architecture. Switch the argument to `--no_dynamics` to turn off the routing module and dynamic aspect of the architecture.
-    * `--no_max_cut_off`: I don't remember.
+    * `--max_cut_off`: Indicates that data normalization will happen by dividing by the maximum of the input data instead of by HiC_max. Switch this argument to `--no_max_cut_off` to turn off this feature.
     * `--batch_max`: Normalization happens by dividing by the batch maximum. To turn off replace the argument with `--no_batch_max`.
     * `--code_test`: Indicates that the training process will run in test mode, cycling through only a few batches during each epoch, to quickly test the entire training pipeline. In test mode the model will save the logs in a separate test log folder. To turn off test mode and enable the regular training process, replace this argument with `--no_code_test`.
    An example, of the train.sh bash script is included in the scripts folder of the repository:
 4. Run the bash script with the command `sh train.sh` to initiate training.
+
+## Inference
+To run inference follow these steps.
+1. If you have not done so yet, enter the HiCForecast Docker container by running the command `docker exec -it hicforecast bash`.
+2. `cd` into the HiCForecast/scripts folder.
+3. In the main function of inference.py set the following argument variables to the correct values.
+   * `max_HiC`: The normalization value.
+   * `batch_max`: (boolean) Whether to normalize by the maximum value in the batch.
+   * `cut_off`: (boolean) Whether to cut_off all values above HiC_max and divide the dataset by that value.
+   * `sub_mat_n`: Size of the patches that the model takes as input.
+   * `dataset_list`: List of integers for which datasets the model should take as input.
+   * `chr_list`: List of integers for which chromosomes the model should conduct inference on.
+   * `model_path`: Path to the model weights location.
+   * `data_path`: Path to the input dataset location.
+   * `output_path`: Path to the prediction output location.
+   * `file_index`: Path to input data indeces, which are needed to reassemble the prediction output into a single final matrix.
+   * `gt_path`: Path to original ground truth matrix.
 
 
