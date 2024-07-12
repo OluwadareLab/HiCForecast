@@ -61,7 +61,7 @@ To download our preprocessed data for chromosomes 2, 6 and 19 from Mouse Embryog
 To train the HiCForecast model follow these steps
 1. If you have not done so yet, enter the HiCForecast Docker container by running the command `docker exec -it hicforecast bash`.
 2. `cd` into the HiCForecast/scripts folder.
-3. Edit the train.sh bash script file to include the required arguments. Include a space followed by a backslash to indicate a new line at the end of each argument (e.g. `--epoch 100 \`).
+3. Edit the **train.sh** bash script file to include the required arguments. Include a space followed by a backslash to indicate a new line at the end of each argument (e.g. `--epoch 100 \`).
     * `--master_port=4321 ./train_1d.py \`: Leave the first argument unchanged.
     * `--epoch`: The number of epochs to train the model for.
     * `--max_HiC`: The normalization constant. The data is cut off at this maximum value and divided by it to normalize into the range [0, 1].
@@ -92,7 +92,7 @@ To train the HiCForecast model follow these steps
 To run inference follow these steps.
 1. If you have not done so yet, enter the HiCForecast Docker container by running the command `docker exec -it hicforecast bash`.
 2. `cd` into the HiCForecast/scripts folder.
-3. In the main function of inference.py set the following argument variables to the correct values.
+3. In the main function of **inference.py** set the following argument variables to the correct values.
    * `max_HiC`: The normalization value.
    * `batch_max`: (boolean) Whether to normalize by the maximum value in the batch.
    * `cut_off`: (boolean) Whether to cut_off all values above HiC_max and divide the dataset by that value.
