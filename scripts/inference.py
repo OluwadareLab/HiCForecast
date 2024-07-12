@@ -125,13 +125,15 @@ if __name__ == "__main__":
     sub_mat_n = 64
     #chr_num = 2
     #dataset_num = 8
+    dataset_list = [5,6]
+    chr_list = [2, 6]
     cut_off = True
     model_path = "./../final_model/dmvfn_99.pkl"
     model = Model(load_path=model_path, training=False, rgb=False)
-    for i in [5,6]:
+    for i in dataset_list:
         dataset_num = i
         print("dataset_num: ", dataset_num)
-        for chr_num in [2,6]:
+        for chr_num in chr_list:
             print("chr_num: ", chr_num)
             #model_path = "./../models/hic_train_log/20240414-233329/dmvfn_149.pkl" 
             #data_path = "/scratch/dpinchuk_scratch/HiCForecast/dmvfn/data/data_64/val/data_val_chr19_64.npy"
