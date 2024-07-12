@@ -61,7 +61,7 @@ To download our preprocessed data for chromosomes 2, 6 and 19 from Mouse Embryog
 To train the HiCForecast model follow these steps
 1. If you have not done so yet, enter the HiCForecast Docker container by running the command `docker exec -it hicforecast bash`.
 2. `cd` into the HiCForecast/scripts folder.
-3. Edit the train.sh bash script file to include the required arguments
+3. Edit the train.sh bash script file to include the required arguments. Include a space followed by a backslash to indicate a new line at the end of each argument (e.g. `--epoch 100 \`).
     * `--master_port=4321 ./train_1d.py \`: Leave the first argument unchanged.
     * `--epoch`: The number of epochs to train the model for.
     * `--max_HiC`: The normalization constant. The data is cut off at this maximum value and divided by it to normalize into the range [0, 1].
@@ -79,16 +79,13 @@ To train the HiCForecast model follow these steps
     * `--resume_epoch`: The epoch from which to resume training the model.
     * `--early_stoppage_epochs`: The number of epochs to wait before validation imporvement happens to terminate training with early stoppage.
     * `--early_stoppage_start`: Epoch from which to start applying early stoppage.
-    * `--loss`: The loss function used in training. Choices include: `single_channel_L1_no_vgg`, etc.
+    * `--loss`: The loss function used in training. Choices include: `single_channel_L1_no_vgg`, `single_channel_default_VGG`, `single_channel_MSE_no_vgg`, `single_channel_MSE_VGG`, and `single_channel_L1_VGG`. 
     * `--no_cut_off`: I don't remember.
     * `--dynamics`: Indicates the presence of the routing module and dynamic aspect of the architecture. Switch the argument to `--no_dynamics` to turn off the routing module and dynamic aspect of the architecture.
     * `--no_max_cut_off`: I don't remember.
     * `--batch_max`: Normalization happens by dividing by the batch maximum. To turn off replace the argument with `--no_batch_max`.
     * `--code_test`: Indicates that the training process will run in test mode, cycling through only a few batches during each epoch, to quickly test the entire training pipeline. In test mode the model will save the logs in a separate test log folder. To turn off test mode and enable the regular training process, replace this argument with `--no_code_test`.
-   An example, of the train.sh bash script with the default HiCForecast arguments is included below:
-    ```
-    Example code...
-    ```
+   An example, of the train.sh bash script is included in the scripts folder of the repository:
 4. Run the bash script with the command `sh train.sh` to initiate training.
 
 
