@@ -10,7 +10,16 @@ Department of Computer Science <br>
 University of Wisconsin-Madison <br>
 Email: dpinchuk@wisc.edu <br>
 
-Mohit and Abhishek add their contact info here: <br>
+H M A Mohit Chowdhury
+Department of Computer Science
+University of Colorado Colorado Springs
+Email: hchowdhu@uccs.edu
+
+Abhishek Pandeya
+Department of Computer Science
+University of Colorado Colorado Springs
+Email: apandeya@uccs.edu
+
 
 #### Contact:
 
