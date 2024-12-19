@@ -12,7 +12,7 @@ def get_predictions(file_predict, num_bins, sub_mat_n, num_predictions=3, hic4d=
     if hic4d == False:
         dat_predict = np.load(file_predict + "pred_chr19.npy")
     if hic4d == True:
-        dat_predict = np.load(file_predict + ".npy")
+        dat_predict = np.load(file_predict + "chr19_predicted.npy")
     #dat_index = np.load(file_index) 
     dat_index = np.load(file_index) 
     #print("dat_index.shape: ", dat_index.shape)
@@ -32,7 +32,7 @@ def get_predictions(file_predict, num_bins, sub_mat_n, num_predictions=3, hic4d=
         predictions.append(mat_chr2)
     
     print(np.array(predictions).shape)
-    np.save(file_predict + "_assembled.npy", np.array(predictions))
+    np.save(file_predict + "pred_chr19_final.npy", np.array(predictions))
     return predictions
 
 #dim = 96
