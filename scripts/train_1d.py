@@ -21,8 +21,6 @@ from numpy.lib import format as npy_format
 
 
 
-#This comment was made while in the single_channel branch
-#Second comment in single_channel branch
 
 root_path = os.path.abspath(__file__)
 root_path = '/'.join(root_path.split('/')[:-2])
@@ -96,14 +94,9 @@ torch.manual_seed(seed)
 torch.cuda.manual_seed_all(seed)
 torch.backends.cudnn.benchmark = True
 
-#exp = os.path.abspath('.').split('/')[-1]
 loss_fn_alex = lpips.LPIPS(net='alex').to(device)
 
 
-'''
-class lazyDataset(torch.utils.Dataset):
-    def __init__(self):
-'''
 
 
 max_HiC = args.max_HiC
@@ -165,7 +158,6 @@ def get_learning_rate(step):
     return (lr_max - lr_min) * mul + lr_min
 
 logger = logging.getLogger('base')
-#logger.info("Argument rgb: {}".format(rgb))
 
 for arg, value in sorted(vars(args).items()):
     logger.info("{} Argument {}: {}".format(get_formatted_timestamp(), arg, value))
@@ -210,13 +202,11 @@ def train(model, args):
                 print("dataset.shape: ", dataset.shape)
                 max_HiC = np.max(dataset[:,0:3, :, :])
                 print("max_HiC: ", max_HiC)
-                #max_HiC = args.max_HiC
                 dataset = dataset / max_HiC
             if args.cut_off == True:
                 dataset[dataset > max_HiC] = max_HiC
                 print("Performed cut off")
                 dataset = dataset / max_HiC
-            #print("dataset[200][1][40]: ", dataset[200][1][40])
             sampler = DistributedSampler(dataset)
             train_data = DataLoader(dataset, batch_size=batch_size, num_workers=args.num_workers, pin_memory=True, drop_last=True, sampler=sampler)
             sampler.set_epoch(epoch)
@@ -231,7 +221,6 @@ def train(model, args):
                 else:
                     data = torch.unsqueeze(data, 2)
 
-                #data_gpu = torch.from_numpy(data)
                 if batch_max == True:
                     print("data.shape: ", data.shape)
                     batch_max_val = torch.max(data[:, 1:3, :, :, :])
@@ -251,7 +240,6 @@ def train(model, args):
                 loss_avg = model.train(data_gpu,learning_rate)
                 
                 train_time_interval = time.time() - time_stamp
-                #lr_current = model.get_lr()
                 time_stamp = time.time()
                 if step % 200 == 1 and local_rank == 0:
                     writer.add_scalar('learning_rate', learning_rate, step)
@@ -292,10 +280,8 @@ def train(model, args):
 
 def evaluate(model, data_val_path, name, epoch, step, args):
     with torch.no_grad():
-        #lpips_score_mine, psnr_score_mine, msssim_score_mine, ssim_score_mine = np.zeros(5), np.zeros(5), np.zeros(5), np.zeros(5)
         hicrep = np.zeros(3)
         time_stamp = time.time()
-        #num = val_data.__len__()
         val_save_path = "./../data/data_{}/train_val/{}/epoch_{}/".format(patch_size,current_time, epoch)  
         load_path = save_model_path_cache + "/dmvfn_{}.pkl".format( epoch) 
         if not os.path.exists(val_save_path):
@@ -337,22 +323,17 @@ def predict(model, data_path, output_dir, cut_off, args):
             dat_test[dat_test > max_HiC] = max_HiC
             print("Performed cut off for prediction")
             dat_test = dat_test / max_HiC
-        #dat_test = dat_test / 225.
-        #print("dat_test.shape: ", dat_test.shape)
-        #print("dat_test[:10,1:3].shape: ", dat_test[:10, 1:3].shape)
 
         test_loader = torch.utils.data.DataLoader(dat_test[:,1:3], batch_size=args.batch_size, shuffle=False)
         print("dat_test.shape: ", dat_test.shape)
         
         predictions = []
         for i, X in enumerate(tqdm(test_loader)):
-            # X = X.unsqueeze(0).to(device, non_blocking=True)
             if rgb == True:
                 #untested
                 X = torch.stack((X, X, X), dim=0)
                 X = torch.permute(X, (1, 2, 0, 3, 4))
             else:
-            #print("X.shape: ", X.shape)
                 X = torch.unsqueeze(X, 2)
             if args.batch_max == True:
                 batch_max_val = torch.max(X)
@@ -360,15 +341,10 @@ def predict(model, data_path, output_dir, cut_off, args):
                     X = X / batch_max_val
 
             X = X.to(device, dtype=torch.float32, non_blocking=True)
-            #print("X SHAPE: ", X.shape)
 
             pred = model.eval(X, 'hic') # BNCHW
-            #print("pred.shape: ", pred.shape)
-            #pred = torch.cat(pred)
-            #print("pred.shape after concat: ", pred.shape)
             if rgb == True:
                 pred = pred[:,:,0,:,:]
-            #print("pred.shape: ", pred.shape)
             pred = torch.squeeze(pred, dim=2)
             if args.batch_max == True:
                 if batch_max_val > 0:
@@ -387,7 +363,6 @@ if __name__ == "__main__":
     try:
         model = Model(local_rank=device_number, resume_path=args.resume_path, resume_epoch=args.resume_epoch, 
                 loss=loss, block_num=block_num, dynamics = dynamics)
-        #model = nn.parallel.DistributedDataParallel
         train(model, args)
     except Exception:
         print("Exception caught.")
