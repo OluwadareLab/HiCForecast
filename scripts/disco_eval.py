@@ -5,12 +5,12 @@ from GenomeDISCO import *
 def compute_disco_avg(pred_mx, gt_mx, transition, ps, num_pred=3):
     disco_list = [[] for i in range(num_pred)]
     for j in range(num_pred):
-        for i in range(1, 1534 - ps, 1):
+        for i in range(1, np.shape(gt_mx)[1] - ps, 1):
             pred_patch = pred_mx[j][i:ps+i, i:ps+i]
             gt_patch = gt_mx[j+3][i:ps+i, i:ps+i]
             if np.sum(gt_patch) == 0:
                 continue
-            disco = compute_reproducibility(pred_patch, gt_patch, transition, tmax=3, tmin=3)
+            disco = compute_reproducibility(gt_patch, pred_patch, transition, tmax=3, tmin=3)
             disco_list[j].append(disco)
             #print("j: {} i: {} disco: {}".format(j, i, disco))
     disco_avg = [[] for i in range(num_pred)]

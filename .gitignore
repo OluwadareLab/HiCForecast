@@ -1,6 +1,5 @@
 /benchmarks/ResConvLSTMNet.pt 
 /benchmarks/ResConvLSTM.pt 
-/scripts/train.sh
 /scripts/core*
 /benchmarks/data/
 /data/  
@@ -16,4 +15,8 @@
 /final_matrices/
 /results/
 /final_results/
+/HiC4D_d4_test/
+/hamster/
+/new_data/
+/new_resolution_data/
 *.pyc

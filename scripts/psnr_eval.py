@@ -8,7 +8,7 @@ from skimage.metrics import structural_similarity, peak_signal_noise_ratio
 def compute_psnr_avg(pred_mx, gt_mx, ps, m, num_pred=3):
     psnr_list = [[] for i in range(num_pred)]
     for j in range(num_pred):
-        for i in range(0, 1534 - ps, 1):
+        for i in range(0, np.shape(gt_mx)[1] - ps, 1):
             pred_patch = pred_mx[j][i:ps+i, i:ps+i]
             gt_patch = gt_mx[j+3][i:ps+i, i:ps+i]
             if np.sum(gt_patch) == 0:

@@ -15,11 +15,11 @@ from psnr_eval import *
 patch_sizes = [35, 60]
 #patch_sizes = [35]
 #dataset_num =8
-#model = "HiCForecast"
+model = "HiCForecast"
 batch_max = False
-model = "HiC4D"
-datasets = [2]
-start_idx = 78
+#model = "HiC4D"
+datasets = [1]
+start_idx = 300
 for i in datasets:
     dataset_num = i
     if dataset_num == 4 or dataset_num == 7:
@@ -27,17 +27,11 @@ for i in datasets:
     else:
         num_pred = 3
     print("dataset_num: ", dataset_num)
-    for chr_num in [2, 6]:
+    for chr_num in [2,6]:
         print("chr_num: ", chr_num)
-        if model == "HiCForecast":
-            if batch_max == True:
-                pred_path = "./../final_prediction/{}/batch_max_trained/dataset_{}/HiCForecast_d{}_pred_chr{}_final.npy".format(model, dataset_num, dataset_num, chr_num)
-            else:
-                pred_path = "./../final_prediction/{}/dataset_{}/HiCForecast_d{}_pred_chr{}_final.npy".format(model, dataset_num, dataset_num, chr_num)
-        elif model == "HiC4D":
-            pred_path = "./../final_prediction/{}/dataset_{}/HiC4D_d{}_chr{}_predicted_final.npy".format(model, dataset_num, dataset_num, chr_num)
-        gt_path =  "./../data/dataset_{}/data_64/data_gt_chr{}_64.npy".format(dataset_num, chr_num)
-        csv_file_path = "./../final_results/{}/dataset_{}/{}_d{}_chr{}_revision.csv".format(model, dataset_num, model, dataset_num, chr_num)
+        pred_path = "/scratch/dpinchuk_scratch/HiCForecast/new_resolution_data/10kb/data_64/dataset_{}/final_prediction/HiCForecast_d{}_pred_chr{}_final.npy".format(dataset_num, dataset_num, chr_num)
+        gt_path =  "/scratch/dpinchuk_scratch/HiCForecast/new_resolution_data/10kb/data_64/dataset_{}/data_gt_chr{}_64.npy".format(dataset_num, chr_num)
+        csv_file_path = "/scratch/dpinchuk_scratch/HiCForecast/new_resolution_data/10kb/data_64/dataset_{}/results/HiCForecast_10kb_d{}_chr{}_si{}.csv".format(dataset_num, dataset_num, chr_num, start_idx)
         gt_mx = np.load(gt_path)[:, start_idx:, start_idx:]
         pred_mx = np.load(pred_path)[:, start_idx:, start_idx:]
 

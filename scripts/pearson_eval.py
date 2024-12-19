@@ -9,9 +9,13 @@ def compute_pearson_avg(pred_mx, gt_mx, ps, num_pred=3):
     pearson_list = [[] for i in range(num_pred)]
     nan_num = 0
     for j in range(num_pred):
-        for i in range(0, 1534 - ps, 1):
+        for i in range(0, np.shape(gt_mx)[1] - ps, 1):
+            #print("patch num: ", i)
+            #print("ps: ", ps)
             pred_patch = pred_mx[j][i:ps+i, i:ps+i]
             gt_patch = gt_mx[j+3][i:ps+i, i:ps+i]
+            #print("pred_patch.shape: ", pred_patch.shape)
+            #print("gt_patch.shape: ", gt_patch.shape)
             if np.sum(gt_patch) == 0:
                 continue
             pearson = pearsonr(pred_patch.flatten(), gt_patch.flatten())

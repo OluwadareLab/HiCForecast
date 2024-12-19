@@ -125,8 +125,8 @@ if __name__ == "__main__":
     sub_mat_n = 64
     #chr_num = 2
     #dataset_num = 8
-    dataset_list = [2]
-    chr_list = range(11,20) #[1,3,4,5,7,8,9]
+    dataset_list = [1] #[2,4,5,6,8]
+    chr_list = [2,6] #[1,3,4,5,7,8,9]
     cut_off = True
     model_path = "./../final_model/dmvfn_99.pkl"
     model = Model(load_path=model_path, training=False, rgb=False)
@@ -137,16 +137,17 @@ if __name__ == "__main__":
             print("chr_num: ", chr_num)
             #model_path = "./../models/hic_train_log/20240414-233329/dmvfn_149.pkl" 
             #data_path = "/scratch/dpinchuk_scratch/HiCForecast/dmvfn/data/data_64/val/data_val_chr19_64.npy"
-            data_path = "/scratch/dpinchuk_scratch/HiCForecast/data/dataset_{}/data_64/test/data_test_chr{}_64.npy".format(dataset_num, chr_num)
+            #data_path = "/scratch/dpinchuk_scratch/HiCForecast/data/dataset_{}/data_64/test/data_test_chr{}_64.npy".format(dataset_num, chr_num)
+            data_path = "/scratch/dpinchuk_scratch/HiCForecast/new_resolution_data/10kb/data_64/dataset_{}/test/data_test_chr{}_64.npy".format(dataset_num, chr_num)
             if batch_max == True and cut_off == False:
                 output_path = "./../final_prediction/HiCForecast/batch_max_trained/dataset_{}/HiCForecast_d{}_pred_chr{}_final".format(dataset_num,dataset_num, chr_num)
             elif batch_max == False and cut_off == True:
-                output_path = "./../final_prediction/HiCForecast/dataset_{}/HiCForecast_d{}_pred_chr{}_final".format(dataset_num,dataset_num, chr_num)
+                output_path = "./../new_resolution_data/10kb/data_64/dataset_{}/final_prediction/HiCForecast_d{}_pred_chr{}_final".format(dataset_num, dataset_num, chr_num)
             else:
                 print("File structue not created for these inputs.")
                 quit()
-            file_index = "./../data/dataset_{}/data_{}/test/data_test_index_chr{}_{}.npy".format(dataset_num, sub_mat_n, chr_num, sub_mat_n)
-            gt_path =  "./../data/dataset_{}/data_64/data_gt_chr{}_64.npy".format(dataset_num, chr_num)
+            file_index = "./../new_resolution_data/10kb/data_{}/dataset_{}/test/data_test_index_chr{}_{}.npy".format(sub_mat_n, dataset_num, chr_num, sub_mat_n)
+            gt_path =  "./../new_resolution_data/10kb/data_{}/dataset_{}/data_gt_chr{}_64.npy".format(sub_mat_n, dataset_num, chr_num)
             gt_mx = np.load(gt_path)
             num_bins = gt_mx.shape[1]
 
