@@ -28,17 +28,16 @@ Email: ooluwada@uccs.edu <br>
 
 ## Installation
 HiCForecast is written in `Python 3.8.10`. User can use `CLI` or `Docker` container to run HiCForecast. All the packages are listed below:
-
-    *torch==2.0.1
-    *torchvision==0.15.2
-    *opencv-python
-    *lpips
-    *pytorch-msssim
-    *tensorboard
-    *rpy2
-    *scikit-learn
-    *scikit-image
-    *cooler
+* torch==2.0.1
+* torchvision==0.15.2
+* opencv-python
+* lpips
+* pytorch-msssim
+* tensorboard
+* rpy2
+* scikit-learn
+* scikit-image
+* cooler
 
 ### Pip installation
 Run `pip install -r requirements.txt` to install all the packages.
@@ -66,11 +65,11 @@ We provided a bash script **makedata.sh** for data preparation. Users can run th
 
 #### Our Processed Data
 We provided our preprocessed data for chromosomes 2, 6 and 19 from Mouse Embryogenesis (Dataset 1) in the follow links:
-    *https://biomlearn.uccs.edu/Data/HiCForecast/chr2.tar.gz
-    *wget https://biomlearn.uccs.edu/Data/HiCForecast/chr6.tar.gz
-    *wget https://biomlearn.uccs.edu/Data/HiCForecast/chr19.tar.gz
-    *wget https://biomlearn.uccs.edu/Data/HiCForecast/test.tar.gz
-    *wget https://biomlearn.uccs.edu/Data/HiCForecast/val.tar.gz
+* https://biomlearn.uccs.edu/Data/HiCForecast/chr2.tar.gz
+* wget https://biomlearn.uccs.edu/Data/HiCForecast/chr6.tar.gz
+* wget https://biomlearn.uccs.edu/Data/HiCForecast/chr19.tar.gz
+* wget https://biomlearn.uccs.edu/Data/HiCForecast/test.tar.gz
+* wget https://biomlearn.uccs.edu/Data/HiCForecast/val.tar.gz
 
 ### Training
 To train the HiCForecast model follow these steps:
