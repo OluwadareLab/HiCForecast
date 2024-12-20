@@ -42,7 +42,7 @@ HiCForecast is written in `Python 3.8.10`. User can use `CLI` or `Docker` contai
 
 ### Pip installation
 Run `pip install -r requirements.txt` to install all the packages.
-
+### OR
 ### Docker
 HiCForecast runs in a Docker-containerized environment. User do not need to install anything inside container. Our image is prebuild with all the necessary packages. To run HiCForecast in a docker container, follow these steps:
 1. Pull the HiCForecast docker image from docker hub using the command `docker pull oluwadarelab/hicforecast:latest`.
@@ -76,8 +76,7 @@ We provided our preprocessed data for chromosomes 2, 6 and 19 from Mouse Embryog
 ### Train
 To train the HiCForecast model follow these steps:
 1. Preprocess HiC data following the *Data Preprocessing* steps.
-2. Run `python3 train.py` with the following arguments:
-    * `--master_port=4321 ./train_1d.py \`: Leave the first argument unchanged.
+2. Run `python3 train_1d.py` with the following arguments:
     * `--epoch`: The number of epochs to train the model for.
     * `--max_HiC`: The normalization constant. The data is cut off at this maximum value and divided by it to normalize into the range [0, 1]. HiCForecast default is 300.
     * `--patch_size`: The size of the patches to be used by the model. HiCForecast default is 64.
