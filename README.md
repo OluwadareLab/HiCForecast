@@ -4,25 +4,22 @@
 #### [OluwadareLab, University of Colorado, Colorado Springs](https://uccs-bioinformatics.com/)
 ***
 #### Developers:
-
-Dmitry Pinchuk <br>
-Department of Computer Science <br>
-University of Wisconsin-Madison <br>
-Email: dpinchuk@wisc.edu <br>
-<br>
-H M A Mohit Chowdhury<br>
-Department of Computer Science<br>
-University of Colorado Colorado Springs<br>
-Email: hchowdhu@uccs.edu<br>
-<br>
-Abhishek Pandeya<br>
-Department of Computer Science<br>
-University of Colorado Colorado Springs<br>
-Email: apandeya@uccs.edu<br>
-<br>
+    Dmitry Pinchuk <br>
+    Department of Computer Science <br>
+    University of Wisconsin-Madison <br>
+    Email: dpinchuk@wisc.edu <br>
+    <br>
+    H M A Mohit Chowdhury<br>
+    Department of Computer Science<br>
+    University of Colorado Colorado Springs<br>
+    Email: hchowdhu@uccs.edu<br>
+    <br>
+    Abhishek Pandeya<br>
+    Department of Computer Science<br>
+    University of Colorado Colorado Springs<br>
+    Email: apandeya@uccs.edu<br>
 
 #### Contact:
-
 Dr. Oluwatosin Oluwadare <br>
 Department of Computer Science <br>
 University of Colorado, Colorado Springs <br>
@@ -30,21 +27,21 @@ Email: ooluwada@uccs.edu <br>
 ***
 
 ## Installation
-HiCForecast is written in `Python 3.8.10`. User can use `CLI` or `Docker` container to run HiCForecast.
+HiCForecast is written in `Python 3.8.10`. User can use `CLI` or `Docker` container to run HiCForecast. All the packages are listed below:
+
+    *torch==2.0.1
+    *torchvision==0.15.2
+    *opencv-python
+    *lpips
+    *pytorch-msssim
+    *tensorboard
+    *rpy2
+    *scikit-learn
+    *scikit-image
+    *cooler
 
 ### Pip installation
-All the packages are listed below to run it in a local environment/penv/conda. 
-
-..*torch==2.0.1
-..*torchvision==0.15.2
-..*opencv-python
-..*lpips
-..*pytorch-msssim
-..*tensorboard
-..*rpy2
-..*scikit-learn
-..*scikit-image
-..*cooler
+Run `pip install -r requirements.txt` to install all the packages.
 
 ### Docker
 HiCForecast runs in a Docker-containerized environment. To run HiCForecast in a docker container, follow these steps:
@@ -64,10 +61,8 @@ All the scripts are available at `HiCForecast/scripts` this directory.
     * `--timepoints`: These are the names of the `.cool` files in the `ficoo_dir` folder, where every file represents a timpoint. This should be a list of the names separated by a space and without the `.cool` extension (e.g `--timepoints 2-cell 4-cell 8-cell`).
     * `--chromosomes`: These are the chromosome ids as they appear in the `.cool` files that need to be processed. They should be included in a similar format as `--timepoints` above (e.g `--chromosomes chr1 chr2 chr3 chr4`).
 
----
 **Note**
 We provided a bash script **makedata.sh** for data preparation. Users can run this script by updating the arguments.
----
 
 #### Our Processed Data
 We provided our preprocessed data for chromosomes 2, 6 and 19 from Mouse Embryogenesis (Dataset 1) in the follow links:
@@ -106,10 +101,9 @@ To train the HiCForecast model follow these steps:
     * `--max_cut_off`: Indicates that data normalization will happen by dividing by the maximum of the input data instead of by HiC_max. Switch this argument to `--no_max_cut_off` to turn off this feature. HiCForecast default includes the `--no_max_cut_off` argument.
     * `--batch_max`: Normalization happens by dividing by the batch maximum. To turn off replace the argument with `--no_batch_max`. HiCForecast includes the `--no_batch_max` argument.
     * `--code_test`: Indicates that the training process will run in test mode, cycling through only a few batches during each epoch, to quickly test the entire training pipeline. In test mode the model will save the logs in a separate test log folder. To turn off test mode and enable the regular training process, replace this argument with `--no_code_test`.
----
+
 **Note**
 We provided a bash script **train.sh** for training. Users can run this script by updating the arguments.
----
 
 ### Inference
 To run inference follow these steps:
@@ -123,7 +117,6 @@ To run inference follow these steps:
    * `--output_path`: Path to the prediction output location.
    * `--file_index`: Path to input data indeces, which are needed to reassemble the prediction output into a single final matrix. These files are generated during data preprocessing.
    * `--gt_path`: Path to original ground truth matrix with shape (T, N, N), where T is the number of timesteps in the timeseries and N is the dimension of each NxN Hi-C matrix.
----
+
 **Note**
 We provided a bash script **inference.sh** for inference. Users can run this script by updating the arguments.
----
