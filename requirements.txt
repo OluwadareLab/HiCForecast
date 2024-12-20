@@ -1,7 +1,10 @@
-lpips
-matplotlib
-numpy
+torch==2.0.1
+torchvision==0.15.2
 opencv-python
-tensorboardX
-torch
+lpips
 pytorch-msssim
+tensorboard
+rpy2
+scikit-learn
+scikit-image
+cooler
