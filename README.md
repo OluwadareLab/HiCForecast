@@ -42,7 +42,9 @@ HiCForecast is written in `Python 3.8.10`. User can use `CLI` or `Docker` contai
 
 ### Pip installation
 Run `pip install -r requirements.txt` to install all the packages.
+
 ### OR
+
 ### Docker
 HiCForecast runs in a Docker-containerized environment. User do not need to install anything inside container. Our image is prebuild with all the necessary packages. To run HiCForecast in a docker container, follow these steps:
 1. Pull the HiCForecast docker image from docker hub using the command `docker pull oluwadarelab/hicforecast:latest`.
