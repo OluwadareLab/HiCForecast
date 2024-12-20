@@ -43,10 +43,18 @@ HiCForecast runs in a Docker-containerized environment. Before cloning this repo
 The data preprocessing extracts patches from the .cool dataset and converts them into .npy files accepted by the HiCForecast model. To run data preprocessing follow these steps.
 1. Enter the Docker container for data preprocessing by using the command `docker exec -it hicforecast_data bash`.
 2. `cd` to the HiCForecast directory.
-3. If it does not exist yet, make a new directory for data by using the command `mkdir data` and `cd ./data`.
-4. Install the Mouse Embryogenesis (Dataset 1) file cool_40kb_downsample.tar.gz from https://biomlearn.uccs.edu/Data/HiCForecast/ by running the command `wget https://biomlearn.uccs.edu/Data/HiCForecast/cool_40kb_downsample.tar.gz` and then extract it by running the command `tar -xf cool_40kb_downsample.tar.gz`.
+<!--3. If it does not exist yet, make a new directory for data by using the command `mkdir data` and `cd ./data`.
+<!--4. Install the Mouse Embryogenesis (Dataset 1) file cool_40kb_downsample.tar.gz from https://biomlearn.uccs.edu/Data/HiCForecast/ by running the command `wget https://biomlearn.uccs.edu/Data/HiCForecast/cool_40kb_downsample.tar.gz` and then extract it by running the command `tar -xf cool_40kb_downsample.tar.gz`.
 5. Enter the scripts folder by running `cd ./../scripts`.
-6. Run the data extraction by using the command `python3 makedata.py`.
+6. Run the data extraction by using the command `python3 makedata.py`. -->
+3.  Download your Hi-C data in a `.cool` format to a location of your choice.
+4.  Edit the **makedata.sh** bash script file to include the required arguments. Include a space followed by a backslash to indicate a new line at the end of each argument (e.g. `--sub_mat_n 64 \`). Arguments of all types including strings should be included without quotes around them (e.g. `--ficool_dir my_file_path/folder/ \`).
+    * `--ficool_dir`: The folder containing the input `.cool` files.
+    * `--sub_mat_n`: The size of the patches to be used by the model. HiCForecast uses 64.
+    * `--output_folder`: The location of the folder where the processed data will be stored.
+    * `--timepoints`: These are the names of the `.cool` files in the `ficoo_dir` folder, where every file represents a timpoint. This should be a list of the names separated by a space and without the `.cool` extension (e.g `--timepoints 2-cell 4-cell 8-cell \`).
+    * `--chromosomes`: These are the chromosome ids as they appear in the `.cool` files that need to be processed. They should be included in a similar format as `--timepoints` above (e.g `--chromosomes chr1 chr2 chr3 chr4 \`).
+6. Run data preprocessing by using the command `sh makedata.sh`.
 7. Exit the data preprocessing Docker container by running the command `exit`.
 
 ## Using Our Processed Data
@@ -89,6 +97,8 @@ To train the HiCForecast model follow these steps
     * `--early_stoppage_epochs`: The number of epochs to wait before validation imporvement happens to terminate training with early stoppage. HiCForecast default is 5.
     * `--early_stoppage_start`: Epoch from which to start applying early stoppage. HiCForecast default is 400 (effectively early stoppage was not used).
     * `--loss`: The loss function used in training. Choices include: `single_channel_L1_no_vgg`, `single_channel_default_VGG`, `single_channel_MSE_no_vgg`, `single_channel_MSE_VGG`, and `single_channel_L1_VGG`. HiCForecast default is `single_channel_L1_no_vgg`.
+    * `--val_gt_path`: The path to the ground truth for the validation file.
+    * `--val_file_index_path`: The path to the file index for the validation file, which was generated in the Data Preprocessing step. 
     * `--cut_off`: Indicates the presence of data normalization by cuting off all values obove max_HiC and then normalizing into the range [0, 1]. Switch the argument to `--no_cut_off` to turn off the this normalization feature. HiCForecast default includes the `--cut_off` argument.
     * `--dynamics`: Indicates the presence of the routing module and dynamic aspect of the architecture. Switch the argument to `--no_dynamics` to turn off the routing module and dynamic aspect of the architecture. HiCForecast default includes the `--dynamics` argument.
     * `--max_cut_off`: Indicates that data normalization will happen by dividing by the maximum of the input data instead of by HiC_max. Switch this argument to `--no_max_cut_off` to turn off this feature. HiCForecast default includes the `--no_max_cut_off` argument.
@@ -100,16 +110,16 @@ To train the HiCForecast model follow these steps
 To run inference follow these steps.
 1. If you have not done so yet, enter the HiCForecast Docker container by running the command `docker exec -it hicforecast bash`.
 2. `cd` into the HiCForecast/scripts folder.
-3. In the main function of **inference.py** set the following argument variables to the correct values.
-   * `max_HiC`: The normalization value. The HiCForecast default is 300.
-   * `batch_max`: (boolean) Whether to normalize by the maximum value in the batch. The HiCForecast default is False.
-   * `cut_off`: (boolean) Whether to cut_off all values above HiC_max and divide the dataset by that value. The HiCForecast default is True.
-   * `sub_mat_n`: Size of the patches that the model takes as input. The HiCForecast default is 64.
-   * `model_path`: Path to the model weights location.
-   * `data_path`: Path to the input dataset location processed via steps in the Data Processing section.
-   * `output_path`: Path to the prediction output location.
-   * `file_index`: Path to input data indeces, which are needed to reassemble the prediction output into a single final matrix. These files are generated during data preprocessing.
-   * `gt_path`: Path to original ground truth matrix with shape (T, N, N), where T is the number of timesteps in the timeseries and N is the dimension of each NxN Hi-C matrix.
-4. Run inference by using the command `python3 inference.py`.
+3. Edit the **inference.sh** file to include the required arguments. Include a space followed by a backslash to indicate a new line at the end of each argument (e.g. `--max_HiC 300 \`).
+   * `--max_HiC`: The normalization value. The HiCForecast default is 300.
+   * `--batch_max`: Normalization happens by dividing by the batch maximum. To turn off replace the argument with `--no_batch_max`. HiCForecast uses the `--no_batch_max` argument.
+   * `--cut_off`:  Indicates the presence of data normalization by cuting off all values obove max_HiC and then normalizing into the range [0, 1]. Switch the argument to `--no_cut_off` to turn off the this normalization feature. HiCForecast uses the `--cut_off` argument.
+   * `--sub_mat_n`: Size of the patches that the model takes as input. The HiCForecast default is 64.
+   * `--model_path`: Path to the model weights location.
+   * `--data_path`: Path to the input dataset location processed via steps in the Data Processing section.
+   * `--output_path`: Path to the prediction output location.
+   * `--file_index`: Path to input data indeces, which are needed to reassemble the prediction output into a single final matrix. These files are generated during data preprocessing.
+   * `--gt_path`: Path to original ground truth matrix with shape (T, N, N), where T is the number of timesteps in the timeseries and N is the dimension of each NxN Hi-C matrix.
+4. Run inference by using the command `sh inference.sh`.
 
 
