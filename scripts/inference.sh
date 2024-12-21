@@ -1,7 +1,7 @@
 python3 ./inference.py --max_HiC 300 \
 --patch_size 64 \
 --cut_off \
---model_path ./../final_model/HiCForecast.pkl \
+--model_path ./../trained_model/HiCForecast.pkl \
 --data_path ./../processed_data/data_patches/data_chr19_64.npy \
 --output_path ./../HiCForecast_prediction \
 --file_index_path ./../processed_data/data_patches/data_index_chr19_64.npy \
