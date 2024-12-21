@@ -90,22 +90,6 @@ We provided a bash script **makedata.sh** for data preparation. Users can run th
    mv ./data_patches/data_chr16_64.npy ./train_patches/data_chr16_64.npy
    mv ./data_patches/data_chr17_64.npy ./train_patches/data_chr17_64.npy
    mv ./data_patches/data_chr18_64.npy ./train_patches/data_chr18_64.npy
-   mv ./data_patches/data_index_chr1_64.npy ./train_patches/data_index_chr1_64.npy
-   mv ./data_patches/data_index_chr3_64.npy ./train_patches/data_index_chr3_64.npy
-   mv ./data_patches/data_index_chr4_64.npy ./train_patches/data_index_chr4_64.npy
-   mv ./data_patches/data_index_chr5_64.npy ./train_patches/data_index_chr5_64.npy
-   mv ./data_patches/data_index_chr7_64.npy ./train_patches/data_index_chr7_64.npy
-   mv ./data_patches/data_index_chr8_64.npy ./train_patches/data_index_chr8_64.npy
-   mv ./data_patches/data_index_chr9_64.npy ./train_patches/data_index_chr9_64.npy
-   mv ./data_patches/data_index_chr10_64.npy ./train_patches/data_index_chr10_64.npy
-   mv ./data_patches/data_index_chr11_64.npy ./train_patches/data_index_chr11_64.npy
-   mv ./data_patches/data_index_chr12_64.npy ./train_patches/data_index_chr12_64.npy
-   mv ./data_patches/data_index_chr13_64.npy ./train_patches/data_index_chr13_64.npy
-   mv ./data_patches/data_index_chr14_64.npy ./train_patches/data_index_chr14_64.npy
-   mv ./data_patches/data_index_chr15_64.npy ./train_patches/data_index_chr15_64.npy
-   mv ./data_patches/data_index_chr16_64.npy ./train_patches/data_index_chr16_64.npy
-   mv ./data_patches/data_index_chr17_64.npy ./train_patches/data_index_chr17_64.npy
-   mv ./data_patches/data_index_chr18_64.npy ./train_patches/data_index_chr18_64.npy
    ```
 
 #### Our Processed Data
