@@ -67,6 +67,47 @@ All the scripts are available at `HiCForecast/scripts` this directory.
 **Note:**
 We provided a bash script **makedata.sh** for data preparation. Users can run this script by updating the arguments.
 
+#### Data Preprocessing Example With HiCForecast Data
+1. Download the raw `.cool` files from ...
+2. `cd` into `./HiCForecast/scripts` directory and run `sh makedata.sh` with the provided `makedata.sh` file.
+3. Run `cd ./../processed_data` to go into the directory that `makedata.py` generated.
+4. Run the following commands to generate a separate folder for training data
+   ```
+   mkdir ./train_patches/
+   mv ./data_patches/data_chr1_64.npy ./train_patches/data_chr1_64.npy
+   mv ./data_patches/data_chr3_64.npy ./train_patches/data_chr3_64.npy
+   mv ./data_patches/data_chr4_64.npy ./train_patches/data_chr4_64.npy
+   mv ./data_patches/data_chr5_64.npy ./train_patches/data_chr5_64.npy
+   mv ./data_patches/data_chr7_64.npy ./train_patches/data_chr7_64.npy
+   mv ./data_patches/data_chr8_64.npy ./train_patches/data_chr8_64.npy
+   mv ./data_patches/data_chr9_64.npy ./train_patches/data_chr9_64.npy
+   mv ./data_patches/data_chr10_64.npy ./train_patches/data_chr10_64.npy
+   mv ./data_patches/data_chr11_64.npy ./train_patches/data_chr11_64.npy
+   mv ./data_patches/data_chr12_64.npy ./train_patches/data_chr12_64.npy
+   mv ./data_patches/data_chr13_64.npy ./train_patches/data_chr13_64.npy
+   mv ./data_patches/data_chr14_64.npy ./train_patches/data_chr14_64.npy
+   mv ./data_patches/data_chr15_64.npy ./train_patches/data_chr15_64.npy
+   mv ./data_patches/data_chr16_64.npy ./train_patches/data_chr16_64.npy
+   mv ./data_patches/data_chr17_64.npy ./train_patches/data_chr17_64.npy
+   mv ./data_patches/data_chr18_64.npy ./train_patches/data_chr18_64.npy
+   mv ./data_patches/data_index_chr1_64.npy ./train_patches/data_index_chr1_64.npy
+   mv ./data_patches/data_index_chr3_64.npy ./train_patches/data_index_chr3_64.npy
+   mv ./data_patches/data_index_chr4_64.npy ./train_patches/data_index_chr4_64.npy
+   mv ./data_patches/data_index_chr5_64.npy ./train_patches/data_index_chr5_64.npy
+   mv ./data_patches/data_index_chr7_64.npy ./train_patches/data_index_chr7_64.npy
+   mv ./data_patches/data_index_chr8_64.npy ./train_patches/data_index_chr8_64.npy
+   mv ./data_patches/data_index_chr9_64.npy ./train_patches/data_index_chr9_64.npy
+   mv ./data_patches/data_index_chr10_64.npy ./train_patches/data_index_chr10_64.npy
+   mv ./data_patches/data_index_chr11_64.npy ./train_patches/data_index_chr11_64.npy
+   mv ./data_patches/data_index_chr12_64.npy ./train_patches/data_index_chr12_64.npy
+   mv ./data_patches/data_index_chr13_64.npy ./train_patches/data_index_chr13_64.npy
+   mv ./data_patches/data_index_chr14_64.npy ./train_patches/data_index_chr14_64.npy
+   mv ./data_patches/data_index_chr15_64.npy ./train_patches/data_index_chr15_64.npy
+   mv ./data_patches/data_index_chr16_64.npy ./train_patches/data_index_chr16_64.npy
+   mv ./data_patches/data_index_chr17_64.npy ./train_patches/data_index_chr17_64.npy
+   mv ./data_patches/data_index_chr18_64.npy ./train_patches/data_index_chr18_64.npy
+   ```
+
 #### Our Processed Data
 We provided our preprocessed data for chromosomes 2, 6 and 19 from Mouse Embryogenesis (Dataset 1) in the follow links:
 * https://biomlearn.uccs.edu/Data/HiCForecast/chr2.tar.gz
@@ -88,8 +129,6 @@ To train the HiCForecast model follow these steps:
     * `--batch_size`: The batch size. HiCForecast default is 8.
     * `--lr_scale`: The learning rate scale, which multiplies the learning rate by this value. HiCForecast default is 1.0.
     * `--block_num`: The block number is the number of MVFB blocks the architecrue will include. HiCForecast default is 9.
-    * `--train_dataset hic`: Leave this argument unchanged.
-    * `--val_datasets hic`: Leave this argument unchanged.
     * `--data_val_path`: The path to the validation data. 
     * `--data_train_path`: The path to the training dataset.
     * `--resume_epoch`: The epoch from which to resume training the model.
@@ -107,6 +146,10 @@ To train the HiCForecast model follow these steps:
 **Note:**
 We provided a bash script **train.sh** for training. Users can run this script by updating the arguments.
 
+#### Training Example with HiCForecast Data
+1. Follow the steps in the *Data Preprocessing Example With HiCForecast Data* section to generate the training and validation data.
+2. `cd` to the `./HiCForecast/scripts` directory and run `sh train.sh` with the provided example `train.sh` file.
+
 ### Inference
 To run inference follow step:
 1. Run `python3 inference.py` with the following arguments:
@@ -122,3 +165,7 @@ To run inference follow step:
 
 **Note:**
 We provided a bash script **inference.sh** for inference. Users can run this script by updating the arguments.
+
+#### Inference Example with HiCForecast Data
+1. Follow the steps in the *Data Preprocessing Example With HiCForecast Data* section to generate the input data.
+2. `cd` into the `./HiCForecast/scripts` directory and run the `sh inference.sh` command with the provided `inference.sh` file.
