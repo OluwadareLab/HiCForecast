@@ -28,27 +28,41 @@ Email: ooluwada@uccs.edu <br>
 ***
 
 ## Installation
-HiCForecast is written in `Python 3.8.10`. User can use `CLI` or `Docker` container to run HiCForecast. All the packages are listed below:
+HiCForecast is written in **Python 3.8.10** and uses **R 4.3.1**. User can use `CLI` or `Docker` container to run HiCForecast. All the packages are listed below:
+
+R Package:
+* hicrep (Follow `https://github.com/TaoYang-dev/hicrep` steps to install)
+  
+PIP Packages:
+* scikit-learn==1.3.0
+* scikit-image==0.21.0
 * torch==2.0.1
 * torchvision==0.15.2
-* opencv-python
-* lpips
-* pytorch-msssim
-* tensorboard
-* rpy2
-* scikit-learn
-* scikit-image
+* opencv-python==4.8.0.74
+* lpips==0.1.4
+* pytorch-msssim==1.0.0
+* tensorboard==2.13.0
+* rpy2==3.5.13
 * cooler
 
 ### Pip installation
-Run `pip install -r requirements.txt` to install all the packages.
+1. First clone the git repository
+   ```
+   git clone https://github.com/OluwadareLab/HiCForecast.git
+   cd HiCForecast
+   ```
+2. Install R and hicrep
+3. Run the following command to install all the PIP packages..
+   ```
+   pip install -r requirements.txt
+   ``` 
 
 ### OR
 
 ### Docker
 HiCForecast runs in a Docker-containerized environment. User do not need to install anything inside container. Our image is prebuild with all the necessary packages. To run HiCForecast in a docker container, follow these steps:
 1. Pull the HiCForecast docker image from docker hub using the command `docker pull oluwadarelab/hicforecast:latest`.
-2. Run the HiCForecast container and mount the present working directory to the container using `docker run --rm --gpus all -it --name hicforecast -v ${PWD}:${PWD} oluwadarelab/hicforecast`.
+2. Run the HiCForecast container and mount the present working directory to the container using `docker run --rm --gpus all -itd --name hicforecast -v ${PWD}:${PWD} oluwadarelab/hicforecast`.
 3. Enter into HiCForecast container using `docker exec -it hicforecast bash`.
 ***
 
@@ -93,7 +107,7 @@ We provided a bash script **makedata.sh** for data preparation. Users can run th
    ```
 
 #### Our Processed Data
-We provided our preprocessed data for chromosomes 2, 6 and 19 from Mouse Embryogenesis (Dataset 1) in the follow links:
+We provided our raw data for chromosomes 2, 6 and 19 from Mouse Embryogenesis (Dataset 1) in the follow links:
 * https://biomlearn.uccs.edu/Data/HiCForecast/chr2.tar.gz
 * https://biomlearn.uccs.edu/Data/HiCForecast/chr6.tar.gz
 * https://biomlearn.uccs.edu/Data/HiCForecast/chr19.tar.gz
@@ -153,5 +167,3 @@ We provided a bash script **inference.sh** for inference. Users can run this scr
 #### Inference Example with HiCForecast Data
 1. Follow the steps in the *Data Preprocessing Example With HiCForecast Data* section to generate the input data.
 2. `cd` into the `./HiCForecast/scripts` directory and run the `sh inference.sh` command with the provided `inference.sh` file.
-
-
