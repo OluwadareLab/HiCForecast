@@ -26,7 +26,6 @@ root_path = os.path.abspath(__file__)
 root_path = '/'.join(root_path.split('/')[:-2])
 sys.path.append(root_path)
 
-from hicrep import *
 from predict import *
 from assemble import *
 from utils.util import *
@@ -188,7 +187,7 @@ def train(model, args):
     step = 0 + args.step_per_epoch * args.resume_epoch
     if local_rank == 0:
         print('training...')
-    val_hicrep = np.array([-1, -1, -1])
+    val_disco = np.array([-1, -1, -1])
     time_stamp = time.time()
     for epoch in range(args.resume_epoch, args.epoch):
         print("Epoch: ", epoch)
@@ -253,16 +252,16 @@ def train(model, args):
                 model.save_model(save_model_path, epoch, local_rank)   
         if epoch % 1 == 0:
             val_disco_old = old_val.pop(0)
-            val_hicrep = evaluate(model, data_val_path, val_dataset, epoch, step, args)
-            old_val.append(val_hicrep)
+            val_disco = evaluate(model, data_val_path, val_dataset, epoch, step, args)
+            old_val.append(val_disco)
             if epoch >= es_start:
-                if val_hicrep[0] - val_hicrep_old[0] < 0.0001 or val_hicrep[1] - val_hicrep_old[1] < 0.0001 or val_hicrep[2] - val_hicrep_old[2]<0.0001:
+                if val_disco[0] - val_disco_old[0] < 0.0001 or val_disco[1] - val_disco_old[1] < 0.0001 or val_disco[2] - val_disco_old[2]<0.0001:
                     logger.info("Training module complete due to early stoppage")
                     logger.info("es_start: {}".format(es_start))
                     logger.info("epoch: {}".format(epoch))
                     for i in range(3):
-                        logger.info("val_hicrep[{}]: {}".format(i, val_hicrep[i]))
-                        logger.info("val_hicrep_old[{}]: {}".format(i, val_hicrep_old[i]))
+                        logger.info("val_disco[{}]: {}".format(i, val_disco[i]))
+                        logger.info("val_disco_old[{}]: {}".format(i, val_disco_old[i]))
                     quit()
         dist.barrier()
     logger.info('{} Training module completed.'.format(get_formatted_timestamp()))
