@@ -46,5 +46,3 @@ def diagcorr(mat1, mat2, rtype='pearson', min_shift=0, max_shift=49, percentile=
             r[s - min_shift], p[s - min_shift] = spearmanr(diag1, diag2)
 
     return r
-
-
