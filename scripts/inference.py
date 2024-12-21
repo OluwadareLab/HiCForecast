@@ -28,7 +28,7 @@ sys.path.append(root_path)
 from assemble import *
 from predict import *
 from utils.util import *
-from model.model_1d import Model
+from model.model import Model
 
 
     

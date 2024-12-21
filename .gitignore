@@ -21,4 +21,5 @@
 /new_resolution_data/
 /new_resolution_results/
 /data_test/
+/processed_data/
 *.pyc
