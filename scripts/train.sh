@@ -9,17 +9,16 @@ torchrun --nproc_per_node=1 \
 --batch_size 8 \
 --lr_scale 1.0 \
 --block_num 9 \
---data_val_path ./../processed_data/data_patches/data_chr19_64.npy \
---data_train_path ./../processed_data/train_patches/ \
+--data_val_path ./../example_data/processed/input_patches/data_chr19_64.npy \
+--data_train_path ./../example_data/processed/train_patches/ \
 --resume_epoch 0 \
 --early_stoppage_epochs 5 \
 --early_stoppage_start 400 \
 --loss single_channel_L1_no_vgg \
---val_gt_path ./../processed_data/data_gt_chr19_64.npy \
---val_file_index_path ./../processed_data/data_patches/data_index_chr19_64.npy \
+--val_gt_path ./../example_data/processed/data_gt_chr19_64.npy \
+--val_file_index_path ./../example_data/processed/input_patches/data_index_chr19_64.npy \
 --no_cut_off \
 --dynamics \
 --no_max_cut_off \
 --no_batch_max \
---code_test 
-
+--code_test

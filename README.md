@@ -77,14 +77,17 @@ HiCForecast runs in a Docker-containerized environment. User do not need to inst
 ***
 
 ## Running HiCForecast
-All the scripts are available at `HiCForecast/scripts` this directory. From the HiCForecast directory, go to script directory and follow:
+All the scripts are available at `HiCForecast/scripts` this directory. We provided `example_hicforecast.sh` to run HiCForecast in one line with the example data. To run this script:
+```
+cd scripts
+bash example_hicforecast.sh
+```
+This script will generate files in `example_data`, `folder_name` folders. Explain each folder and their content. 
+
+User should follow HiCForecast's following three steps to run with their own data:
   1. *Data Preprocessing*
   2. *Train*
   3. *Inference*
-
-```
-cd scripts
-```
 
 ### Step 1: Data Preprocessing
 1.  Prepare Hi-C data in `.cool` format.
@@ -96,46 +99,29 @@ cd scripts
     * `--chromosomes`: These are the chromosome ids as they appear in the `.cool` files that need to be processed. They should be included in a similar format as `--timepoints` above (e.g `--chromosomes chr1 chr2 chr3 chr4`).
 
 ```
-python3 makedata.py  --ficool_dir ./../data/HiC4d_datasets1-8/1/ --sub_mat_n 64 --output_folder ./../processed_data/ --timepoints PN5 early_2cell late_2cell 8cell ICM mESC_500 --chromosomes chr1 chr2 chr3 chr4 chr5 chr6 chr7 chr8 chr9 chr10 chr11 chr12 chr13 chr14 chr15 chr16 chr17 chr18 chr19
+python3 makedata.py  --ficool_dir ./../example_data/HiC4d_datasets1-8/1/ --sub_mat_n 64 --output_folder ./../example_data/processed/ --timepoints PN5 early_2cell late_2cell 8cell ICM mESC_500 --chromosomes chr1 chr2 chr3 chr4 chr5 chr6 chr7 chr8 chr9 chr10 chr11 chr12 chr13 chr14 chr15 chr16 chr17 chr18 chr19
 ```
 
-**Note:**
-We provided a bash script **makedata.sh** for data preparation. Users can run this script by updating the arguments.
-
 #### Data Preprocessing Example With HiCForecast Data
-1. Download the raw `.cool` from: 
+1. Download the raw `.cool` from the following link. You can copy one dataset such as `1` from the folloing link and put them a folder (e.g. example_data).
    [https://zenodo.org/records/14531696/files/hicforecast_raw.zip?download=1](https://zenodo.org/records/14531696/files/hicforecast_raw.zip?download=1)
 2. Run `makedata.sh` (update the file paths if necessary)
    ```
+   mkdir ./example_data/processed
    cd scripts
    ./makedata.sh
    ```
-3. Go to processed_data directory to see the outputs
+3. Go to processed directory to see the outputs
     ```
-    cd ./../processed_data
+    cd ./../example_data/processed
     ```
 4. Run the following commands to generate a separate folder for training data
    ```
-   mkdir ./train_patches/
-   mv ./data_patches/data_chr1_64.npy ./train_patches/data_chr1_64.npy
-   mv ./data_patches/data_chr3_64.npy ./train_patches/data_chr3_64.npy
-   mv ./data_patches/data_chr4_64.npy ./train_patches/data_chr4_64.npy
-   mv ./data_patches/data_chr5_64.npy ./train_patches/data_chr5_64.npy
-   mv ./data_patches/data_chr7_64.npy ./train_patches/data_chr7_64.npy
-   mv ./data_patches/data_chr8_64.npy ./train_patches/data_chr8_64.npy
-   mv ./data_patches/data_chr9_64.npy ./train_patches/data_chr9_64.npy
-   mv ./data_patches/data_chr10_64.npy ./train_patches/data_chr10_64.npy
-   mv ./data_patches/data_chr11_64.npy ./train_patches/data_chr11_64.npy
-   mv ./data_patches/data_chr12_64.npy ./train_patches/data_chr12_64.npy
-   mv ./data_patches/data_chr13_64.npy ./train_patches/data_chr13_64.npy
-   mv ./data_patches/data_chr14_64.npy ./train_patches/data_chr14_64.npy
-   mv ./data_patches/data_chr15_64.npy ./train_patches/data_chr15_64.npy
-   mv ./data_patches/data_chr16_64.npy ./train_patches/data_chr16_64.npy
-   mv ./data_patches/data_chr17_64.npy ./train_patches/data_chr17_64.npy
-   mv ./data_patches/data_chr18_64.npy ./train_patches/data_chr18_64.npy
+   mkdir train_patches
+   cp input_patches/* train_patches/
    ```
 
-#### Our Processed Data
+##### Our Processed Data
 We provided our processed data for chromosomes 19 from Mouse Embryogenesis (Dataset 1) in the follow links:
 [https://zenodo.org/records/14531696/files/processed_data.npy.zip?download=1](https://zenodo.org/records/14531696/files/processed_data.npy.zip?download=1)
 
@@ -167,10 +153,8 @@ To train the HiCForecast model, follow these steps:
     * `--code_test`: Indicates that the training process will run in test mode, cycling through only a few batches during each epoch, to quickly test the entire training pipeline. In test mode the model will save the logs in a separate test log folder. To turn off test mode and enable the regular training process, replace this argument with `--no_code_test`.
 
 ```
-torchrun --nproc_per_node=1 --master_port=4321 train.py --epoch 1 --max_HiC 300 --patch_size 64 --num_gpu 1 --device_id 0 --num_workers 1 --batch_size 8 --lr_scale 1.0 --block_num 9 --data_val_path ./../processed_data/data_patches/data_chr19_64.npy --data_train_path ./../processed_data/train_patches/ --resume_epoch 0 --early_stoppage_epochs 5 --early_stoppage_start 400 --loss single_channel_L1_no_vgg --val_gt_path ./../processed_data/data_gt_chr19_64.npy --val_file_index_path ./../processed_data/data_patches/data_index_chr19_64.npy --no_cut_off --dynamics --no_max_cut_off --no_batch_max --code_test
+torchrun --nproc_per_node=1 --master_port=4321 train.py --epoch 1 --max_HiC 300 --patch_size 64 --num_gpu 1 --device_id 0 --num_workers 1 --batch_size 8 --lr_scale 1.0 --block_num 9 --data_val_path ./../example_data/processed/input_patches/data_chr19_64.npy --data_train_path ./../example_data/processed/train_patches/ --resume_epoch 0 --early_stoppage_epochs 5 --early_stoppage_start 400 --loss single_channel_L1_no_vgg --val_gt_path ./../example_data/processed/data_gt_chr19_64.npy --val_file_index_path ./../example_data/processed/input_patches/data_index_chr19_64.npy --no_cut_off --dynamics --no_max_cut_off --no_batch_max --code_test
 ```
-**Note:**
-We provided a bash script **train.sh** for training. Users can run this script by updating the arguments.
 
 #### Training Example with HiCForecast Data
 1. Follow the steps in the *Data Preprocessing Example With HiCForecast Data* section to generate the training and validation data.
@@ -194,7 +178,7 @@ To run inference follow step:
    * `--gt_path`: Path to original ground truth matrix with shape (T, N, N), where T is the number of timesteps in the timeseries and N is the dimension of each NxN Hi-C matrix.
   
 ```
-python3 inference.py --max_HiC 300 --patch_size 64 --cut_off --model_path ./../final_model/HiCForecast.pkl --data_path ./../processed_data/data_patches/data_chr19_64.npy --output_path ./../HiCForecast_prediction --file_index_path ./../processed_data/data_patches/data_index_chr19_64.npy --no_batch_max --gt_path ./../processed_data/data_gt_chr19_64.npy 
+python3 inference.py --max_HiC 300 --patch_size 64 --cut_off --model_path ./../final_model/HiCForecast.pkl --data_path ./../example_data/processed/input_patches/data_chr19_64.npy --output_path ./../HiCForecast_prediction --file_index_path ./../example_data/processed/input_patches/data_index_chr19_64.npy --no_batch_max --gt_path ./../example_data/processed/data_gt_chr19_64.npy 
 ```
 
 **Note:**
@@ -207,30 +191,3 @@ We provided a bash script **inference.sh** for inference. Users can run this scr
    cd scripts
    ./inference.sh
    ```
-
-install.packages("/scratch/mohit/hicrep/hicrep_1.12.2.tar.gz", repo = NULL, type = "source", dependencies = TRUE)
-
-
-python3 train_1d.py \
---epoch 1 \
---max_HiC 300 \
---patch_size 64 \
---num_gpu 1 \
---device_id 0 \
---num_workers 1 \
---batch_size 8 \
---lr_scale 1.0 \
---block_num 9 \
---train_dataset hic \
---val_datasets hic \
---data_val_path ./../data/data_64/val/data_val_chr19_64.npy \
---data_train_path ./../data/data_64/train/ \
---resume_epoch 0 \
---early_stoppage_epochs 5 \
---early_stoppage_start 400 \
---loss single_channel_L1_no_vgg \
---no_cut_off \
---dynamics \
---no_max_cut_off \
---batch_max \
---code_test
