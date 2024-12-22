@@ -28,10 +28,7 @@ Email: ooluwada@uccs.edu <br>
 ***
 
 ## Installation
-HiCForecast is written in **Python 3.8.10** and uses **R 4.3.1**. User can use `CLI` or `Docker` container to run HiCForecast. All the packages are listed below:
-
-R Package:
-* hicrep (Follow [https://github.com/TaoYang-dev/hicrep](https://github.com/TaoYang-dev/hicrep) steps to install)
+HiCForecast is written in **Python 3.8.10** and utilize **GPU**. User can use `CLI` or `Docker` container to run HiCForecast. All the packages are listed below:
   
 PIP Packages:
 * scikit-learn==1.3.0
@@ -51,8 +48,7 @@ PIP Packages:
    git clone https://github.com/OluwadareLab/HiCForecast.git
    cd HiCForecast
    ```
-2. Install R and hicrep
-3. Run the following command to install all the PIP packages..
+2. Run the following command to install all the pip packages..
    ```
    pip install -r requirements.txt
    ``` 
@@ -67,20 +63,19 @@ HiCForecast runs in a Docker-containerized environment. User do not need to inst
    ```
 2. Run the HiCForecast container and mount the present working directory to the container using 
    ```
-   docker run --rm --gpus all -itd --name hicforecast -v ${PWD}:${PWD} oluwadarelab/hicforecast
+   docker run --rm --gpus all -itd --name hicforecast -v ${PWD}:${PWD} oluwadarelab/hicforecast:latest
    ```
 3. Enter into HiCForecast container using 
    ```
    docker exec -it hicforecast bash
    ```
-
 ***
 
 ## Running HiCForecast
-All the scripts are available at `HiCForecast/scripts` this directory. We provided `example_hicforecast.sh` to run HiCForecast in one line with the example data. To run this script:
+All the scripts are available in `scripts` directory. We provided `example_hicforecast.sh` to run HiCForecast in one line with the *example_data*. To run this script:
 ```
 cd scripts
-bash example_hicforecast.sh
+./example_hicforecast.sh
 ```
 User should follow HiCForecast's following three steps to run with their own data:
   1. *Data Preprocessing*
