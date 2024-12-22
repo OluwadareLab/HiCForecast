@@ -82,8 +82,6 @@ All the scripts are available at `HiCForecast/scripts` this directory. We provid
 cd scripts
 bash example_hicforecast.sh
 ```
-This script will generate files in `example_data`, `folder_name` folders. Explain each folder and their content. 
-
 User should follow HiCForecast's following three steps to run with their own data:
   1. *Data Preprocessing*
   2. *Train*
@@ -91,7 +89,7 @@ User should follow HiCForecast's following three steps to run with their own dat
 
 ### Step 1: Data Preprocessing
 1.  Prepare Hi-C data in `.cool` format.
-2.  Run `python3 makedata.py` with the following arguments:
+2.  Run `python3 makedata.py` (available in *scripts* directory) with the following arguments:
     * `--ficool_dir`: The folder containing the input `.cool` files.
     * `--sub_mat_n`: The size of the patches to be used by the model. HiCForecast uses 64.
     * `--output_folder`: The location of the folder where the processed data will be stored.
@@ -102,7 +100,34 @@ User should follow HiCForecast's following three steps to run with their own dat
 python3 makedata.py  --ficool_dir ./../example_data/HiC4d_datasets1-8/1/ --sub_mat_n 64 --output_folder ./../example_data/processed/ --timepoints PN5 early_2cell late_2cell 8cell ICM mESC_500 --chromosomes chr1 chr2 chr3 chr4 chr5 chr6 chr7 chr8 chr9 chr10 chr11 chr12 chr13 chr14 chr15 chr16 chr17 chr18 chr19
 ```
 
-#### Data Preprocessing Example With HiCForecast Data
+#### Example: Data Preprocessing with provided *example_data*
+1. Create *processed* folder
+   ```
+   mkdir ./example_data/processed
+   ```
+2. Run `makedata.py`
+   ```
+   cd scripts
+   python3 makedata.py  --ficool_dir ./../example_data/  --sub_mat_n 64  --output_folder ./../example_data/processed/  --timepoints PN5 early_2cell late_2cell 8cell ICM mESC_500  --chromosomes chr19
+   cd ..
+   ```
+3. Copy necessary files from *input_patches* to *train_patches* directory excluding *index* files.
+   ```
+   mkdir ./example_data/processed/train_patches
+   cp ./example_data/processed/input_patches/data_chr19_64.npy ./example_data/processed/train_patches/
+   ```
+4. Go to processed directory to see the outputs
+    ```
+    cd ./example_data/processed
+    ```
+**Note:**
+We provided a bash script **makedata.sh** in **scripts** directory for Data Preprocessing With example_data. Users can run this script in one line to complete this full process:
+```
+cd scripts
+./makedata.sh
+```
+
+<!-- #### Data Preprocessing Example With HiCForecast Data
 1. Download the raw `.cool` from the following link. You can copy one dataset such as `1` from the folloing link and put them a folder (e.g. example_data).
    [https://zenodo.org/records/14531696/files/hicforecast_raw.zip?download=1](https://zenodo.org/records/14531696/files/hicforecast_raw.zip?download=1)
 2. Run `makedata.sh` (update the file paths if necessary)
@@ -134,16 +159,18 @@ python3 makedata.py  --ficool_dir ./../example_data/HiC4d_datasets1-8/1/ --sub_m
     mv ./data_patches/data_chr16_64.npy ./train_patches/data_chr16_64.npy
     mv ./data_patches/data_chr17_64.npy ./train_patches/data_chr17_64.npy
     mv ./data_patches/data_chr18_64.npy ./train_patches/data_chr18_64.npy
-   ```
+   ``` -->
+
+##### Our RAW Data
+We provided our raw data used in our experiment in the follow links:
+[https://zenodo.org/records/14531696/files/hicforecast_raw.zip?download=1](https://zenodo.org/records/14531696/files/hicforecast_raw.zip?download=1)
 
 ##### Our Processed Data
 We provided our processed data for chromosomes 19 from Mouse Embryogenesis (Dataset 1) in the follow links:
 [https://zenodo.org/records/14531696/files/processed_data.npy.zip?download=1](https://zenodo.org/records/14531696/files/processed_data.npy.zip?download=1)
 
 ### Step 2: Train
-To train the HiCForecast model, follow these steps:
-1. Preprocess HiC data following the *Data Preprocessing* steps.
-2. Run `torchrun --nproc_per_node=1 --master_port=4321 train.py` with the following arguments:
+1. Run `torchrun --nproc_per_node=1 --master_port=4321 train.py` (available in *scripts* directory) with the following arguments:
     * `--epoch`: The number of epochs to train the model for.
     * `--max_HiC`: The normalization constant. The data is cut off at this maximum value and divided by it to normalize into the range [0, 1]. HiCForecast default is 300.
     * `--patch_size`: The size of the patches to be used by the model. HiCForecast default is 64.
@@ -171,17 +198,30 @@ To train the HiCForecast model, follow these steps:
 torchrun --nproc_per_node=1 --master_port=4321 train.py --epoch 1 --max_HiC 300 --patch_size 64 --num_gpu 1 --device_id 0 --num_workers 1 --batch_size 8 --lr_scale 1.0 --block_num 9 --data_val_path ./../example_data/processed/input_patches/data_chr19_64.npy --data_train_path ./../example_data/processed/train_patches/ --resume_epoch 0 --early_stoppage_epochs 5 --early_stoppage_start 400 --loss single_channel_L1_no_vgg --val_gt_path ./../example_data/processed/data_gt_chr19_64.npy --val_file_index_path ./../example_data/processed/input_patches/data_index_chr19_64.npy --no_cut_off --dynamics --no_max_cut_off --no_batch_max --code_test
 ```
 
-#### Training Example with HiCForecast Data
+#### Example: Training with provided *example_data*
+1. Follow the steps in the *Example: Data Preprocessing with provided *example_data** section to generate the training and validation data.
+2. Run `train.py` script for training:
+   ```
+   cd scripts
+   torchrun --nproc_per_node=1 --master_port=4321 train.py --epoch 1 --max_HiC 300 --patch_size 64 --num_gpu 1 --device_id 0 --num_workers 1 --batch_size 8 --lr_scale 1.0 --block_num 9 --data_val_path ./../example_data/processed/input_patches/data_chr19_64.npy --data_train_path ./../example_data/processed/train_patches/ --resume_epoch 0 --early_stoppage_epochs 5 --early_stoppage_start 400 --loss single_channel_L1_no_vgg --val_gt_path ./../example_data/processed/data_gt_chr19_64.npy --val_file_index_path ./../example_data/processed/input_patches/data_index_chr19_64.npy --no_cut_off --dynamics --no_max_cut_off --no_batch_max --code_test
+   ```
+**Note:**
+We provided a bash script **train.sh** in **scripts** directory for Training With example_data. Users can run this script in one line to complete this full process:
+```
+cd scripts
+./train.sh
+```
+
+<!-- #### Training Example with HiCForecast Data
 1. Follow the steps in the *Data Preprocessing Example With HiCForecast Data* section to generate the training and validation data.
 2. Run `train.sh` script for training (update arguments if necessary) 
    ```
    cd scripts
    ./train.sh
-   ```
+   ``` -->
 
 ### Step 3: Inference
-To run inference follow step:
-1. Run `python3 inference.py` with the following arguments:
+1. Run `python3 inference.py` (available in *scripts* directory) with the following arguments:
    * `--max_HiC`: The normalization value. The HiCForecast default is 300.
    * `--batch_max`: Normalization happens by dividing by the batch maximum. To turn off replace the argument with `--no_batch_max`. HiCForecast uses the `--no_batch_max` argument.
    * `--cut_off`:  Indicates the presence of data normalization by cuting off all values obove max_HiC and then normalizing into the range [0, 1]. Switch the argument to `--no_cut_off` to turn off the this normalization feature. HiCForecast uses the `--cut_off` argument.
@@ -196,13 +236,29 @@ To run inference follow step:
 python3 inference.py --max_HiC 300 --patch_size 64 --cut_off --model_path ./../final_model/HiCForecast.pkl --data_path ./../example_data/processed/input_patches/data_chr19_64.npy --output_path ./../HiCForecast_prediction --file_index_path ./../example_data/processed/input_patches/data_index_chr19_64.npy --no_batch_max --gt_path ./../example_data/processed/data_gt_chr19_64.npy 
 ```
 
-**Note:**
-We provided a bash script **inference.sh** for inference. Users can run this script by updating the arguments.
+#### Example: Inference with provided *example_data*
+1. Follow the steps in the *Example: Training with provided example_data* section to train model.
+2. Run `inference.py` script for inference:
+   ```
+   cd scripts
+   python3 inference.py --max_HiC 300 --patch_size 64 --cut_off --model_path ./../final_model/HiCForecast.pkl --data_path ./../example_data/processed/input_patches/data_chr19_64.npy --output_path ./../HiCForecast_prediction --file_index_path ./../example_data/processed/input_patches/data_index_chr19_64.npy --no_batch_max --gt_path ./../example_data/processed/data_gt_chr19_64.npy
+   ```
+3. Go to the provided output directory to see the output
+    ```
+    cd ..
+    ```
 
-#### Inference Example with HiCForecast Data
+**Note:**
+We provided a bash script **inference.sh** in **scripts** directory for Inference With example_data. Users can run this script in one line to complete this full process:
+```
+cd scripts
+./inference.sh
+```
+
+<!-- #### Inference Example with HiCForecast Data
 1. Follow the steps in the *Data Preprocessing Example With HiCForecast Data* section to generate the input data.
 2. Run `inference.sh` script
    ```
    cd scripts
    ./inference.sh
-   ```
+   ``` -->
