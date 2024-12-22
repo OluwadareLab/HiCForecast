@@ -209,3 +209,28 @@ We provided a bash script **inference.sh** for inference. Users can run this scr
    ```
 
 install.packages("/scratch/mohit/hicrep/hicrep_1.12.2.tar.gz", repo = NULL, type = "source", dependencies = TRUE)
+
+
+python3 train_1d.py \
+--epoch 1 \
+--max_HiC 300 \
+--patch_size 64 \
+--num_gpu 1 \
+--device_id 0 \
+--num_workers 1 \
+--batch_size 8 \
+--lr_scale 1.0 \
+--block_num 9 \
+--train_dataset hic \
+--val_datasets hic \
+--data_val_path ./../data/data_64/val/data_val_chr19_64.npy \
+--data_train_path ./../data/data_64/train/ \
+--resume_epoch 0 \
+--early_stoppage_epochs 5 \
+--early_stoppage_start 400 \
+--loss single_channel_L1_no_vgg \
+--no_cut_off \
+--dynamics \
+--no_max_cut_off \
+--batch_max \
+--code_test

@@ -6,7 +6,4 @@ python3 ./inference.py --max_HiC 300 \
 --output_path ./../HiCForecast_prediction \
 --file_index_path ./../processed_data/data_patches/data_index_chr19_64.npy \
 --no_batch_max \
---gt_path ./../processed_data/data_gt_chr19_64.npy 
-
-
-
+--gt_path ./../processed_data/data_gt_chr19_64.npy
