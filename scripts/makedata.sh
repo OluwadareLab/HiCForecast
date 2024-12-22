@@ -1,7 +1,10 @@
-mkdir ./../data/processed
+mkdir ./../example_data/processed
 
-python3 ./makedata.py  --ficool_dir ./../data/ \
+python3 ./makedata.py  --ficool_dir ./../example_data/ \
 --sub_mat_n 64 \
---output_folder ./../data/processed/ \
+--output_folder ./../example_data/processed/ \
 --timepoints PN5 early_2cell late_2cell 8cell ICM mESC_500 \
 --chromosomes chr1 chr2 chr3 chr4 chr5 chr6 chr7 chr8 chr9 chr10 chr11 chr12 chr13 chr14 chr15 chr16 chr17 chr18 chr19
+
+mkdir ./../example_data/processed/train_patches
+cp ./../example_data/processed/input_patches/* ./../example_data/processed/train_patches/
