@@ -117,8 +117,23 @@ python3 makedata.py  --ficool_dir ./../example_data/HiC4d_datasets1-8/1/ --sub_m
     ```
 4. Run the following commands to generate a separate folder for training data
    ```
-   mkdir train_patches
-   cp input_patches/* train_patches/
+    mkdir train_patches
+    mv ./data_patches/data_chr1_64.npy ./train_patches/data_chr1_64.npy
+    mv ./data_patches/data_chr3_64.npy ./train_patches/data_chr3_64.npy
+    mv ./data_patches/data_chr4_64.npy ./train_patches/data_chr4_64.npy
+    mv ./data_patches/data_chr5_64.npy ./train_patches/data_chr5_64.npy
+    mv ./data_patches/data_chr7_64.npy ./train_patches/data_chr7_64.npy
+    mv ./data_patches/data_chr8_64.npy ./train_patches/data_chr8_64.npy
+    mv ./data_patches/data_chr9_64.npy ./train_patches/data_chr9_64.npy
+    mv ./data_patches/data_chr10_64.npy ./train_patches/data_chr10_64.npy
+    mv ./data_patches/data_chr11_64.npy ./train_patches/data_chr11_64.npy
+    mv ./data_patches/data_chr12_64.npy ./train_patches/data_chr12_64.npy
+    mv ./data_patches/data_chr13_64.npy ./train_patches/data_chr13_64.npy
+    mv ./data_patches/data_chr14_64.npy ./train_patches/data_chr14_64.npy
+    mv ./data_patches/data_chr15_64.npy ./train_patches/data_chr15_64.npy
+    mv ./data_patches/data_chr16_64.npy ./train_patches/data_chr16_64.npy
+    mv ./data_patches/data_chr17_64.npy ./train_patches/data_chr17_64.npy
+    mv ./data_patches/data_chr18_64.npy ./train_patches/data_chr18_64.npy
    ```
 
 ##### Our Processed Data
