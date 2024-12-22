@@ -7,4 +7,4 @@ python3 ./makedata.py  --ficool_dir ./../example_data/ \
 --chromosomes chr19
 
 mkdir ./../example_data/processed/train_patches
-cp ./../example_data/processed/input_patches/* ./../example_data/processed/train_patches/
+cp ./../example_data/processed/input_patches/data_chr19_64.npy ./../example_data/processed/train_patches/
