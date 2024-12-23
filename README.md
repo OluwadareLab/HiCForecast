@@ -191,7 +191,7 @@ We provided our processed data for chromosomes 19 from Mouse Embryogenesis (Data
 torchrun --nproc_per_node=1 --master_port=4321 train.py --epoch 1 --max_HiC 300 --patch_size 64 --num_gpu 1 --device_id 0 --num_workers 1 --batch_size 8 --lr_scale 1.0 --block_num 9 --data_val_path ./../example_data/processed/input_patches/data_chr19_64.npy --data_train_path ./../example_data/processed/train_patches/ --resume_epoch 0 --early_stoppage_epochs 5 --early_stoppage_start 400 --loss single_channel_L1_no_vgg --val_gt_path ./../example_data/processed/data_gt_chr19_64.npy --val_file_index_path ./../example_data/processed/input_patches/data_index_chr19_64.npy --no_cut_off --dynamics --no_max_cut_off --no_batch_max --code_test
 ```
 ##### Output
-The result will be a folder in the same directory (*scripts* directory) called `HiCForecast_train_<current_time>*` where is `current_time` is the current time when training started. The folder will contain the final trained model. Additionally, it will contain a `cache` folder with the saved model after each epoch of training and a `log` folder with log files.
+The result will be a folder in the same directory (*scripts* directory) called `HiCForecast_train_<current_time*>` where is `current_time` is the current time when training started. The folder will contain the final trained model. Additionally, it will contain a `cache` folder with the saved model after each epoch of training and a `log` folder with log files.
 
 #### Example: Training with provided *example_data*
 1. Follow the steps in the *Example: Data Preprocessing with provided *example_data** section to generate the training and validation data.
@@ -200,9 +200,9 @@ The result will be a folder in the same directory (*scripts* directory) called `
    cd scripts
    torchrun --nproc_per_node=1 --master_port=4321 train.py --epoch 1 --max_HiC 300 --patch_size 64 --num_gpu 1 --device_id 0 --num_workers 1 --batch_size 8 --lr_scale 1.0 --block_num 9 --data_val_path ./../example_data/processed/input_patches/data_chr19_64.npy --data_train_path ./../example_data/processed/train_patches/ --resume_epoch 0 --early_stoppage_epochs 5 --early_stoppage_start 400 --loss single_channel_L1_no_vgg --val_gt_path ./../example_data/processed/data_gt_chr19_64.npy --val_file_index_path ./../example_data/processed/input_patches/data_index_chr19_64.npy --no_cut_off --dynamics --no_max_cut_off --no_batch_max --code_test
    ```
-3. Go to HiCForecast_train_<current_time>* directory to see the outputs. You will see this directory inside *scripts* directory.
+3. Go to HiCForecast_train_<current_time*> directory to see the outputs. You will see this directory inside *scripts* directory.
     ```
-    cd ./HiCForecast_train_<current_time>*
+    cd ./HiCForecast_train_<current_time*>
     ```
 **Note:**
 We provided a bash script **train.sh** in **scripts** directory for Training With example_data. Users can run this script in one line to complete this full process:
@@ -231,7 +231,7 @@ cd scripts
    * `--gt_path`: Path to original ground truth matrix with shape (T, N, N), where T is the number of timesteps in the timeseries and N is the dimension of each NxN Hi-C matrix.
 
 ```
-python3 inference.py --max_HiC 300 --patch_size 64 --cut_off --model_path ./HiCForecast_train_<current_time>*/cache/HiCForecast.pkl --data_path ./../example_data/processed/input_patches/data_chr19_64.npy --output_path ./../HiCForecast_prediction --file_index_path ./../example_data/processed/input_patches/data_index_chr19_64.npy --no_batch_max --gt_path ./../example_data/processed/data_gt_chr19_64.npy 
+python3 inference.py --max_HiC 300 --patch_size 64 --cut_off --model_path ./HiCForecast_train_<current_time*>/cache/hicforecast.pkl --data_path ./../example_data/processed/input_patches/data_chr19_64.npy --output_path ./../HiCForecast_prediction --file_index_path ./../example_data/processed/input_patches/data_index_chr19_64.npy --no_batch_max --gt_path ./../example_data/processed/data_gt_chr19_64.npy 
 ```
 ##### Output
 The result will be a file called `<output_path>.npy` in the provided *--output_path* directory containing the predictions of the next three timesteps using the first two timesteps of `data_path.npy` as input. The output shape will be (3, N, N).
@@ -241,7 +241,7 @@ The result will be a file called `<output_path>.npy` in the provided *--output_p
 2. Run `inference.py` script for inference. Provide the model path from the training step:
    ```
    cd scripts
-   python3 inference.py --max_HiC 300 --patch_size 64 --cut_off --model_path ./HiCForecast_train_<current_time>*/cache/HiCForecast.pkl --data_path ./../example_data/processed/input_patches/data_chr19_64.npy --output_path ./../HiCForecast_prediction --file_index_path ./../example_data/processed/input_patches/data_index_chr19_64.npy --no_batch_max --gt_path ./../example_data/processed/data_gt_chr19_64.npy
+   python3 inference.py --max_HiC 300 --patch_size 64 --cut_off --model_path ./HiCForecast_train_<current_time*>/cache/hicforecast.pkl --data_path ./../example_data/processed/input_patches/data_chr19_64.npy --output_path ./../HiCForecast_prediction --file_index_path ./../example_data/processed/input_patches/data_index_chr19_64.npy --no_batch_max --gt_path ./../example_data/processed/data_gt_chr19_64.npy
    ```
 3. Go to the provided output directory to see the output. In this case we passed *./../HiCForecast_prediction*, so the output will be saved in the HiCForecast root directory with name *HiCForecast_prediction.npy*
     ```
