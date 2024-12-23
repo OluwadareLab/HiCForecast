@@ -52,9 +52,6 @@ PIP Packages:
    ```
    pip install -r requirements.txt
    ``` 
-
-### OR
-
 ### Docker
 HiCForecast runs in a Docker-containerized environment. User do not need to install anything inside container. Our image is prebuild with all the necessary packages. To run HiCForecast in a docker container, follow these steps:
 1. Pull the HiCForecast docker image from docker hub using the command:
@@ -90,7 +87,7 @@ All the scripts are available in `scripts` directory. User should follow HiCFore
 python3 makedata.py  --ficool_dir ./../example_data/HiC4d_datasets1-8/1/ --sub_mat_n 64 --output_folder ./../example_data/processed/ --timepoints PN5 early_2cell late_2cell 8cell ICM mESC_500 --chromosomes chr1 chr2 chr3 chr4 chr5 chr6 chr7 chr8 chr9 chr10 chr11 chr12 chr13 chr14 chr15 chr16 chr17 chr18 chr19
 ```
 
-##### Output
+#### Output
 The result will be in the provided `--output_folder` that contains the ground truth data as a `.npy` file named `data_gt_chr<chr_num>.npy` of shape (T, N, N), where T is the number of timesteps and N is the dimension of the Hi-C matrix in each timestep and `chr_num` is the number of the chromosome in that file (e.g. data_gt_chr7.npy). Additionally, the provided `--output_folder` will contain another folder called `data_patches`, which will contain files named `data_chr<chr_num>_<sub_mat_n>.npy` and `data_index_chr<chr_num>_<sub_mat_n>.npy`. The file `data_chr<chr_num>_<sub_mat_n>.npy` will contain the ground truth data deconstructed into patches that should be used as input to the model, and the file will have shape (num_patches, T, sub_mat_n, sub_mat_n), where num_patches is the number of sub_mat_n x sub_mat_n patches that was generated from the ground truth. The files named `data_index_chr<chr_num>_<sub_mat_n>.npy` are used to reconstruct the model predictions on patches back into a Hi-C matrix of shape NxN.
 
 #### Example: Data Preprocessing with provided *example_data*
@@ -153,7 +150,7 @@ cd scripts
     mv ./data_patches/data_chr17_64.npy ./train_patches/data_chr17_64.npy
     mv ./data_patches/data_chr18_64.npy ./train_patches/data_chr18_64.npy
    ``` -->
-##### Data
+#### Data
 ##### Our RAW Data
 We provided our raw data used in our experiment in the follow links:
 [https://zenodo.org/records/14531696/files/hicforecast_raw.zip?download=1](https://zenodo.org/records/14531696/files/hicforecast_raw.zip?download=1)
@@ -190,7 +187,7 @@ We provided our processed data for chromosomes 19 from Mouse Embryogenesis (Data
 ```
 torchrun --nproc_per_node=1 --master_port=4321 train.py --epoch 1 --max_HiC 300 --patch_size 64 --num_gpu 1 --device_id 0 --num_workers 1 --batch_size 8 --lr_scale 1.0 --block_num 9 --data_val_path ./../example_data/processed/input_patches/data_chr19_64.npy --data_train_path ./../example_data/processed/train_patches/ --resume_epoch 0 --early_stoppage_epochs 5 --early_stoppage_start 400 --loss single_channel_L1_no_vgg --val_gt_path ./../example_data/processed/data_gt_chr19_64.npy --val_file_index_path ./../example_data/processed/input_patches/data_index_chr19_64.npy --no_cut_off --dynamics --no_max_cut_off --no_batch_max --code_test
 ```
-##### Output
+#### Output
 The result will be a folder in the same directory (*scripts* directory) called `HiCForecast_train_<current_time*>` where is `current_time` is the current time when training started. The folder will contain the final trained model. Additionally, it will contain a `cache` folder with the saved model after each epoch of training and a `log` folder with log files.
 
 #### Example: Training with provided *example_data*
@@ -233,12 +230,12 @@ cd scripts
 ```
 python3 inference.py --max_HiC 300 --patch_size 64 --cut_off --model_path ./HiCForecast_train_<current_time*>/cache/hicforecast.pkl --data_path ./../example_data/processed/input_patches/data_chr19_64.npy --output_path ./../HiCForecast_prediction --file_index_path ./../example_data/processed/input_patches/data_index_chr19_64.npy --no_batch_max --gt_path ./../example_data/processed/data_gt_chr19_64.npy 
 ```
-##### Output
+#### Output
 The result will be a file called `<output_path>.npy` in the provided *--output_path* directory containing the predictions of the next three timesteps using the first two timesteps of `data_path.npy` as input. The output shape will be (3, N, N).
 
 #### Example: Inference with provided *example_data*
 1. Follow the steps in the *Example: Training with provided example_data* section to train model.
-2. Run `inference.py` script for inference. Provide the model path from the training step:
+2. Run `inference.py` script for inference. **Provide the model path from the training step**:
    ```
    cd scripts
    python3 inference.py --max_HiC 300 --patch_size 64 --cut_off --model_path ./HiCForecast_train_<current_time*>/cache/hicforecast.pkl --data_path ./../example_data/processed/input_patches/data_chr19_64.npy --output_path ./../HiCForecast_prediction --file_index_path ./../example_data/processed/input_patches/data_index_chr19_64.npy --no_batch_max --gt_path ./../example_data/processed/data_gt_chr19_64.npy
