@@ -144,4 +144,4 @@ class Model:
 
     def save_model(self, path, epoch, rank=0):
         if rank == 0:
-            torch.save(self.dmvfn.state_dict(),'{}/dmvfn_{}.pkl'.format(path, str(epoch)))
+            torch.save(self.dmvfn.state_dict(),'{}/HiCForecast_{}.pkl'.format(path, str(epoch)))
