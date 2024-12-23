@@ -29,3 +29,7 @@ Email: ooluwada@uccs.edu <br>
 
 ## Documentation
 Please see the [wiki](https://github.com/OluwadareLab/HiCForecast/wiki) for an extensive documentation.
+
+***
+## Citations
+Cite: HiCForecast: Dynamic Network Optical Flow Estimation Algorithm for Spatiotemporal Hi-C Data Forecasting 
