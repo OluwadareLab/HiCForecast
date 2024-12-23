@@ -19,4 +19,9 @@
 /hamster/
 /new_data/
 /new_resolution_data/
+/new_resolution_results/
+/data_test/
+/processed_data/
+/scripts/.RData
+/scripts/.Rhistory
 *.pyc

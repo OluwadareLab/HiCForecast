@@ -12,7 +12,7 @@ root_path = '/'.join(root_path.split('/')[:-2])
 sys.path.append(root_path)
 
 from utils.util import *
-from model.model_1d import Model
+from model.model import Model
 
 #from torchsummary import summary
 print("Executing predict.py")
