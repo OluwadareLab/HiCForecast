@@ -32,4 +32,4 @@ Please see the [wiki](https://github.com/OluwadareLab/HiCForecast/wiki) for an e
 
 ***
 ## Citations
-Cite: Dmitry Pinchuk, H M A Mohit Chowdhury, Abhishek Pandeya, Oluwatosin Oluwadare, HiCForecast: dynamic network optical flow estimation algorithm for spatiotemporal Hi-C data forecasting, Bioinformatics, Volume 41, Issue 2, February 2025, btaf030, https://doi.org/10.1093/bioinformatics/btaf030 
+Dmitry Pinchuk, H M A Mohit Chowdhury, Abhishek Pandeya, Oluwatosin Oluwadare, HiCForecast: dynamic network optical flow estimation algorithm for spatiotemporal Hi-C data forecasting, Bioinformatics, Volume 41, Issue 2, February 2025, btaf030, https://doi.org/10.1093/bioinformatics/btaf030 
